@@ -5,7 +5,7 @@
         <ignoreVersion type="regex">.*-beta</ignoreVersion>
     </ignoreVersions>
     <rules>
-        <rule groupId="com.mycompany.maven" comparisonMethod="maven">
+        <rule groupId="se.uu.ub.maven" comparisonMethod="maven">
             <ignoreVersions>
                 <ignoreVersion type="regex">(?i).*[-_\.](alpha|b|beta|rc|m|ea)[-_\.]?[0-9]*</ignoreVersion>
             </ignoreVersions>
