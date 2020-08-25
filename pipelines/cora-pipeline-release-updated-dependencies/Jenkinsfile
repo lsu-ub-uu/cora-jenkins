@@ -1,0 +1,94 @@
+pipeline {
+    agent any
+    
+   environment {
+        CHECKED_IN = "";
+    }
+    parameters {
+        string( name: 'UB_PROJECT_NAME', 
+            defaultValue: 'cora-testrelease', 
+            description: 'Name of the project to build')
+        string( name: 'UB_BRANCH_NAME', 
+            defaultValue: 'master', 
+            description: 'Name of the branch to build')
+         
+    }
+    tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven 3.6.x'
+    }
+            
+    
+    stages {
+        
+        stage("checkout"){
+            steps{
+                withCredentials([string(credentialsId: '124b7411-d19a-4d4c-baa4-0769d04ff0be', variable: 'TOKEN'),string(credentialsId: '2a106c39-922c-4d77-9828-916e98b8a95a', variable: 'USERNAME')]) {
+                    sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git . -b $UB_BRANCH_NAME'
+                } 
+            }
+        }
+        stage("update dependencies"){
+            steps {
+                sh 'mvn versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="https://epc.ub.uu.se/jenkins/view/ContinousDelivery/job/cora-jenkins/ws/maven/maven-version-rules.xml"'
+            }
+        }
+        stage("commit updates"){
+            steps {
+                sh 'git config user.email "jenkins@ub"'
+                sh 'git config user.name "Jenkins CI"'
+                script {
+                    CHECKED_IN = sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
+                }
+            }
+        }
+        stage("push update to git"){
+            when {
+                expression { CHECKED_IN == 0 }
+            }
+            steps {
+                sh 'git push'
+            }
+        }
+        stage("Getting version numbers and call branch release") {
+            when {
+                expression { CHECKED_IN == 0 }
+            }
+           environment {
+                GIT_AUTH = credentials('2a106c39-922c-4d77-9828-916e98b8a95a')
+                MVN_MAJOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
+                MVN_MINOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
+                MVN_NEXT_MAJOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
+                MVN_NEXT_MINOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout", returnStdout: true) 
+                BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
+                DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
+            }
+            steps {
+                echo "Current version is ${env.MVN_MAJOR_VERSION}.${env.MVN_MINOR_VERSION}"
+                
+                echo "Branch version:$BRANCH_VERSION"
+                echo "Dev branch version:$DEV_BRANCH_VERSION"
+                
+                build job: 'cora-branch-release', parameters: [
+                    [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
+                    [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${BRANCH_VERSION}" ],
+                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${DEV_BRANCH_VERSION}" ]
+                ]
+            }
+        }
+        stage("nothing to release"){
+            when {
+                expression { CHECKED_IN == 1 }
+            }
+            steps {
+                echo "No dependencies to update, no release created"
+            }
+        }
+        
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

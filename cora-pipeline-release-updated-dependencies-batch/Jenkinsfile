@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+    environment {
+        userInput = "";
+    }
+    stages {
+        stage("user input"){
+            steps{
+                script {
+                    /*def userInput = input message: 'sdf', parameters: [text(defaultValue: '''cora-testrelease11
+cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT_NAMES')]
+                    */
+                    userInput = input message: 'Enter projects to release', parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', description: 'Project names to build  (comma separated)', name: 'UB_PROJECT_NAMES', trim: true)]
+                }
+            }
+        }
+        
+        stage("looping"){
+            steps{
+                script {
+                    def splittedUserInput = userInput.split(',')
+                    splittedUserInput.each() {
+                        def trimmed = it.trim()
+                        def splittedTrimmed = trimmed.split(' ');
+                        def project = splittedTrimmed[0].trim();
+                        def branch = 'master';
+                        if(splittedTrimmed.length > 1 && splittedTrimmed.length > 0){
+                            branch = splittedTrimmed[1].trim();
+                        }
+                        echo "Project:$project"
+                        echo "Branch:$branch"
+                    
+                        build job: 'cora-pipeline-release-updated-dependencies', 
+                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project"),
+                            string(name: 'UB_BRANCH_NAME', value: "${branch}")]
+                    }
+                }   
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+} 
