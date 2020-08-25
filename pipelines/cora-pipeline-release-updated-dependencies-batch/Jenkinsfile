@@ -11,6 +11,7 @@ pipeline {
 cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT_NAMES')]
                     */
                     userInput = input message: 'Enter projects to release', parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', description: 'Project names to build  (comma separated)', name: 'UB_PROJECT_NAMES', trim: true)]
+                    echo "User input:$userInput"
                 }
             }
         }
