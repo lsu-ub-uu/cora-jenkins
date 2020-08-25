@@ -42,7 +42,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         }
                         echo "Project:$project"
                         echo "Branch:$branch"
-                        if(project && project.length > 0){
+                        if(project && project.length() > 0){
 	                    
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
 	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project"),
@@ -68,7 +68,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         }
                         echo "Project:$project2"
                         echo "Branch:$branch2"
-                        if(project2 && project2.length > 0){
+                        if(project2 && project2.length() > 0){
 	                    	
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
 	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project2"),
