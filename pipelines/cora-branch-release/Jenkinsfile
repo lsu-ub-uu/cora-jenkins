@@ -1,32 +1,32 @@
 pipeline {
     agent any
     parameters {
-    string( name: 'UB_PROJECT_NAME', 
+    	string( name: 'UB_PROJECT_NAME', 
             defaultValue: 'cora-xx', 
-            description: 'version version version')
+            description: 'Name of the project to branch and release')
             
-            string( name: 'UB_BRANCH_VERSION', 
+        string( name: 'UB_BRANCH_VERSION', 
             defaultValue: 'x.y', 
-            description: 'version version version')
+            description: 'Version for the branch (usually the one specified as SNAPSHOT in the pom file)')
             
-            string( name: 'UB_DEV_BRANCH_VERSION', 
+        string( name: 'UB_DEV_BRANCH_VERSION', 
             defaultValue: 'x.y', 
-            description: 'version version version')
+            description: 'Version to be set as the new SNAPSHOT version on master')
     }
     stages {
         stage('Branch') {
             steps {
-                
-                build job: 'cora-branch', parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
-        									[$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${params.UB_BRANCH_VERSION}"],
-        									[$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${params.UB_DEV_BRANCH_VERSION}"]]
+                build job: 'cora-branch', 
+                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
+        						[$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${params.UB_BRANCH_VERSION}"],
+        						[$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${params.UB_DEV_BRANCH_VERSION}"]]
             }
         }
          stage('Release') {
              steps {
-               
-                build job: 'cora-release', parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}"],
-          [$class: 'StringParameterValue', name: 'UB_BRANCH', value: 'release/'+"${params.UB_BRANCH_VERSION}"]]
+                build job: 'cora-release', 
+                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}"],
+          						[$class: 'StringParameterValue', name: 'UB_BRANCH', value: 'release/'+"${params.UB_BRANCH_VERSION}"]]
              }
          } 
     }
