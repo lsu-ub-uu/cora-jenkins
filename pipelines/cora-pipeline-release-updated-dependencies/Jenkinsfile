@@ -3,6 +3,7 @@ pipeline {
    	environment {
         CHECKED_IN = "";
     }
+
     parameters {
         string( name: 'UB_PROJECT_NAME', 
             defaultValue: 'cora-testrelease', 
@@ -10,16 +11,15 @@ pipeline {
         string( name: 'UB_BRANCH_NAME', 
             defaultValue: 'master', 
             description: 'Name of the branch to build')
-         
+        string( name: 'FORCE_RELEASE', 
+            defaultValue: '0', 
+            description: 'Wheter the project has to be build even no dependencies chages have been found. Force release = 1, otherwise 0')
     }
     tools {
         jdk 'Cora OpenJDK'
         maven 'Maven 3.6.x'
     }
-            
-    
     stages {
-        
         stage("checkout"){
             steps{
                 withCredentials([string(credentialsId: '124b7411-d19a-4d4c-baa4-0769d04ff0be', variable: 'TOKEN'),string(credentialsId: '2a106c39-922c-4d77-9828-916e98b8a95a', variable: 'USERNAME')]) {
@@ -45,7 +45,7 @@ pipeline {
         }
         stage("build new version"){
             when {
-                expression { CHECKED_IN == 0 }
+                expression { CHECKED_IN == 0 || FORCE_RELEASE == 1}
             }
             steps {
             	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
@@ -54,7 +54,7 @@ pipeline {
         }
         stage("push update to git"){
             when {
-                expression { CHECKED_IN == 0 }
+                expression { CHECKED_IN == 0 || FORCE_RELEASE == 1}
             }
             steps {
             	dir ("$UB_PROJECT_NAME") {
@@ -64,7 +64,7 @@ pipeline {
         }
         stage("Getting version numbers and call branch release") {
             when {
-                expression { CHECKED_IN == 0 }
+                expression { CHECKED_IN == 0 || FORCE_RELEASE == 1}
             }
            environment {
                 GIT_AUTH = credentials('2a106c39-922c-4d77-9828-916e98b8a95a')
@@ -90,7 +90,7 @@ pipeline {
         }
         stage("nothing to release"){
             when {
-                expression { CHECKED_IN == 1 }
+                expression { CHECKED_IN == 1 && FORCE_RELEASE == 0}
             }
             steps {
                 echo "No dependencies to update, no release created"
