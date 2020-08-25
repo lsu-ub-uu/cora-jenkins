@@ -47,7 +47,7 @@ pipeline {
         }
         stage("build new version"){
             when {
-                expression { CHECKED_IN == 0 || FORCE_RELEASE == 1}
+                expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
             steps {
             	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
@@ -66,7 +66,7 @@ pipeline {
         }
         stage("Getting version numbers and call branch release") {
             when {
-                expression { CHECKED_IN == 0 || FORCE_RELEASE == 1}
+                expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
            environment {
                 GIT_AUTH = credentials('2a106c39-922c-4d77-9828-916e98b8a95a')
@@ -92,7 +92,7 @@ pipeline {
         }
         stage("nothing to release"){
             when {
-                expression { CHECKED_IN == 1 && FORCE_RELEASE == 0}
+                expression { CHECKED_IN == 1 && FORCE_RELEASE == "0"}
             }
             steps {
                 echo "No dependencies to update, no release created"
