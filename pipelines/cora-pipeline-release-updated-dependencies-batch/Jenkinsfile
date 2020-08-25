@@ -40,7 +40,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         if(splittedTrimmed.length > 1 && splittedTrimmed.length > 0){
                             branch = splittedTrimmed[1].trim();
                         }
-                        if(project2.length > 0){
+                        if(project.length > 0){
 	                        echo "Project:$project"
 	                        echo "Branch:$branch"
 	                    
