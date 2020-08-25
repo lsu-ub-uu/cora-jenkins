@@ -56,6 +56,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
         stage("loop updates"){
             steps{
                 script {
+                    echo "updates.."
                     def splittedprojectsToUpdate2 = projectsToUpdate.split(',')
                     splittedprojectsToUpdate2.each() {
                         def trimmed2 = it.trim()
@@ -65,8 +66,8 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         if(splittedTrimmed2.length > 1 && splittedTrimmed2.length > 0){
                             branch2 = splittedTrimmed2[1].trim();
                         }
-                        echo "Project:$project"
-                        echo "Branch:$branch"
+                        echo "Project:$project2"
+                        echo "Branch:$branch2"
                         if(project2 && project2.length > 0){
 	                    	
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
