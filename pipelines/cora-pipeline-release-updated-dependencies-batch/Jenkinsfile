@@ -1,16 +1,29 @@
 pipeline {
     agent any
     environment {
-        userInput = "";
+        projectsToUpdate = "";
     }
     stages {
         stage("user input"){
             steps{
                 script {
-                    /*def userInput = input message: 'sdf', parameters: [text(defaultValue: '''cora-testrelease11
+                    /*def projectsToUpdate = input message: 'sdf', parameters: [text(defaultValue: '''cora-testrelease11
 cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT_NAMES')]
                     */
-                    userInput = input message: 'Enter projects to release', parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', description: 'Project names to build  (comma separated)', name: 'UB_PROJECT_NAMES', trim: true)]
+                    projectsToRelese = input message: 'Enter projects to release', 
+                    	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
+                    	description: 'Project names to build  (comma separated)', 
+                    	name: 'PROJECTS_TO_RELEASE', trim: true)]
+                    projectsToUpdate = input message: 'Enter projects to update dependencies and possibly release', 
+                    	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
+                    	description: 'Project names to build  (comma separated)', 
+                    	name: 'PROJECTS_TO_UPDATE', trim: true)]
+                    onlyCora = input message: 'Update only Cora dependencies', ok: 'Release!',
+                            parameters: [choice(name: 'ONLY_CORA', choices: 'no\nyes', 
+                            description: 'Which dependencies should be updated')]
+                 	echo "Projects to release: $projectsToUpdate"
+                    echo "Projects to update: $projectsToUpdate"
+                    echo "Update only dependencies from Cora: $onlyCora"
                 }
             }
         }
@@ -18,8 +31,8 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
         stage("looping"){
             steps{
                 script {
-                    def splittedUserInput = userInput.split(',')
-                    splittedUserInput.each() {
+                    def splittedprojectsToUpdate = projectsToUpdate.split(',')
+                    splittedprojectsToUpdate.each() {
                         def trimmed = it.trim()
                         def splittedTrimmed = trimmed.split(' ');
                         def project = splittedTrimmed[0].trim();
