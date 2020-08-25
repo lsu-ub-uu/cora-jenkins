@@ -37,7 +37,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         def splittedTrimmed = trimmed.split(' ');
                         def project = splittedTrimmed[0].trim();
                         def branch = 'master';
-                        if(splittedTrimmed.length > 1 && splittedTrimmed.length > 0){
+                        if(splittedTrimmed.length > 1){
                             branch = splittedTrimmed[1].trim();
                         }
                         echo "Project:$project"
@@ -63,7 +63,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         def splittedTrimmed2 = trimmed2.split(' ');
                         def project2 = splittedTrimmed2[0].trim();
                         def branch2 = 'master';
-                        if(splittedTrimmed2.length > 1 && splittedTrimmed2.length > 0){
+                        if(splittedTrimmed2.length > 1){
                             branch2 = splittedTrimmed2[1].trim();
                         }
                         echo "Project:$project2"
