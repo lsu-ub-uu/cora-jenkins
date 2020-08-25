@@ -44,8 +44,8 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
 	                    
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
 	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project"),
-	                            string(name: 'UB_BRANCH_NAME', value: "${branch}"),
-	                            string(name: 'FORCE_RELEASE', value: "1")]
+	                            	string(name: 'UB_BRANCH_NAME', value: "${branch}"),
+	                            	string(name: 'FORCE_RELEASE', value: "1")]
                         }
                     }
                 }   
@@ -54,21 +54,21 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
         stage("loop updates"){
             steps{
                 script {
-                    def splittedprojectsToUpdate = projectsToUpdate.split(',')
-                    splittedprojectsToUpdate.each() {
-                        def trimmed = it.trim()
-                        def splittedTrimmed = trimmed.split(' ');
-                        def project = splittedTrimmed[0].trim();
-                        def branch = 'master';
-                        if(splittedTrimmed.length > 1 && splittedTrimmed.length > 0){
-                            branch = splittedTrimmed[1].trim();
+                    def splittedprojectsToUpdate2 = projectsToUpdate.split(',')
+                    splittedprojectsToUpdate2.each() {
+                        def trimmed2 = it.trim()
+                        def splittedTrimmed2 = trimmed2.split(' ');
+                        def project2 = splittedTrimmed2[0].trim();
+                        def branch2 = 'master';
+                        if(splittedTrimmed2.length > 1 && splittedTrimmed2.length > 0){
+                            branch2 = splittedTrimmed2[1].trim();
 	                        echo "Project:$project"
 	                        echo "Branch:$branch"
 	                    
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
-	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project"),
-	                            string(name: 'UB_BRANCH_NAME', value: "${branch}"),
-	                            string(name: 'FORCE_RELEASE', value: "0")]
+	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project2"),
+	                            	string(name: 'UB_BRANCH_NAME', value: "${branch2}"),
+	                           		string(name: 'FORCE_RELEASE', value: "0")]
                         }
                     }
                 }   
