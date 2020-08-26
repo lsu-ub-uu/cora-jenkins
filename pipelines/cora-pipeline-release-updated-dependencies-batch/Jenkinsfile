@@ -10,20 +10,21 @@ pipeline {
                     /*def projectsToUpdate = input message: 'sdf', parameters: [text(defaultValue: '''cora-testrelease11
 cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT_NAMES')]
                     */
-                    projectsToRelease = input message: 'Enter projects to release', 
+                    projectsToRelease = input message: 'Enter projects to force release', 
                     	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
-                    	description: 'Project names to build  (comma separated)', 
+                    	description: 'Project names to force release of, these projects will be branched and released from master wheter they have updated dependencies or not (comma separated list)', 
                     	name: 'PROJECTS_TO_RELEASE', trim: true)]
-                    projectsToUpdate = input message: 'Enter projects to update dependencies and possibly release', 
+                    projectsToUpdate = input message: 'Enter projects to update dependencies for', 
                     	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
-                    	description: 'Project names to build  (comma separated)', 
+                    	description: 'Project names to update dependencies for and then branch and release from master IF new dependencies where found (comma separated list)', 
                     	name: 'PROJECTS_TO_UPDATE', trim: true)]
-                    onlyCora = input message: 'Update only Cora dependencies', ok: 'Release!',
+                    /*onlyCora = input message: 'Update only Cora dependencies', ok: 'Release!',
                             parameters: [choice(name: 'ONLY_CORA', choices: 'no\nyes', 
                             description: 'Which dependencies should be updated')]
+                 	*/
                  	echo "Projects to release: $projectsToRelease"
                     echo "Projects to update: $projectsToUpdate"
-                    echo "Update only dependencies from Cora: $onlyCora"
+                    //echo "Update only dependencies from Cora: $onlyCora"
                 }
             }
         }
