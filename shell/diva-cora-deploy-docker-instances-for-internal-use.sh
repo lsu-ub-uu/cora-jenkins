@@ -6,7 +6,7 @@ docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-therest-te
 #solr
 docker run --net=diva-cora-test --name diva-solr-test -d cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 #gatekeeper
-docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gatekeeper-test --link diva-cora-docker-postgresql-test:diva-cora-docker-postgresql -d  diva-docker-gatekeeper:1.0-SNAPSHOT
+docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gatekeeper-test --link diva-cora-docker-postgresql-test:diva-cora-docker-postgresql -d diva-docker-gatekeeper:1.0-SNAPSHOT
 #apptokenverifier
 docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-apptokenverifier-test --link diva-gatekeeper-test:gatekeeper -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
 #idplogin
