@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ../../cora-indexloader/target
 
-AUTH_TOKEN = curl -X POST -k -i 'https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/coraUser:490742519075086' --data 2e57eb36-55b9-4820-8c44-8271baab4e8e | grep -oe '[0-9a-z]\{8\}-[0-9a-z]\{4\}-[0-9a-z]\{4\}-[0-9a-z]\{4\}-[0-9a-z]\{12\}'
+AUTH_TOKEN = $(curl -X POST -k -i 'https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/coraUser:490742519075086' --data 2e57eb36-55b9-4820-8c44-8271baab4e8e | grep -oe '[0-9a-z]\{8\}-[0-9a-z]\{4\}-[0-9a-z]\{4\}-[0-9a-z]\{4\}-[0-9a-z]\{12\}')
 
 echo " AuthToken is: $AUTH_TOKEN"
 
