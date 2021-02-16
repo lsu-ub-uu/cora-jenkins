@@ -11,6 +11,8 @@ docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gat
 docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-apptokenverifier-test --link diva-gatekeeper-test:gatekeeper -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
 #idplogin
 docker run --net=diva-cora-test --name diva-idplogin-test --link diva-gatekeeper-test:gatekeeper -e "JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" -d  cora-docker-idplogin:1.0-SNAPSHOT
+#synchronizer
+docker run --net=diva-cora-test --name diva-docker-synchronizer -e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier-test:8080/apptokenverifier/ -DbaseURL=http://diva-therest-test:8080/diva/rest/ -DbuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" -d cora-docker-synchronizer:1.0-SNAPSHOT
 #fitnesse
 docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test --link diva-therest-test:diva --link diva-apptokenverifier-test:apptokenverifier --link diva-idplogin-test:idplogin -e tokenLogoutURL=https://apptokenverifier/rest/ -d diva-cora-docker-fitnesse:1.0-SNAPSHOT
 #fedora with db
