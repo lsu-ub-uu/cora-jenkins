@@ -11,6 +11,8 @@ docker run --net=diva-cora --restart always  --volumes-from diva-cora --name div
 docker run --net=diva-cora --restart always -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/" --volumes-from diva-cora -p 8611:8009 --name diva-apptokenverifier --link diva-gatekeeper:gatekeeper -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
 #idplogin
 docker run --net=diva-cora --restart always -e "JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/" -p 8612:8009 --name diva-idplogin --link diva-gatekeeper:gatekeeper -d  cora-docker-idplogin:1.0-SNAPSHOT
+#synchronizer
+docker run --net=diva-cora --restart always --name diva-docker-synchronizer -e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier:8080/apptokenverifier/ -DbaseURL=http://diva-cora:8080/diva/rest/ -DbuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" -d cora-docker-synchronizer:1.0-SNAPSHOT
 #fitnesse
 docker run --net=diva-cora --restart always  --volumes-from diva-cora -p 8690:8090 --name diva-fitnesse --link diva-cora:diva --link diva-apptokenverifier:apptokenverifier --link diva-idplogin:idplogin -e tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/ -d diva-cora-docker-fitnesse:1.0-SNAPSHOT
 #fedora with db
