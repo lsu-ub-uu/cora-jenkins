@@ -1,5 +1,5 @@
-docker stop diva-cora-docker-postgresql diva-fitnesse diva-cora diva-cora-fedora diva-cora-postgresql diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper && echo nothingToSeeMoveOnToNextCommand
-docker rm diva-cora-docker-postgresql diva-fitnesse diva-cora diva-cora-fedora diva-cora-postgresql diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker stop diva-cora-docker-postgresql diva-fitnesse diva-cora diva-cora-fedora diva-cora-postgresql diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer && echo nothingToSeeMoveOnToNextCommand
+docker rm diva-cora-docker-postgresql diva-fitnesse diva-cora diva-cora-fedora diva-cora-postgresql diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer && echo nothingToSeeMoveOnToNextCommand
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 #diva
 docker run --net=diva-cora --restart always -v /mnt/data/basicstorage -p 8610:8009 --name diva-cora --link diva-gatekeeper:gatekeeper --link diva-solr:solr --link diva-cora-fedora:diva-cora-fedora --link diva-cora-docker-postgresql:diva-cora-docker-postgresql -d  diva-docker-cora:1.0-SNAPSHOT
