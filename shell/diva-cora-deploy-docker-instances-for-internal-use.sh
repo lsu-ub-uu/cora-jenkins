@@ -1,5 +1,5 @@
-docker stop diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test diva-cora-postgresql-test diva-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
-docker rm diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test diva-cora-postgresql-test diva-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
+docker stop diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test diva-cora-postgresql-test diva-cora-fedora-test diva-synchronizer-test  && echo nothingToSeeMoveOnToNextCommand
+docker rm diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test diva-cora-postgresql-test diva-cora-fedora-test diva-synchronizer-test && echo nothingToSeeMoveOnToNextCommand
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 #diva
 docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-therest-test --link diva-gatekeeper-test:gatekeeper --link diva-solr-test:solr --link diva-cora-fedora-test:diva-cora-fedora --link diva-cora-docker-postgresql-test:diva-cora-docker-postgresql -d  diva-docker-cora:1.0-SNAPSHOT
