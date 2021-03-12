@@ -1,47 +1,9 @@
+!/usr/bin/env bash
+set -e
+DOCKERS=" alvin-fitnesse  alvin-cora-fedora alvin-cora-postgresql alvin-cora-docker-postgresql alvin-solr alvin-apptokenverifier alvin-idplogin alvin-gatekeeper alvin-cora diva-cora-docker-postgresql diva-fitnesse diva-cora-fedora diva-cora-postgresql diva-solr diva-apptokenverifier diva-idplogin diva-gatekeeper diva-cora systemone-fitnesse solr apptokenverifier idplogin gatekeeper systemone diva-jsclient jsclient alvin-jsclient"
 
-docker exec alvin-fitnesse java -version
-echo ""
-docker exec alvin-cora-fedora java -version
-echo ""
-#docker exec alvin-cora-postgresql java -version
-#docker exec alvin-cora-docker-postgresql java -version
-#docker exec alvin-solr java -version
-docker exec alvin-apptokenverifier java -version
-echo ""
-docker exec alvin-idplogin java -version
-echo ""
-docker exec alvin-gatekeeper java -version
-echo ""
-docker exec alvin-cora java -version
-echo ""
-#docker exec diva-cora-docker-postgresql java -version
-docker exec diva-fitnesse java -version
-echo ""
-docker exec diva-cora-fedora java -version
-echo ""
-#docker exec diva-cora-postgresql java -version
-#docker exec diva-solr java -version
-docker exec diva-apptokenverifier java -version
-echo ""
-docker exec diva-idplogin java -version
-echo ""
-docker exec diva-gatekeeper java -version
-echo ""
-docker exec diva-cora java -version
-echo ""
-docker exec systemone-fitnesse java -version
-echo ""
-#docker exec solr java -version
-docker exec apptokenverifier java -version
-echo ""
-docker exec idplogin java -version
-echo ""
-docker exec gatekeeper java -version
-echo ""
-docker exec systemone java -version
-echo ""
-docker exec diva-jsclient java -version
-echo ""
-docker exec jsclient java -version
-echo ""
-docker exec alvin-jsclient java -version
+for DOCKER in $DOCKERS
+do
+	echo $DOCKER
+	docker exec $DOCKER -version
+done
