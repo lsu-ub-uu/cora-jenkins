@@ -8,6 +8,5 @@ do
 	echo ""
 	echo ""
 	echo $DOCKER
-	echo ""
 	docker exec $DOCKER java -version
 done
