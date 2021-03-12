@@ -1,5 +1,5 @@
-docker stop fitnesse-test therest-test systemone-fitnesse-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
-docker rm fitnesse-test therest-test systemone-fitnesse-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker stop systemone-fitnesse-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-fitnesse-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 docker run --net=cora-test --name solr-test -d cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
