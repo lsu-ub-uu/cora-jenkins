@@ -4,5 +4,5 @@ DOCKERS="alvin-fitnesse alvin-cora-fedora alvin-cora-postgresql alvin-cora-docke
 for DOCKER in $DOCKERS
 do
 	echo $DOCKER
-	docker exec $DOCKER -version
+	docker exec $DOCKER java -version
 done
