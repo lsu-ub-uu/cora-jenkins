@@ -1,5 +1,5 @@
-docker stop fitnesse therest systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
-docker rm fitnesse therest systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker stop systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 docker run --net=cora --restart always -v /mnt/data/basicstorage -p 8210:8009 --name systemone --link gatekeeper:gatekeeper --link solr:solr -d  systemone-docker:1.0-SNAPSHOT
 docker run --net=cora --restart always  --volumes-from systemone --name gatekeeper -d  systemone-docker-gatekeeper:1.0-SNAPSHOT
