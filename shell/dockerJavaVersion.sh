@@ -5,8 +5,9 @@ DOCKERS="systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper 
 
 for DOCKER in $DOCKERS
 do
+	echo ""
+	echo ""
 	echo $DOCKER
+	echo ""
 	docker exec $DOCKER java -version
-	echo ""
-	echo ""
 done
