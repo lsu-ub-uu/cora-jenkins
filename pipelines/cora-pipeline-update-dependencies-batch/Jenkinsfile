@@ -35,8 +35,7 @@ pipeline {
 	                    	
 	                        build job: 'cora-pipeline-update-dependencies', 
 	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project2"),
-	                            	string(name: 'UB_BRANCH_NAME', value: "${branch2}"),
-	                           		string(name: 'FORCE_RELEASE', value: "0")]
+	                            	string(name: 'UB_BRANCH_NAME', value: "${branch2}")]
                         }
                     }
                 }   
