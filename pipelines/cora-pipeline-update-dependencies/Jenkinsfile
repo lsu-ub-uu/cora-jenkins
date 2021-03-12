@@ -11,9 +11,6 @@ pipeline {
         string( name: 'UB_BRANCH_NAME', 
             defaultValue: 'master', 
             description: 'Name of the branch to build')
-        string( name: 'FORCE_RELEASE', 
-            defaultValue: "0", 
-            description: 'Wheter the project has to be build even no dependencies chages have been found. Force release = 1, otherwise 0')
     }
     tools {
         jdk 'Cora OpenJDK'
@@ -23,7 +20,6 @@ pipeline {
         stage("checkout"){
             steps{
             	echo "Project: ${UB_PROJECT_NAME}"
-            	echo "FORCE_RELEASE: ${FORCE_RELEASE}"
                 withCredentials([string(credentialsId: '124b7411-d19a-4d4c-baa4-0769d04ff0be', variable: 'TOKEN'),string(credentialsId: '2a106c39-922c-4d77-9828-916e98b8a95a', variable: 'USERNAME')]) {
                     sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
                 }
