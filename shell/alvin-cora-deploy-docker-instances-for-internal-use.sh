@@ -7,7 +7,7 @@ docker run --net=alvin-cora-test --volumes-from alvin-therest-test --name alvin-
 docker run --net=alvin-cora-test --name alvin-idplogin-test --link alvin-gatekeeper-test:gatekeeper -e "JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" -d  cora-docker-idplogin:1.0-SNAPSHOT
 docker run --net=alvin-cora-test --volumes-from alvin-therest-test --name alvin-apptokenverifier-test --link alvin-gatekeeper-test:gatekeeper -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
 docker run --net=alvin-cora-test --name alvin-solr-test -d cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
-docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=alvin -e POSTGRES_USER=alvin -e POSTGRES_PASSWORD=alvin --name alvin-cora-docker-postgresql-test -d alvin-cora-docker-postgresql-9.6:1.0-SNAPSHOT
+docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=alvin -e POSTGRES_USER=alvin -e POSTGRES_PASSWORD=alvin --name alvin-cora-docker-postgresql-test -d alvin-cora-docker-postgresql-9.6
 docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=fedora38 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name alvin-cora-postgresql-test -d cora-docker-postgresql:9.6
 #wait for fedora db to start
 sleep 25
