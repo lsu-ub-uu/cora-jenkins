@@ -16,4 +16,4 @@ docker run --net=alvin-cora-test --restart always --name alvin-cora-fedora-test 
 docker run --net=alvin-cora-test -p 8390:8090 --name alvin-fitnesse-test --link alvin-therest-test:alvin --link alvin-apptokenverifier-test:apptokenverifier --link alvin-idplogin-test:idplogin -e tokenLogoutURL=https://apptokenverifier/rest/ -d alvin-cora-docker-fitnesse:1.1-SNAPSHOT
 
 #wait for everything to start
-sleep 30
+sleep 40
