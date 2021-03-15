@@ -10,10 +10,10 @@ docker run --net=alvin-cora-test --name alvin-solr-test -d cora-solr:1.0-SNAPSHO
 docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=alvin -e POSTGRES_USER=alvin -e POSTGRES_PASSWORD=alvin --name alvin-cora-docker-postgresql-test -d alvin-cora-docker-postgresql-9.6
 docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=fedora38 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name alvin-cora-postgresql-test -d cora-docker-postgresql:9.6
 #wait for fedora db to start
-sleep 25
+sleep 45
 docker run --net=alvin-cora-test --restart always --name alvin-cora-fedora-test --link alvin-cora-postgresql-test:postgres-fcrepo -d alvin-cora-docker-fedora-3.8.1:2.3-SNAPSHOT
 #wait for fedora to start
-sleep 25
+sleep 55
 docker run --net=alvin-cora-test -p 8390:8090 --name alvin-fitnesse-test --link alvin-therest-test:alvin --link alvin-apptokenverifier-test:apptokenverifier --link alvin-idplogin-test:idplogin -e tokenLogoutURL=https://apptokenverifier/rest/ -d alvin-cora-docker-fitnesse:1.1-SNAPSHOT
 
 #wait for everything to start
