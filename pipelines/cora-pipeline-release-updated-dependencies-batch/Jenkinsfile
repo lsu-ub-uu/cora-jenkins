@@ -41,8 +41,10 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
                         if(splittedTrimmed.length > 1){
                             branch = splittedTrimmed[1].trim();
                         }
-                        echo "Project:$project"
-                        echo "Branch:$branch"
+                        echo "---------------------------------------------------"
+                        echo "Project: $project"
+                        echo "Branch: $branch"
+                        echo "---------------------------------------------------"
                         if(project && project.length() > 0){
 	                    
 	                        build job: 'cora-pipeline-release-updated-dependencies', 
