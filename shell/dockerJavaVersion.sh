@@ -1,5 +1,5 @@
 set -e
-DOCKERS="systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper alvin-fitnesse alvin-cora alvin-cora-fedora alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper diva-fitnesse diva-cora diva-cora-fedora diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer"
+DOCKERS="systemone-fitnesse systemone solr idplogin apptokenverifier gatekeeper alvin-fitnesse alvin-cora alvin-cora-fedora alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper diva-fitnesse diva-cora diva-cora-fedora diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer jsclient diva-jsclient diva-jsclient"
 #excluded = alvin-cora-postgresql, alvin-cora-docker-postgresql, diva-cora-docker-postgresql, diva-cora-postgresql fitnesse therest 
 
 
