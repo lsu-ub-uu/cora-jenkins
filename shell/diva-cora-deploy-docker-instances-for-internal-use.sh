@@ -16,10 +16,10 @@ docker run --net=diva-cora-test --name diva-synchronizer-test -e "JAVA_OPTS=-Dap
 #fitnesse
 docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test --link diva-therest-test:diva --link diva-apptokenverifier-test:apptokenverifier --link diva-idplogin-test:idplogin --link diva-synchronizer-test:synchronizer -e tokenLogoutURL=https://apptokenverifier/rest/ -d diva-cora-docker-fitnesse:1.0-SNAPSHOT
 #fedora with db
-docker run --net=diva-cora-test --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql-test -d diva-cora-docker-fcrepo-postgresql:1.0.0
+docker run --net=diva-cora-test --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql-test -d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
 #wait for fedora db to start
 sleep 20
-docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test --link diva-cora-postgresql-test:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.0.2
+docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test --link diva-cora-postgresql-test:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 #wait for fedora to start
 #sleep 60
 

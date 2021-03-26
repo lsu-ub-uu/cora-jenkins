@@ -16,9 +16,9 @@ docker run --net=diva-cora --restart always --name diva-synchronizer -e "JAVA_OP
 #fitnesse
 docker run --net=diva-cora --restart always  --volumes-from diva-cora -p 8690:8090 --name diva-fitnesse --link diva-cora:diva --link diva-apptokenverifier:apptokenverifier --link diva-idplogin:idplogin --link diva-synchronizer:synchronizer -e tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/ -d diva-cora-docker-fitnesse:1.0-SNAPSHOT
 #fedora with db
-docker run --net=diva-cora --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql -d diva-cora-docker-fcrepo-postgresql:1.0.0
+docker run --net=diva-cora --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql -d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
 #wait for fedora db to start
 sleep 20
-docker run --net=diva-cora --restart always --name diva-cora-fedora --link diva-cora-postgresql:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.0.2
+docker run --net=diva-cora --restart always --name diva-cora-fedora --link diva-cora-postgresql:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 #db with diva data
 docker run --net=diva-cora --restart always -e POSTGRES_DB=diva -e POSTGRES_USER=diva -e POSTGRES_PASSWORD=diva --name diva-cora-docker-postgresql -d diva-cora-docker-postgresql
