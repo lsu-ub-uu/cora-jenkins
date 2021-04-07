@@ -14,7 +14,7 @@ docker run --net=diva-cora --restart always -e "JAVA_OPTS=-Dmain.system.domain=h
 #synchronizer
 docker run --net=diva-cora --restart always --name diva-synchronizer -e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier:8080/apptokenverifier/ -DbaseURL=http://diva-cora:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" -d cora-docker-synchronizer:1.0-SNAPSHOT
 #fitnesse
-docker run --net=diva-cora --restart always  --volumes-from diva-cora -p 8690:8090 --name diva-fitnesse --link diva-cora:diva --link diva-apptokenverifier:apptokenverifier --link diva-idplogin:idplogin --link diva-synchronizer:synchronizer -e tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/ -d diva-cora-docker-fitnesse:1.0-SNAPSHOT
+docker run --net=diva-cora --restart always  --volumes-from diva-cora -p 8690:8090 --name diva-fitnesse --link diva-cora:diva --link diva-apptokenverifier:apptokenverifier --link diva-idplogin:idplogin --link diva-synchronizer:synchronizer -e tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/ -d diva-cora-docker-fitnesse:1.1-SNAPSHOT
 #fedora with db
 docker run --net=diva-cora --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql -d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
 #wait for fedora db to start
