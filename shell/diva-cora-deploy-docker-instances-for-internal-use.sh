@@ -20,13 +20,13 @@ docker run --net=diva-cora-test --restart always -e POSTGRES_DB=fedora32 -e POST
 #wait for fedora db to start
 sleep 20
 #fedora
-docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test --link diva-cora-postgresql-test:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
+docker run --network-alias=diva-cora-fedora --net=diva-cora-test --restart always --name diva-cora-fedora-test --link diva-cora-postgresql-test:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 #wait for fedora to start, before index connects
 sleep 10
 #indexer
 docker run -d -rm --name diva-docker-index \
 --network=diva-cora-test \
--e hostname="diva-cora-fedora-test" \
+-e hostname="diva-cora-fedora" \
 -e port="61616" \
 -e routingKey="fedora.apim.update" \
 -e username="fedoraAdmin" \
