@@ -24,7 +24,7 @@ docker run --network-alias=diva-docker-fedora --net=diva-cora-test --restart alw
 #wait for fedora to start, before index connects
 sleep 10
 #indexer
-docker run -d -rm --name diva-docker-index \
+docker run -d --name diva-docker-index \
 --network=diva-cora-test \
 -e hostname="diva-cora-fedora-test" \
 -e port="61616" \
