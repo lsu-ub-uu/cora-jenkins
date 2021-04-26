@@ -19,10 +19,23 @@ docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test --link di
 docker run --net=diva-cora-test --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name diva-cora-postgresql-test -d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
 #wait for fedora db to start
 sleep 20
+#fedora
 docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test --link diva-cora-postgresql-test:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
-#wait for fedora to start
-#sleep 60
-
+#wait for fedora to start, before index connects
+sleep 10
+#indexer
+docker run -d -rm --name diva-docker-index \
+--network=diva-cora-test \
+-e hostname="diva-cora-fedora-test" \
+-e port="61616" \
+-e routingKey="fedora.apim.update" \
+-e username="fedoraAdmin" \
+-e password="fedora" \
+-e appTokenVerifierUrl="http://diva-apptokenverifier-test:8182/apptokenverifier/" \
+-e baseUrl="http://diva-therest-test:8082/diva/rest/" \
+-e userId="coraUser:490742519075086" \
+-e appToken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
+diva-docker-index:1.0-SNAPSHOT
 #db with diva data
 docker run --net=diva-cora-test --restart always -e POSTGRES_DB=diva -e POSTGRES_USER=diva -e POSTGRES_PASSWORD=diva --name diva-cora-docker-postgresql-test -d diva-cora-docker-postgresql
 
