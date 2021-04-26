@@ -20,7 +20,7 @@ docker run --net=diva-cora --restart always -e POSTGRES_DB=fedora32 -e POSTGRES_
 #wait for fedora db to start
 sleep 20
 #fedora
-docker run --net=diva-cora --restart always --name diva-cora-fedora --link diva-cora-postgresql:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
+docker run --network-alias=diva-docker-fedora --net=diva-cora --restart always --name diva-cora-fedora --link diva-cora-postgresql:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 #wait for fedora to start, before index connects
 sleep 10
 #indexer
