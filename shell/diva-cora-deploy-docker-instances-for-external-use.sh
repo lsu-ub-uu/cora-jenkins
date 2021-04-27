@@ -32,7 +32,7 @@ docker run -d --name diva-docker-index \
 -e username="fedoraAdmin" \
 -e password="fedora" \
 -e appTokenVerifierUrl="http://diva-apptokenverifier:8080/apptokenverifier/" \
--e baseUrl="http://diva-therest:8080/diva/rest/" \
+-e baseUrl="http://diva-cora:8080/diva/rest/" \
 -e userId="coraUser:490742519075086" \
 -e appToken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
 diva-docker-index:1.0-SNAPSHOT
