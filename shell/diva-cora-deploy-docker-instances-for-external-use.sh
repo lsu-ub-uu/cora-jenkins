@@ -22,9 +22,9 @@ sleep 20
 #fedora
 docker run --network-alias=diva-docker-fedora --net=diva-cora --restart always --name diva-cora-fedora --link diva-cora-postgresql:postgres-fcrepo -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 #wait for fedora to start, before index connects
-sleep 10
+sleep 20
 #indexer
-docker run -d -rm --name diva-docker-index \
+docker run -d --name diva-docker-index \
 --network=diva-cora \
 -e hostname="diva-cora-fedora" \
 -e port="61616" \
