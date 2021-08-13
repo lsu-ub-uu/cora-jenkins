@@ -32,7 +32,7 @@ pipeline {
         stage("update dependencies"){
             steps {
 //           	sh 'mvn -f $UB_PROJECT_NAME versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="https://epc.ub.uu.se/jenkins/view/ContinousDelivery/job/cora-jenkins/ws/maven/maven-version-rules.xml"'
-           	sh 'mvn -f $UB_PROJECT_NAME versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="../../maven/maven-version-rules.xml"'
+           	sh 'mvn -f $UB_PROJECT_NAME versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="file:///../../maven/maven-version-rules.xml"'
             }
         }
         stage("commit updates"){
