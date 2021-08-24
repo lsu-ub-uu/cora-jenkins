@@ -9,4 +9,6 @@ do
 	echo ""
 	echo $DOCKER
 	docker exec $DOCKER java -version
+	
+	docker exec $DOCKER find / -name "version.sh"
 done
