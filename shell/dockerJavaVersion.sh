@@ -10,5 +10,5 @@ do
 	echo $DOCKER
 	docker exec $DOCKER java -version
 	
-	docker exec $DOCKER find / -name "version.sh"
+	docker exec $DOCKER cat /usr/local/tomcat/bin/version.sh
 done
