@@ -1,9 +1,9 @@
 pipeline {
     agent any
     parameters {
-    	string( name: 'UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME', 
-            defaultValue: 'https://git.epc.ub.uu.se/xx', 
-            description: 'Name of the project to branch and release, example: https://git.epc.ub.uu.se/alvin/convert-service.git')
+    	string( name: 'UB_PROJECT_NAME', 
+            defaultValue: 'cora-xx', 
+            description: 'Name of the project to branch and release')
             
         string( name: 'UB_BRANCH_VERSION', 
             defaultValue: 'x.y', 
@@ -16,16 +16,16 @@ pipeline {
     stages {
         stage('Branch') {
             steps {
-                build job: 'classic-branch', 
-                	parameters: [[$class: 'StringParameterValue', name: 'UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME', value: "${params.UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME}" ],
+                build job: 'cora-branch', 
+                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
         						[$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${params.UB_BRANCH_VERSION}"],
         						[$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${params.UB_DEV_BRANCH_VERSION}"]]
             }
         }
          stage('Release') {
              steps {
-                build job: 'classic-release', 
-                	parameters: [[$class: 'StringParameterValue', name: 'UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME', value: "${params.UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME}"],
+                build job: 'cora-release', 
+                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}"],
           						[$class: 'StringParameterValue', name: 'UB_BRANCH', value: 'release/'+"${params.UB_BRANCH_VERSION}"]]
              }
          } 
