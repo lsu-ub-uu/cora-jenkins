@@ -33,7 +33,7 @@ pipeline {
              steps {
                 build job: 'classic-build-from-tag', 
                 	parameters: [[$class: 'StringParameterValue', name: 'UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME', value: "${params.UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME}"],
-          						[$class: 'StringParameterValue', name: 'RELEASE_TAG', value: '*']]
+          						[$class: 'StringParameterValue', name: 'RELEASE_TAG', value: '*-'+"${params.UB_BRANCH_VERSION}"+'.0']]
              }
          } 
     }
