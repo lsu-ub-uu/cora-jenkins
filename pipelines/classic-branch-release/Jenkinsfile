@@ -29,5 +29,12 @@ pipeline {
           						[$class: 'StringParameterValue', name: 'UB_BRANCH', value: 'release/'+"${params.UB_BRANCH_VERSION}"]]
              }
          } 
+         stage('Build release') {
+             steps {
+                build job: 'classic-build-from-tag', 
+                	parameters: [[$class: 'StringParameterValue', name: 'UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME', value: "${params.UB_CLASSIC_GITLAB_URL_AND_PROJECT_NAME}"],
+          						[$class: 'StringParameterValue', name: 'RELEASE_TAG', value: '*']]
+             }
+         } 
     }
 } 
