@@ -37,7 +37,12 @@ docker run -d --name diva-docker-index-test \
 -e appToken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
 diva-docker-index:1.0-SNAPSHOT
 #db with diva data
-docker run --net=diva-cora-test --restart always -e POSTGRES_DB=diva -e POSTGRES_USER=diva -e POSTGRES_PASSWORD=diva --name diva-cora-docker-postgresql-test -d diva-cora-docker-postgresql
+docker run --net=diva-cora-test --restart always \
+-e POSTGRES_DB=diva \
+-e POSTGRES_USER=diva \ 
+-e POSTGRES_PASSWORD=diva \ 
+--name diva-cora-docker-postgresql-test \
+-d diva-cora-docker-postgresql:9.6.0
 
 #wait for everything to start
 sleep 40
