@@ -42,7 +42,7 @@ docker run --net=diva-cora-test --restart always \
 -e POSTGRES_USER=diva \ 
 -e POSTGRES_PASSWORD=diva \ 
 --name diva-cora-docker-postgresql-test \
--d diva-cora-docker-postgresql:9.6.0
+-d diva-cora-docker-postgresql:9.6.1-SNAPSHOT
 
 #wait for everything to start
 sleep 40
