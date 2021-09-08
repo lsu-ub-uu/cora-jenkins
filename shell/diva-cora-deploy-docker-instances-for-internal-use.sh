@@ -1,5 +1,5 @@
 docker stop diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test \
-diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \ 
+diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-docker-mock-classic-postgresql-test diva-cora-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test diva-docker-index-test \
 && echo nothingToSeeMoveOnToNextCommand
@@ -86,15 +86,15 @@ diva-docker-index:1.0-SNAPSHOT
 #db with diva mock data
 docker run --net=diva-cora-test --restart always --name diva-docker-mock-classic-postgresql-test \
 -e POSTGRES_DB=diva \
--e POSTGRES_USER=diva \ 
--e POSTGRES_PASSWORD=diva \ 
+-e POSTGRES_USER=diva \
+-e POSTGRES_PASSWORD=diva \
 -d diva-docker-mock-classic-postgresql:1.0-SNAPSHOT
 
 #db with diva data
 docker run --net=diva-cora-test --restart always --name diva-cora-docker-postgresql-test \
 -e POSTGRES_DB=diva \
--e POSTGRES_USER=diva \ 
--e POSTGRES_PASSWORD=diva \ 
+-e POSTGRES_USER=diva \
+-e POSTGRES_PASSWORD=diva \
 -d diva-cora-docker-postgresql:10.0-SNAPSHOT
 
 #wait for everything to start
