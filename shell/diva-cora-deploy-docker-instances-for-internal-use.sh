@@ -1,5 +1,5 @@
 docker stop diva-cora-docker-postgresql-test diva-fitnesse-test diva-therest-test diva-solr-test \
-diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test\ 
+diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \ 
 diva-docker-mock-classic-postgresql-test diva-cora-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test diva-docker-index-test \
 && echo nothingToSeeMoveOnToNextCommand
