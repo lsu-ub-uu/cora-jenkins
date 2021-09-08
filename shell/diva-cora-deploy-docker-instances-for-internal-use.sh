@@ -32,7 +32,7 @@ docker run --net=diva-cora-test --name diva-solr-test \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gatekeeper-test \
---link diva-cora-docker-postgresql-test:diva-cora-docker-postgresql \
+--link diva-docker-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""

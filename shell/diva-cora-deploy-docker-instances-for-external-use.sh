@@ -30,7 +30,7 @@ docker run --net=diva-cora --restart always --name diva-solr \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora --restart always  --volumes-from diva-cora --name diva-gatekeeper \
---link diva-cora-docker-postgresql:diva-cora-docker-postgresql \
+--link diva-docker-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
