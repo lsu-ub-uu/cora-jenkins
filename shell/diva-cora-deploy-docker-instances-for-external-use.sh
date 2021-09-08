@@ -117,4 +117,4 @@ docker run --net=diva-cora --restart always --name diva-cora-docker-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-cora-docker-postgresql:10.1-SNAPSHOT
+-d diva-cora-docker-postgresql:10.0-SNAPSHOT
