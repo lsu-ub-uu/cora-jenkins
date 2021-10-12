@@ -2,14 +2,14 @@ docker stop diva-cora-docker-postgresql-test diva-docker-mock-classic-postgresql
 diva-fitnesse-test diva-therest-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-postgresql-test \
-diva-cora-fedora-test diva-synchronizer-test diva-docker-index-test \
+diva-cora-fedora-test diva-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
 docker rm diva-cora-docker-postgresql-test diva-docker-mock-classic-postgresql-test \
 diva-fitnesse-test diva-therest-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-postgresql-test \
-diva-cora-fedora-test diva-synchronizer-test diva-docker-index-test \
+diva-cora-fedora-test diva-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -84,21 +84,6 @@ docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test \
 echo ""
 echo "wait for fedora to start, before index connects"
 sleep 10
-
-echo ""
-echo "starting indexer"
-docker run -d --name diva-docker-index-test \
---network=diva-cora-test \
--e hostname="diva-cora-fedora-test" \
--e port="61616" \
--e routingKey="fedora.apim.update" \
--e username="fedoraAdmin" \
--e password="fedora" \
--e appTokenVerifierUrl="http://diva-apptokenverifier-test:8080/apptokenverifier/" \
--e baseUrl="http://diva-therest-test:8080/diva/rest/" \
--e userId="coraUser:490742519075086" \
--e appToken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
-diva-docker-index:1.0-SNAPSHOT
 
 echo ""
 echo "starting db with diva mock data"
