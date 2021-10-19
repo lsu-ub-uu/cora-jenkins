@@ -1,12 +1,12 @@
-docker stop diva-docker-mock-classic-postgresql diva-cora-docker-postgresql \
+docker stop diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
-diva-cora-postgresql \
+diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker rm diva-docker-mock-classic-postgresql diva-cora-docker-postgresql \
+docker rm diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
-diva-cora-postgresql \
+diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
 && echo nothingToSeeMoveOnToNextCommand
 
@@ -18,8 +18,8 @@ docker run --net=diva-cora --restart always -v /mnt/data/basicstorage -p 8610:80
 --link diva-gatekeeper:gatekeeper \
 --link diva-solr:solr \
 --link diva-cora-fedora:diva-cora-fedora \
---link diva-docker-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
---link diva-cora-docker-postgresql:diva-cora-docker-postgresql \
+--link diva-mock-classic-postgresql:diva-mock-classic-postgresql \
+--link diva-cora-postgresql:diva-cora-postgresql \
 -d  diva-docker-cora:1.0-SNAPSHOT
 
 echo ""
@@ -30,7 +30,7 @@ docker run --net=diva-cora --restart always --name diva-solr \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora --restart always  --volumes-from diva-cora --name diva-gatekeeper \
---link diva-docker-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
+--link diva-mock-classic-postgresql:diva-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
@@ -68,7 +68,7 @@ docker run --net=diva-cora --restart always --name diva-fitnesse \
 
 echo ""
 echo "starting fedora with db"
-docker run --net=diva-cora --restart always --name diva-cora-postgresql \
+docker run --net=diva-cora --restart always --name diva-cora-fcrepo-postgresql \
 -e POSTGRES_DB=fedora32 \
 -e POSTGRES_USER=fedoraAdmin \
 -e POSTGRES_PASSWORD=fedora \
@@ -82,7 +82,7 @@ echo ""
 echo "starting fedora"
 docker run --net=diva-cora --restart always --name diva-cora-fedora \
 --network-alias=diva-docker-fedora \
---link diva-cora-postgresql:postgres-fcrepo \
+--link diva-cora-fcrepo-postgresql:postgres-fcrepo \
 -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 
 echo ""
@@ -91,16 +91,16 @@ sleep 20
 
 echo ""
 echo "starting db with diva mock data"
-docker run --net=diva-cora --restart always --name diva-docker-mock-classic-postgresql \
+docker run --net=diva-cora --restart always --name diva-mock-classic-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-docker-mock-classic-postgresql:1.0-SNAPSHOT
+-d diva-mock-classic-postgresql:1.0-SNAPSHOT
 
 echo ""
 echo "starting db with diva data"
-docker run --net=diva-cora --restart always --name diva-cora-docker-postgresql \
+docker run --net=diva-cora --restart always --name diva-cora-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-cora-docker-postgresql:10.0-SNAPSHOT
+-d diva-cora-postgresql:10.0-SNAPSHOT
