@@ -1,14 +1,14 @@
-docker stop diva-cora-docker-postgresql-test diva-docker-mock-classic-postgresql-test \
+docker stop diva-cora-postgresql-test diva-mock-classic-postgresql-test \
 diva-fitnesse-test diva-therest-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
-diva-cora-postgresql-test \
+diva-cora-fcrepo-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker rm diva-cora-docker-postgresql-test diva-docker-mock-classic-postgresql-test \
+docker rm diva-cora-postgresql-test diva-mock-classic-postgresql-test \
 diva-fitnesse-test diva-therest-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
-diva-cora-postgresql-test \
+diva-cora-fcrepo-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
@@ -20,8 +20,8 @@ docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-therest-te
 --link diva-gatekeeper-test:gatekeeper \
 --link diva-solr-test:solr \
 --link diva-cora-fedora-test:diva-cora-fedora \
---link diva-docker-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
---link diva-cora-docker-postgresql-test:diva-cora-docker-postgresql \
+--link diva-mock-classic-postgresql-test:diva-mock-classic-postgresql \
+--link diva-cora-postgresql-test:diva-cora-postgresql \
 -d diva-docker-cora:1.0-SNAPSHOT
 
 echo ""
@@ -32,7 +32,7 @@ docker run --net=diva-cora-test --name diva-solr-test \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gatekeeper-test \
---link diva-docker-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
+--link diva-mock-classic-postgresql-test:diva-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
@@ -66,7 +66,7 @@ docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test \
 
 echo ""
 echo "starting fedora db"
-docker run --net=diva-cora-test --restart always --name diva-cora-postgresql-test \
+docker run --net=diva-cora-test --restart always --name diva-cora-fcrepo-postgresql-test \
 -e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora \
 -d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
 
@@ -78,7 +78,7 @@ echo ""
 echo "starting fedora"
 docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test \
 --network-alias=diva-docker-fedora \
---link diva-cora-postgresql-test:postgres-fcrepo \
+--link diva-cora-fcrepo-postgresql-test:postgres-fcrepo \
 -d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
 
 echo ""
@@ -87,19 +87,19 @@ sleep 10
 
 echo ""
 echo "starting db with diva mock data"
-docker run --net=diva-cora-test --restart always --name diva-docker-mock-classic-postgresql-test \
+docker run --net=diva-cora-test --restart always --name diva-mock-classic-postgresql-test \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-docker-mock-classic-postgresql:1.0-SNAPSHOT
+-d diva-mock-classic-postgresql:1.0-SNAPSHOT
 
 echo ""
 echo "starting db with diva data"
-docker run --net=diva-cora-test --restart always --name diva-cora-docker-postgresql-test \
+docker run --net=diva-cora-test --restart always --name diva-cora-postgresql-test \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-cora-docker-postgresql:10.0-SNAPSHOT
+-d diva-cora-postgresql:10.0-SNAPSHOT
 
 echo ""
 echo "#wait for everything to start"
