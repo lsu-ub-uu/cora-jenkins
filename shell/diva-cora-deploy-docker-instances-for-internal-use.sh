@@ -1,3 +1,5 @@
+echo ""
+echo "stoping dockers"
 docker stop diva-cora-postgresql-test diva-mock-classic-postgresql-test \
 diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
@@ -6,6 +8,8 @@ diva-cora-fedora-test diva-synchronizer-test \
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
+echo ""
+echo "removing dockers"
 docker rm -f diva-cora-postgresql-test diva-mock-classic-postgresql-test \
 diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
@@ -14,7 +18,12 @@ diva-cora-fedora-test diva-synchronizer-test \
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+echo ""
+echo "removing volumes"
+docker volume rm -f $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+
+echo ""
+echo "starting dockers"
 
 echo ""
 echo "starting diva"
@@ -126,3 +135,5 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 echo ""
 echo "#wait for everything to start"
 sleep 40
+echo ""
+echo "dockers up and running"
