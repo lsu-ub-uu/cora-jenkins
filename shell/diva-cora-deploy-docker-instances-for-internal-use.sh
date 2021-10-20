@@ -1,12 +1,12 @@
 docker stop diva-cora-postgresql-test diva-mock-classic-postgresql-test \
-diva-fitnesse-test diva-therest-test diva-solr-test \
+diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-fcrepo-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
 docker rm diva-cora-postgresql-test diva-mock-classic-postgresql-test \
-diva-fitnesse-test diva-therest-test diva-solr-test \
+diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-fcrepo-postgresql-test \
 diva-cora-fedora-test diva-synchronizer-test \
@@ -16,7 +16,8 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "starting diva"
-docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-therest-test \
+docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-cora-test \
+--network-alias=diva-cora
 --link diva-gatekeeper-test:gatekeeper \
 --link diva-solr-test:solr \
 --link diva-cora-fedora-test:diva-cora-fedora \
@@ -31,13 +32,14 @@ docker run --net=diva-cora-test --name diva-solr-test \
 
 echo ""
 echo "starting gatekeeper"
-docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-gatekeeper-test \
+docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-gatekeeper-test \
+--network-alias=diva-gatekeeper
 --link diva-mock-classic-postgresql-test:diva-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
 echo "starting apptokenverifier"
-docker run --net=diva-cora-test --volumes-from diva-therest-test --name diva-apptokenverifier-test \
+docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-apptokenverifier-test \
 --link diva-gatekeeper-test:gatekeeper \
 -d cora-docker-apptokenverifier:1.0-SNAPSHOT
 
@@ -51,13 +53,13 @@ docker run --net=diva-cora-test --name diva-idplogin-test \
 echo ""
 echo "starting synchronizer"
 docker run --net=diva-cora-test --name diva-synchronizer-test \
--e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier-test:8080/apptokenverifier/ -DbaseURL=http://diva-therest-test:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" \
+-e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier-test:8080/apptokenverifier/ -DbaseURL=http://diva-cora-test:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" \
 -d cora-docker-synchronizer:1.0-SNAPSHOT
 
 echo ""
 echo "starting fitnesse"
 docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test \
---link diva-therest-test:diva \
+--link diva-cora-test:diva \
 --link diva-apptokenverifier-test:apptokenverifier \
 --link diva-idplogin-test:idplogin \
 --link diva-synchronizer-test:synchronizer \
@@ -96,10 +98,28 @@ docker run --net=diva-cora-test --restart always --name diva-mock-classic-postgr
 echo ""
 echo "starting db with diva data"
 docker run --net=diva-cora-test --restart always --name diva-cora-postgresql-test \
+--network-alias=diva-cora-postgresql
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
 -d diva-cora-postgresql:10.0-SNAPSHOT
+
+echo "starting diva classic fedora synchronizer"
+docker run --net=diva-cora-test --restart always --name diva-classic-fedora-synchronizer-test \
+-e messaginghostname="diva-docker-fedora" \
+-e messagingport="61616" \
+-e messagingroutingKey="fedora.apim.update" \
+-e messagingusername="fedoraAdmin" \
+-e messagingpassword="fedora" \
+-e databaseurl="jdbc:postgresql://diva-cora-postgresql:5432/diva" \
+-e databaseuser="diva" \
+-e databasepassword="diva" \
+-e fedorabaseUrl="http://diva-docker-fedora:8088/fedora/" \
+-e coraapptokenVerifierUrl="http://diva-gatekeeper:8080/apptokenverifier/" \
+-e corabaseUrl="http://diva-cora:8080/diva/rest/" \
+-e corauserId="coraUser:490742519075086" \
+-e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
+diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
 
 echo ""
 echo "#wait for everything to start"

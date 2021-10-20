@@ -100,7 +100,25 @@ docker run --net=diva-cora --restart always --name diva-mock-classic-postgresql 
 echo ""
 echo "starting db with diva data"
 docker run --net=diva-cora --restart always --name diva-cora-postgresql \
+--network-alias=diva-cora-postgresql
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
 -d diva-cora-postgresql:10.0-SNAPSHOT
+
+echo "starting diva classic fedora synchronizer"
+docker run --net=diva-cora-test --restart always --name diva-classic-fedora-synchronizer-test \
+-e messaginghostname="diva-docker-fedora" \
+-e messagingport="61616" \
+-e messagingroutingKey="fedora.apim.update" \
+-e messagingusername="fedoraAdmin" \
+-e messagingpassword="fedora" \
+-e databaseurl="jdbc:postgresql://diva-cora-postgresql:5432/diva" \
+-e databaseuser="diva" \
+-e databasepassword="diva" \
+-e fedorabaseUrl="http://diva-docker-fedora:8088/fedora/" \
+-e coraapptokenVerifierUrl="http://diva-gatekeeper:8080/apptokenverifier/" \
+-e corabaseUrl="http://diva-cora:8080/diva/rest/" \
+-e corauserId="coraUser:490742519075086" \
+-e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
+diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
