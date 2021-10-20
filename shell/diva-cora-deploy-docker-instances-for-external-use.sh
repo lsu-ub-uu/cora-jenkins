@@ -4,7 +4,7 @@ docker stop diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
-diva-classic-fedora-synchronizer-test \
+diva-classic-fedora-synchronizer \
 && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
@@ -13,7 +13,7 @@ docker rm -f diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
-diva-classic-fedora-synchronizer-test \
+diva-classic-fedora-synchronizer \
 && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
@@ -137,3 +137,4 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 
 echo ""
 echo "dockers up and running"
+echo ""
