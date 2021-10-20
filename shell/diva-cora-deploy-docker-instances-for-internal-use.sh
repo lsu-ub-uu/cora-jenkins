@@ -19,7 +19,7 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "starting diva"
 docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-cora-test \
---network-alias=diva-cora
+--network-alias=diva-cora \
 --link diva-gatekeeper-test:gatekeeper \
 --link diva-solr-test:solr \
 --link diva-cora-fedora-test:diva-cora-fedora \
@@ -35,7 +35,7 @@ docker run --net=diva-cora-test --name diva-solr-test \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-gatekeeper-test \
---network-alias=diva-gatekeeper
+--network-alias=diva-gatekeeper \
 --link diva-mock-classic-postgresql-test:diva-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
@@ -100,7 +100,7 @@ docker run --net=diva-cora-test --restart always --name diva-mock-classic-postgr
 echo ""
 echo "starting db with diva data"
 docker run --net=diva-cora-test --restart always --name diva-cora-postgresql-test \
---network-alias=diva-cora-postgresql
+--network-alias=diva-cora-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
