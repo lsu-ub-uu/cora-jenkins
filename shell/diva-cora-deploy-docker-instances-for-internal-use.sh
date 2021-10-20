@@ -119,7 +119,7 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 -e corabaseUrl="http://diva-cora:8080/diva/rest/" \
 -e corauserId="coraUser:490742519075086" \
 -e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
-diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
+-d diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
 
 echo ""
 echo "#wait for everything to start"
