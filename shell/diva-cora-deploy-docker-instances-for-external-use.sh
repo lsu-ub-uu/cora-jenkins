@@ -102,7 +102,7 @@ docker run --net=diva-cora --restart always --name diva-mock-classic-postgresql 
 echo ""
 echo "starting db with diva data"
 docker run --net=diva-cora --restart always --name diva-cora-postgresql \
---network-alias=diva-cora-postgresql
+--network-alias=diva-cora-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
