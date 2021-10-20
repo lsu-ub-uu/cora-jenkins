@@ -20,8 +20,8 @@ docker run --net=diva-cora --restart always -v /mnt/data/basicstorage -p 8610:80
 --link diva-gatekeeper:gatekeeper \
 --link diva-solr:solr \
 --link diva-cora-fedora:diva-cora-fedora \
---link diva-mock-classic-postgresql:diva-mock-classic-postgresql \
---link diva-cora-postgresql:diva-cora-postgresql \
+--link diva-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
+--link diva-cora-postgresql:diva-cora-docker-postgresql \
 -d  diva-docker-cora:1.0-SNAPSHOT
 
 echo ""
@@ -32,7 +32,7 @@ docker run --net=diva-cora --restart always --name diva-solr \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora --restart always  --volumes-from diva-cora --name diva-gatekeeper \
---link diva-mock-classic-postgresql:diva-mock-classic-postgresql \
+--link diva-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
