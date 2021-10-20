@@ -1,3 +1,5 @@
+echo ""
+echo "stoping dockers"
 docker stop diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
@@ -5,6 +7,8 @@ diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer 
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
+echo ""
+echo "removing dockers"
 docker rm -f diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
@@ -12,7 +16,12 @@ diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer 
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+echo ""
+echo "removing volumes"
+docker volume rm -f $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+
+echo ""
+echo "starting dockers"
 
 echo ""
 echo "starting diva"
@@ -124,3 +133,6 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 -e corauserId="coraUser:490742519075086" \
 -e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
 -d diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
+
+echo ""
+echo "dockers up and running"
