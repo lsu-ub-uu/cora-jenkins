@@ -5,7 +5,7 @@ diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer 
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker rm diva-mock-classic-postgresql diva-cora-postgresql \
+docker rm -f diva-mock-classic-postgresql diva-cora-postgresql \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \

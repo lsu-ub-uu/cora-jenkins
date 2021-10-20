@@ -6,7 +6,7 @@ diva-cora-fedora-test diva-synchronizer-test \
 diva-classic-fedora-synchronizer-test \
 && echo nothingToSeeMoveOnToNextCommand
 
-docker rm diva-cora-postgresql-test diva-mock-classic-postgresql-test \
+docker rm -f diva-cora-postgresql-test diva-mock-classic-postgresql-test \
 diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-fcrepo-postgresql-test \
