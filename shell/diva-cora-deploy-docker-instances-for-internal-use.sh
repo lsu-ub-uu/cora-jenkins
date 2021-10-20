@@ -137,3 +137,4 @@ echo "#wait for everything to start"
 sleep 40
 echo ""
 echo "dockers up and running"
+echo ""
