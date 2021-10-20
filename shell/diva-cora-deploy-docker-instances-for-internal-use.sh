@@ -44,13 +44,13 @@ docker run --net=diva-cora-test --name diva-solr-test \
 echo ""
 echo "starting gatekeeper"
 docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-gatekeeper-test \
---network-alias=diva-gatekeeper \
 --link diva-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
 -d diva-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
 echo "starting apptokenverifier"
 docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-apptokenverifier-test \
+--network-alias=diva-apptokenverifier \
 --link diva-gatekeeper-test:gatekeeper \
 -d cora-docker-apptokenverifier:1.0-SNAPSHOT
 
@@ -126,7 +126,7 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 -e databaseuser="diva" \
 -e databasepassword="diva" \
 -e fedorabaseUrl="http://diva-docker-fedora:8088/fedora/" \
--e coraapptokenVerifierUrl="http://diva-gatekeeper:8080/apptokenverifier/" \
+-e coraapptokenVerifierUrl="http://diva-apptokenverifier:8080/apptokenverifier/" \
 -e corabaseUrl="http://diva-cora:8080/diva/rest/" \
 -e corauserId="coraUser:490742519075086" \
 -e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \

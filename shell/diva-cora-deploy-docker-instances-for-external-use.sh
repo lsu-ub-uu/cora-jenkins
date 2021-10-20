@@ -47,6 +47,7 @@ docker run --net=diva-cora --restart always  --volumes-from diva-cora --name div
 echo ""
 echo "starting apptokenverifier"
 docker run --net=diva-cora --restart always --name diva-apptokenverifier \
+--network-alias=diva-apptokenverifier \
 -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/" \
 --volumes-from diva-cora -p 8611:8009 \
 --link diva-gatekeeper:gatekeeper \
@@ -128,7 +129,7 @@ docker run --net=diva-cora-test --restart always --name diva-classic-fedora-sync
 -e databaseuser="diva" \
 -e databasepassword="diva" \
 -e fedorabaseUrl="http://diva-docker-fedora:8088/fedora/" \
--e coraapptokenVerifierUrl="http://diva-gatekeeper:8080/apptokenverifier/" \
+-e coraapptokenVerifierUrl="http://diva-apptokenverifier:8080/apptokenverifier/" \
 -e corabaseUrl="http://diva-cora:8080/diva/rest/" \
 -e corauserId="coraUser:490742519075086" \
 -e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
