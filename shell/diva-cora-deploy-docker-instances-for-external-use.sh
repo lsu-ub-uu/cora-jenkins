@@ -119,7 +119,7 @@ docker run --net=diva-cora --restart always --name diva-cora-postgresql \
 -d diva-cora-docker-postgresql:10.0-SNAPSHOT
 
 echo "starting diva classic fedora synchronizer"
-docker run --net=diva-cora-test --restart always --name diva-classic-fedora-synchronizer-test \
+docker run --net=diva-cora --restart always --name diva-classic-fedora-synchronizer \
 -e messaginghostname="diva-docker-fedora" \
 -e messagingport="61616" \
 -e messagingroutingKey="fedora.apim.update" \
