@@ -97,7 +97,7 @@ docker run --net=diva-cora --restart always --name diva-mock-classic-postgresql 
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-mock-classic-postgresql:1.0-SNAPSHOT
+-d diva-docker-mock-classic-postgresql:1.0-SNAPSHOT
 
 echo ""
 echo "starting db with diva data"
@@ -106,7 +106,7 @@ docker run --net=diva-cora --restart always --name diva-cora-postgresql \
 -e POSTGRES_DB=diva \
 -e POSTGRES_USER=diva \
 -e POSTGRES_PASSWORD=diva \
--d diva-cora-postgresql:10.0-SNAPSHOT
+-d diva-cora-docker-postgresql:10.0-SNAPSHOT
 
 echo "starting diva classic fedora synchronizer"
 docker run --net=diva-cora-test --restart always --name diva-classic-fedora-synchronizer-test \
