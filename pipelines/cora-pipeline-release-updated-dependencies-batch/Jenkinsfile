@@ -77,6 +77,7 @@ cora-testrelease111''', description: 'Project names to build', name: 'UB_PROJECT
 	                            	string(name: 'UB_BRANCH_NAME', value: "${branch2}"),
 	                           		string(name: 'FORCE_RELEASE', value: "0")]
                         }
+                        echo "---------------------------------------------------"
                     }
                 }   
             }
