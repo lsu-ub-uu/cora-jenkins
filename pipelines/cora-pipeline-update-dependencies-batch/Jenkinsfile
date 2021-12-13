@@ -9,7 +9,7 @@ pipeline {
                 script {
                     projectsToUpdate = input message: 'Enter projects to update dependencies for', 
                     	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
-                    	description: 'Project names to update dependencies for and then branch and release from master IF new dependencies where found (comma separated list)', 
+                    	description: 'Project names to try to update dependencies for in master.', 
                     	name: 'PROJECTS_TO_UPDATE', trim: true)]
                     echo "Projects to update: $projectsToUpdate"
                     //echo "Update only dependencies from Cora: $onlyCora"
