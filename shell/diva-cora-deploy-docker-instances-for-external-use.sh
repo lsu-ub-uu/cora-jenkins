@@ -1,3 +1,5 @@
+curl -v -X POST http://diva-apptokenverifier:8080/apptokenverifier/rest/apptoken/coraUser:1299694997493014 --data f48a2fb3-814e-404a-a2dd-9860aff4e328
+
 echo ""
 echo "stoping dockers"
 docker stop diva-mock-classic-postgresql diva-cora-postgresql \
