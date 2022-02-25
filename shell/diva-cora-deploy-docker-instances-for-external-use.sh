@@ -141,7 +141,7 @@ echo ""
 
 echo "Indexing persons for better experience in reactClient"
 ##get authToken
-loginData=$(curl -s -X POST http://diva-apptokenverifier/apptokenverifier/rest/apptoken/coraUser:1299694997493014 --data f48a2fb3-814e-404a-a2dd-9860aff4e328)
+loginData=$(curl -s -X POST http://diva-apptokenverifier:8080/apptokenverifier/rest/apptoken/coraUser:1299694997493014 --data f48a2fb3-814e-404a-a2dd-9860aff4e328)
 echo ""
 echo "Login Data:";
 echo "$loginData";
@@ -153,7 +153,7 @@ echo "$authToken";
 echo ""
 
 #index persons
-indexResult=$(curl -s -X POST -H "AuthToken: $authToken" -H 'Accept: application/vnd.uub.record+json' -H 'Content-Type: application/vnd.uub.record+json' http://diva-cora/diva/rest/record/index/person/ --data '{"name":"indexSettings","children":[]}')
+indexResult=$(curl -s -X POST -H "AuthToken: $authToken" -H 'Accept: application/vnd.uub.record+json' -H 'Content-Type: application/vnd.uub.record+json' http://diva-cora:8080/diva/rest/record/index/person/ --data '{"name":"indexSettings","children":[]}')
 echo "Index result:";
 echo "$indexResult";
 
