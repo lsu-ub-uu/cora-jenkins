@@ -2,6 +2,7 @@
 echo ""
 echo "stoping dockers"
 docker stop diva-mock-classic-postgresql diva-cora-postgresql \
+diva-fitnesse-httplistener \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
@@ -11,6 +12,7 @@ diva-classic-fedora-synchronizer \
 echo ""
 echo "removing dockers"
 docker rm -f diva-mock-classic-postgresql diva-cora-postgresql \
+diva-fitnesse-httplistener \
 diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
@@ -67,6 +69,13 @@ echo "starting synchronizer"
 docker run --net=diva-cora --restart always --name diva-synchronizer \
 -e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier:8080/apptokenverifier/ -DbaseURL=http://diva-cora:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" \
 -d cora-docker-synchronizer:1.0-SNAPSHOT
+
+echo ""
+echo "starting fitnesse HttpListener"
+docker run --net=diva-cora --name diva-fitnesse-httplistener \
+-d diva-cora-docker-fitnesse:1.1-SNAPSHOT \
+java -classpath /fitnesse/divacorafitnesse.jar \
+se.uu.ub.cora.fitnesseintegration.httplistener.HttpListener 11111
 
 echo ""
 echo "starting fitnesse"

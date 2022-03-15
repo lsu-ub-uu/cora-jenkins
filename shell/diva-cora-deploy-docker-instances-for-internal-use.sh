@@ -1,6 +1,7 @@
 echo ""
 echo "stoping dockers"
 docker stop diva-cora-postgresql-test diva-mock-classic-postgresql-test \
+diva-fitnesse-httplistener-test \
 diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-fcrepo-postgresql-test \
@@ -11,6 +12,7 @@ diva-classic-fedora-synchronizer-test \
 echo ""
 echo "removing dockers"
 docker rm -f diva-cora-postgresql-test diva-mock-classic-postgresql-test \
+diva-fitnesse-httplistener-test \
 diva-fitnesse-test diva-cora-test diva-solr-test \
 diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
 diva-cora-fcrepo-postgresql-test \
@@ -35,6 +37,7 @@ docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-cora-test 
 --link diva-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
 --link diva-cora-postgresql-test:diva-cora-docker-postgresql \
 -d diva-docker-cora:1.0-SNAPSHOT
+
 
 echo ""
 echo "starting solr"
@@ -66,6 +69,14 @@ echo "starting synchronizer"
 docker run --net=diva-cora-test --name diva-synchronizer-test \
 -e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier-test:8080/apptokenverifier/ -DbaseURL=http://diva-cora-test:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" \
 -d cora-docker-synchronizer:1.0-SNAPSHOT
+
+echo ""
+echo "starting fitnesse HttpListener"
+docker run --net=diva-cora-test --name diva-fitnesse-httplistener-test \
+-d diva-cora-docker-fitnesse:1.1-SNAPSHOT \
+--network-alias=diva-fitnesse-httplistener \
+java -classpath /fitnesse/divacorafitnesse.jar \
+se.uu.ub.cora.fitnesseintegration.httplistener.HttpListener 11111
 
 echo ""
 echo "starting fitnesse"
