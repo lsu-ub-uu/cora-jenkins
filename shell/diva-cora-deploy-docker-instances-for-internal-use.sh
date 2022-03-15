@@ -73,8 +73,8 @@ docker run --net=diva-cora-test --name diva-synchronizer-test \
 echo ""
 echo "starting fitnesse HttpListener"
 docker run --net=diva-cora-test --name diva-fitnesse-httplistener-test \
--d diva-cora-docker-fitnesse:1.1-SNAPSHOT \
 --network-alias=diva-fitnesse-httplistener \
+-d diva-cora-docker-fitnesse:1.1-SNAPSHOT \
 java -classpath /fitnesse/divacorafitnesse.jar \
 se.uu.ub.cora.fitnesseintegration.httplistener.HttpListener 11111
 
