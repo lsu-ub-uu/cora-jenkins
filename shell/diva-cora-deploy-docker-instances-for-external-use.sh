@@ -7,6 +7,7 @@ diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
 diva-classic-fedora-synchronizer \
+diva-docker-fedora \
 && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
@@ -17,6 +18,7 @@ diva-fitnesse diva-cora diva-cora-fedora \
 diva-cora-fcrepo-postgresql \
 diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
 diva-classic-fedora-synchronizer \
+diva-docker-fedora \
 && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
@@ -35,6 +37,11 @@ docker run --net=diva-cora --restart always -v /mnt/data/basicstorage -p 8610:80
 --link diva-mock-classic-postgresql:diva-docker-mock-classic-postgresql \
 --link diva-cora-postgresql:diva-cora-docker-postgresql \
 -d  diva-docker-cora:1.0-SNAPSHOT
+
+echo ""
+echo "Starting fedora for archive"
+docker run --net=diva-cora --restart always --name diva-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+
 
 echo ""
 echo "starting solr"
