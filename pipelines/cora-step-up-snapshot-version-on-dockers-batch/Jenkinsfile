@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    environment {
+        projectsToUpdate = "";
+    }
+    stages {
+        stage("user input"){
+            steps{
+                script {
+                    dockersToStepUp = input message: 'Enter docker names to step up', 
+                    	parameters: [text(defaultValue: 'cora-testrelease1, cora-testrelease2', 
+                    	description: 'Dockers to be step up. After releasing top artifacts we need to step up them in the respective dockers. Here it will be a list with all the dockers that might need to be updated after release (comma separated list)', 
+                    	name: 'DOCKERS_TO_RELEASE', trim: true)]
+
+                 	echo "Dockers to step up: $dockersToStepUp"
+                }
+            }
+        }
+        stage("loop step up"){
+            steps{
+                script {
+                	echo "Dockers to step up"
+                    def splitteddockersToStepUp = dockersToStepUp.split(',')
+                    splitteddockersToStepUp.each() {
+                        def trimmed = it.trim()
+                        def splittedTrimmed = trimmed.split(' ');
+                        def project = splittedTrimmed[0].trim();
+                        def branch = 'master';
+                        if(splittedTrimmed.length > 1){
+                            branch = splittedTrimmed[1].trim();
+                        }
+                        echo "---------------------------------------------------"
+                        echo "| $project ($branch) |"
+                        if(project && project.length() > 0){
+	                    
+	                        build job: 'cora-step-up-snpahot-version-on-dockers', 
+	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project")]
+                        }
+                    }
+                }   
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+} 

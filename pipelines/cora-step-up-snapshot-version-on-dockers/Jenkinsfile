@@ -46,7 +46,7 @@ pipeline {
         }
         stage("build new version"){
             when {
-                expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
+                expression { CHECKED_IN == 0 }
             }
             steps {
             	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean package'
@@ -64,7 +64,7 @@ pipeline {
         }
         stage("nothing to update"){
             when {
-                expression { CHECKED_IN == 1 && FORCE_RELEASE == "0"}
+                expression { CHECKED_IN == 1}
             }
             steps {
                 echo "No dependencies to update, no release created"
