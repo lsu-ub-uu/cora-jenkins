@@ -12,7 +12,7 @@ pipeline {
             defaultValue: 'master', 
             description: 'Name of the branch to build')
         string( name: 'UB_DOCKER_PROPERTIES_LIST', 
-            defaultValue: 'systemone.version, cora-apptokenverifier-war.version', 
+            defaultValue: 'systemone.version,cora-apptokenverifier-war.version', 
             description: 'Name of the branch to build')
     }
     tools {
