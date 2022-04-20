@@ -33,7 +33,7 @@ pipeline {
                         echo "| $project ($branch) |"
                         if(project && project.length() > 0){
 	                    
-	                        build job: 'cora-step-up-snpahot-version-on-dockers', 
+	                        build job: 'cora-step-up-snapshot-version-on-dockers', 
 	                            parameters: [string(name: 'UB_PROJECT_NAME', value: "$project")]
                         }
                     }
