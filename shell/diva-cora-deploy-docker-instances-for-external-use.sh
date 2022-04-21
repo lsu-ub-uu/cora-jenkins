@@ -40,7 +40,8 @@ docker run --net=diva-cora --restart always -v /mnt/data/basicstorage -p 8610:80
 
 echo ""
 echo "Starting fedora for archive"
-docker run --net=diva-cora --restart always --name diva-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+docker run --net=diva-cora --restart always --name diva-docker-fedora \
+--network-alias=diva-archive -d cora-docker-fedora:1.0-SNAPSHOT
 
 
 echo ""
