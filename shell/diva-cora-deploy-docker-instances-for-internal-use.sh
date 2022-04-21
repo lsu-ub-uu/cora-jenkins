@@ -42,7 +42,8 @@ docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-cora-test 
 
 echo ""
 echo "Starting fedora for archive"
-docker run --net=diva-cora-test  --name diva-docker-fedora-test --network-alias=diva-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+docker run --net=diva-cora-test  --name diva-docker-fedora-test \
+--network-alias=diva-archive -d cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
 echo "starting solr"
