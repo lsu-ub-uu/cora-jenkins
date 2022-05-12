@@ -10,9 +10,14 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Starting systemone"
 docker run --net=cora-test -v /mnt/data/basicstorage --name systemone-test --link gatekeeper-test:gatekeeper --link solr-test:solr -d  systemone-docker:1.0-SNAPSHOT
+
 echo ""
 echo "Starting fedora for archive"
-docker run --net=cora-test  --name systemone-docker-fedora-test --network-alias=systemone-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+docker run --net=cora-test --name systemone-docker-fedora-test \
+ --mount source=systemOneArchiveTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
+ --network-alias=systemone-docker-fedora \
+ -d cora-docker-fedora:1.0-SNAPSHOT
+
 echo ""
 echo "Starting gatekeeper"
 docker run --net=cora-test --volumes-from systemone-test --name gatekeeper-test -d  systemone-docker-gatekeeper:1.0-SNAPSHOT
@@ -28,7 +33,10 @@ docker run --net=cora-test --name solr-test -d cora-solr:1.0-SNAPSHOT solr-precr
 
 echo ""
 echo "starting fitnesse"
-docker run --net=cora-test -p 8190:8090 --name systemone-fitnesse-test --link systemone-test:systemone --link apptokenverifier-test:apptokenverifier --link idplogin-test:idplogin -d systemone-docker-fitnesse:1.0-SNAPSHOT
+docker run --net=cora-test -p 8190:8090 --name systemone-fitnesse-test \
+ --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --link systemone-test:systemone --link apptokenverifier-test:apptokenverifier --link idplogin-test:idplogin \
+ -d systemone-docker-fitnesse:1.0-SNAPSHOT
 
 echo ""
 sleep 20
