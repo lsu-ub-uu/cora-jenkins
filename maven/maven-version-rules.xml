@@ -13,4 +13,11 @@
 <!-- 			</ignoreVersions> -->
 <!-- 		</rule> -->
 <!-- 	</rules> -->
+	<rules>
+		<rule groupId="jakarta.servlet" artifactId="jakarta.servlet-api" comparisonMethod="maven" >
+			<ignoreVersions>
+				<ignoreVersion>6.0.0</ignoreVersion>
+			</ignoreVersions>
+		</rule>
+	</rules>
 </ruleset>
