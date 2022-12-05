@@ -30,7 +30,9 @@ echo "Starting postgress for db (classic)"
 docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=alvin -e POSTGRES_USER=alvin -e POSTGRES_PASSWORD=alvin --name alvin-cora-docker-postgresql-test -d alvin-cora-docker-postgresql-9.6
 echo ""
 echo "Starting postgress for db (classic)"
-docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=fedora38 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora --name alvin-cora-postgresql-test -d cora-docker-postgresql:9.6
+docker run --net=alvin-cora-test --restart always -e POSTGRES_DB=fedora38 \
+-e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora \
+--name alvin-cora-postgresql-test -d cora-docker-postgresql:9.6
 echo ""
 echo "wait for fedora db to start"
 sleep 10
