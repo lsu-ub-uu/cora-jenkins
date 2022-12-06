@@ -45,7 +45,9 @@ cora-docker-idplogin:1.0-SNAPSHOT
 echo ""
 echo "Starting apptokenverifier"
 docker run -d --net=cora-test --name apptokenverifier-test \
- --volumes-from systemone-test  --link gatekeeper-test:gatekeeper \
+ --volumes-from systemone-test \
+ --link gatekeeper-test:gatekeeper \
+ -e "JAVA_OPTS= -Ddbname=systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
 
 echo ""
