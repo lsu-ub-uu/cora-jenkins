@@ -26,7 +26,7 @@ docker run -d --net=cora-test --name systemone-docker-fedora-test \
 echo ""
 echo "Starting systemone"
 docker run -d --net=cora-test -v /mnt/data/basicstorage --name systemone-test \
- --link gatekeeper-test:gatekeeper --link solr-test:solr 
+ --link gatekeeper-test:gatekeeper --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
 
 
@@ -39,8 +39,8 @@ docker run -d --net=cora-test --name gatekeeper-test \
 echo ""
 echo "starting idplogin"
 docker run -d --net=cora-test --name idplogin-test \
---link gatekeeper-test:gatekeeper\
-cora-docker-idplogin:1.0-SNAPSHOT
+ --link gatekeeper-test:gatekeeper \
+ cora-docker-idplogin:1.0-SNAPSHOT
 
 echo ""
 echo "Starting apptokenverifier"
