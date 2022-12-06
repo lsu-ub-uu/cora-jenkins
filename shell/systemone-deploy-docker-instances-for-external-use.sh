@@ -10,7 +10,7 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Starting postgresql as database"
 docker run -d --name systemone-docker-postgresql \
- -net=cora \
+ --net=cora \
  --restart unless-stopped  \
  --net-alias=systemone-docker-postgresql \
  -e POSTGRES_DB=systemone \
@@ -29,7 +29,8 @@ docker run -d --name systemone-docker-fedora \
 
 echo ""
 echo "Starting systemone"
-docker run -d --net=cora --name systemone \
+docker run -d  --name systemone \
+ --net=cora \
  --restart unless-stopped \
  -v /mnt/data/basicstorage \
  -p 8210:8009 \
@@ -39,14 +40,16 @@ docker run -d --net=cora --name systemone \
 
 echo ""
 echo "Starting gatekeeper"
-docker run -d --net=cora --name gatekeeper \
+docker run -d --name gatekeeper \
+ --net=cora \
  --restart unless-stopped  \
  --volumes-from systemone \
  systemone-docker-gatekeeper:1.0-SNAPSHOT
  
 echo ""
 echo "starting idplogin"
-docker run -d --net=cora --name idplogin \
+docker run -d --name idplogin \
+ --net=cora \
  --restart unless-stopped \
  -e "JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/apptokenverifier/rest/apptoken/" \
  -p 8212:8009 \
@@ -55,9 +58,10 @@ docker run -d --net=cora --name idplogin \
 
 echo ""
 echo "Starting apptokenverifier"
-docker run -d --net=cora --name apptokenverifier \
+docker run -d  --name apptokenverifier \
+ --net=cora \
  --restart unless-stopped \
- -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddbname=systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  --volumes-from systemone \
  -p 8211:8009 \
  --link gatekeeper:gatekeeper \
@@ -65,7 +69,8 @@ docker run -d --net=cora --name apptokenverifier \
 
 echo ""
 echo "Starting solr"
-docker run -d --net=cora --name solr \
+docker run -d  --name solr \
+ --net=cora \
  --restart unless-stopped \
  -p 8983:8983  \
  cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
