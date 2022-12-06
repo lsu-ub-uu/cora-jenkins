@@ -9,7 +9,7 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Starting postgresql as database"
-docker run -d -net=cora-test --name systemone-docker-postgresql-test \
+docker run -d --net=cora-test --name systemone-docker-postgresql-test \
  --net-alias=systemone-docker-postgresql \
  -e POSTGRES_DB=systemone \
  -e POSTGRES_USER=systemone \
