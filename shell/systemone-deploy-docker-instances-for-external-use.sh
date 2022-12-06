@@ -61,7 +61,7 @@ echo "Starting apptokenverifier"
 docker run -d  --name apptokenverifier \
  --net=cora \
  --restart unless-stopped \
- -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddbname=systemone -Ddbusername=systemone -Ddbpassword=systemone" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-docker-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  --volumes-from systemone \
  -p 8211:8009 \
  --link gatekeeper:gatekeeper \
