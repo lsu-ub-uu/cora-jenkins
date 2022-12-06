@@ -40,6 +40,8 @@ echo ""
 echo "starting idplogin"
 docker run -d --net=cora-test --name idplogin-test \
  --link gatekeeper-test:gatekeeper \
+ --link apptokenverifier-test:apptokenverifier \
+ -e "JAVA_OPTS=-Dtoken.logout.url=http://apptokenverifier:8080/apptokenverifier/rest/" \
  cora-docker-idplogin:1.0-SNAPSHOT
 
 echo ""
