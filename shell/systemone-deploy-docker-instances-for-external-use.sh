@@ -1,5 +1,5 @@
-echo "Stoping dockers"
-docker stop systemone-fitnesse systemone-postgresql systemone-docker-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+echo "Kill dockers"
+docker kill systemone-fitnesse systemone-postgresql systemone-docker-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
 docker rm systemone-fitnesse systemone-postgresql systemone-docker-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand

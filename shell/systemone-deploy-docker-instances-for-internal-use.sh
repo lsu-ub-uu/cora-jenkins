@@ -1,5 +1,5 @@
-echo "Stoping dockers"
-docker stop systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+echo "Kill dockers"
+docker kill systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
 docker rm systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
