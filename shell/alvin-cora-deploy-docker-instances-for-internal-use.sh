@@ -23,7 +23,7 @@ echo ""
 echo "Starting fedora for archive"
 docker run -d --name alvin-fedora-test \
  --net=alvin-cora-test \
- --network-alias=alvin-fedora \
+ --net-alias=alvin-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
@@ -31,7 +31,7 @@ echo "Starting alvin"
 docker run -d --name alvin-test \
  --net=alvin-cora-test \ 
  --net-alias=alvin \
- -v /mnt/data/basicstorage
+ -v /mnt/data/basicstorage \
  alvin-docker-cora:1.0-SNAPSHOT
 
 echo ""
@@ -40,6 +40,7 @@ docker run -d --name alvin-gatekeeper-test \
  --net=alvin-cora-test \
  --net-alias=gatekeeper \
  alvin-docker-gatekeeper:1.0-SNAPSHOT
+ 
 echo ""
 echo "starting idplogin"
 docker run -d --net=alvin-cora-test --name alvin-idplogin-test \
