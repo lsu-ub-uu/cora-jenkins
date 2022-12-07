@@ -9,10 +9,10 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Starting postgresql as database"
-docker run -d --name systemone-docker-postgresql \
+docker run -d --name systemone-postgresql \
  --net=cora \
  --restart unless-stopped  \
- --net-alias=systemone-docker-postgresql \
+ --net-alias=systemone-postgresql \
  -e POSTGRES_DB=systemone \
  -e POSTGRES_USER=systemone \
  -e POSTGRES_PASSWORD=systemone \
@@ -60,7 +60,7 @@ echo "Starting apptokenverifier"
 docker run -d  --name apptokenverifier \
  --net=cora \
  --restart unless-stopped \
- -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-docker-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  -p 8211:8009 \
  --link gatekeeper:gatekeeper \
  cora-docker-apptokenverifier:1.0-SNAPSHOT

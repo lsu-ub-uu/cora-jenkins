@@ -11,13 +11,13 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Starting postgresql as database"
-docker run -d --name systemone-docker-postgresql-test \
+docker run -d --name alvin-postgresql-test \
  --net=alvin-test \
- --net-alias=alvin-docker-postgresql \
+ --net-alias=alvin-postgresql \
  -e POSTGRES_DB=alvin \
  -e POSTGRES_USER=alvin \
  -e POSTGRES_PASSWORD=alvin \
- systemone-docker-postgresql:1.0-SNAPSHOT
+ alvin-docker-postgresql:1.0-SNAPSHOT
 
 echo ""
 echo "Starting fedora for archive"
@@ -39,7 +39,7 @@ echo ""
 echo "Starting apptokenverifier"
 docker run --net=alvin-cora-test  --name alvin-apptokenverifier-test \
  --link alvin-gatekeeper-test:gatekeeper \
- -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://alvin-docker-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
+ -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
  -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
 
 echo ""
