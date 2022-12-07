@@ -29,8 +29,8 @@ docker run -d --name alvin-fedora-test \
 echo ""
 echo "Starting alvin"
 docker run -d --name alvin-test \
- --net=alvin-cora-test \ 
- --net-alias=alvin-test \
+ --net=alvin-cora-test \
+ --net-alias=alvin \
  -v /mnt/data/basicstorage \
  alvin-docker-cora:1.0-SNAPSHOT
 
@@ -51,7 +51,7 @@ docker run -d --net=alvin-cora-test --name alvin-idplogin-test \
 echo ""
 echo "Starting apptokenverifier"
 docker run -d --name alvin-apptokenverifier-test \
- --net=alvin-cora-test \ 
+ --net=alvin-cora-test \
  --net-alias=apptokenverifier \
  -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
@@ -60,7 +60,7 @@ echo ""
 echo "Starting solr"
 docker run -d --name alvin-solr-test \
  --net=alvin-cora-test \
-  --net-alias=solr \
+ --net-alias=solr \
  cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 
 echo ""
