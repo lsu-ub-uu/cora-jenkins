@@ -44,7 +44,7 @@ docker run -d --name alvin-gatekeeper \
  
 echo ""
 echo "starting idplogin"
-docker run -d --name alvin-idplogin
+docker run -d --name alvin-idplogin \
  --net-alias=idplogin \
  --net=alvin-cora \
  -p 8412:8009 \
@@ -54,7 +54,7 @@ docker run -d --name alvin-idplogin
  
 echo ""
 echo "Starting apptokenverifier"
-docker run -d --name alvin-apptokenverifier
+docker run -d --name alvin-apptokenverifier \
  --net-alias=apptokenverifier \
  --net=alvin-cora \
  -p 8411:8009 \
@@ -64,10 +64,10 @@ docker run -d --name alvin-apptokenverifier
  
 echo ""
 echo "Starting solr"
-docker run -d --name alvin-solr
+docker run -d --name alvin-solr \
  --net-alias=solr \
  --net=alvin-cora \
- --restart always \ 
+ --restart always \
  cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 
 echo ""
