@@ -1,9 +1,9 @@
 echo "Stoping dockers"
-docker stop alvin-fitnesse-test alvin-docker-fedora-test alvin-therest-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-cora-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
+docker stop alvin-fitnesse-test alvin-docker-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Remove dockers"
-docker rm alvin-fitnesse-test alvin-docker-fedora-test alvin-therest-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-cora-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
+docker rm alvin-fitnesse-test alvin-docker-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Remove volumes"
