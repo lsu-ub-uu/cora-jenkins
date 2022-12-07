@@ -29,11 +29,9 @@ docker run -d --net=cora-test -v /mnt/data/basicstorage --name systemone-test \
  --link gatekeeper-test:gatekeeper --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
 
-
 echo ""
 echo "Starting gatekeeper"
 docker run -d --net=cora-test --name gatekeeper-test \
- --volumes-from systemone-test \
  systemone-docker-gatekeeper:1.0-SNAPSHOT
 
 echo ""
@@ -47,7 +45,6 @@ docker run -d --net=cora-test --name idplogin-test \
 echo ""
 echo "Starting apptokenverifier"
 docker run -d --net=cora-test --name apptokenverifier-test \
- --volumes-from systemone-test \
  --link gatekeeper-test:gatekeeper \
  -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://systemone-docker-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT

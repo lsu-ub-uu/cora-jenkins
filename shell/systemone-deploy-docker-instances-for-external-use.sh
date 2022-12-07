@@ -43,7 +43,6 @@ echo "Starting gatekeeper"
 docker run -d --name gatekeeper \
  --net=cora \
  --restart unless-stopped  \
- --volumes-from systemone \
  systemone-docker-gatekeeper:1.0-SNAPSHOT
  
 echo ""
@@ -62,7 +61,6 @@ docker run -d  --name apptokenverifier \
  --net=cora \
  --restart unless-stopped \
  -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-docker-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
- --volumes-from systemone \
  -p 8211:8009 \
  --link gatekeeper:gatekeeper \
  cora-docker-apptokenverifier:1.0-SNAPSHOT

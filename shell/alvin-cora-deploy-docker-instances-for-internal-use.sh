@@ -25,19 +25,19 @@ docker run --net=alvin-test  --name alvin-docker-fedora-test --network-alias=alv
 
 echo ""
 echo "Starting alvin"
-docker run --net=alvin-cora-test -v /mnt/data/basicstorage --name alvin-therest-test --link alvin-gatekeeper-test:gatekeeper --link alvin-solr-test:solr --link alvin-cora-fedora-test:alvin-cora-fedora -d  alvin-docker-cora:1.0-SNAPSHOT
-
+docker run --net=alvin-cora-test -v /mnt/data/basicstorage --name alvin-test --link alvin-gatekeeper-test:gatekeeper --link alvin-solr-test:solr --link alvin-cora-fedora-test:alvin-cora-fedora -d  alvin-docker-cora:1.0-SNAPSHOT
 
 echo ""
 echo "Starting gatekeeper"
-docker run --net=alvin-cora-test --volumes-from alvin-therest-test --name alvin-gatekeeper-test --link alvin-cora-docker-postgresql-test:alvin-cora-docker-postgresql -d  alvin-docker-gatekeeper:1.0-SNAPSHOT
+docker run --net=alvin-cora-test --name alvin-gatekeeper-test --link alvin-cora-docker-postgresql-test:alvin-cora-docker-postgresql \
+-d  alvin-docker-gatekeeper:1.0-SNAPSHOT
 echo ""
 echo "starting idplogin"
 docker run --net=alvin-cora-test --name alvin-idplogin-test --link alvin-gatekeeper-test:gatekeeper -e "JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" -d  cora-docker-idplogin:1.0-SNAPSHOT
 
 echo ""
 echo "Starting apptokenverifier"
-docker run --net=alvin-cora-test --volumes-from alvin-therest-test --name alvin-apptokenverifier-test \
+docker run --net=alvin-cora-test  --name alvin-apptokenverifier-test \
  --link alvin-gatekeeper-test:gatekeeper \
  -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://alvin-docker-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
  -d  cora-docker-apptokenverifier:1.0-SNAPSHOT
