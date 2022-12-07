@@ -1,8 +1,8 @@
 echo "Stoping dockers"
-docker stop systemone-fitnesse-test systemone-docker-fedora-test systemone-docker-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker stop systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-fitnesse-test systemone-docker-fedora-test systemone-docker-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
