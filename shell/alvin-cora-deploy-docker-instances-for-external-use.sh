@@ -40,7 +40,7 @@ docker run --net=alvin-cora --restart always --name alvin-cora-fedora --link alv
 
 echo ""
 echo "Starting fitnesse"
-docker run --net=alvin-cora --restart always  --volumes-from alvin-cora -p 8490:8090 --name alvin-fitnesse --link alvin-apptokenverifier:apptokenverifier --link alvin-cora:alvin --link alvin-idplogin:idplogin -e tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/ -d alvin-cora-docker-fitnesse:1.1-SNAPSHOT
+docker run --net=alvin-cora --restart always  --volumes-from alvin-cora -p 8490:8090 --name alvin-fitnesse --link alvin-apptokenverifier:apptokenverifier --link alvin:alvin --link alvin-idplogin:idplogin -e tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/ -d alvin-cora-docker-fitnesse:1.1-SNAPSHOT
 
 echo ""
 echo "All dockers started"
