@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill alvin-fitnesse alvin-docker-fedora alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper alvin-postgresql && echo nothingToSeeMoveOnToNextCommand
+docker kill alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm alvin-fitnesse alvin-docker-fedora alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper alvin-postgresql && echo nothingToSeeMoveOnToNextCommand
+docker rm alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -22,7 +22,7 @@ echo ""
 echo "Starting fedora for archive"
 docker run -d --name alvin-fedora \
  --net=alvin-cora \
- --restart always \
+ --restart unless-stoped \
  cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
@@ -30,7 +30,7 @@ echo "Starting alvin"
 docker run -d --name alvin \
  --net=alvin-cora \
  -p 8410:8009 \
- --restart always \
+ --restart unless-stoped \
  -v /mnt/data/basicstorage  \
  alvin-docker-cora:1.0-SNAPSHOT
 
@@ -39,7 +39,7 @@ echo "Starting gatekeeper"
 docker run -d --name alvin-gatekeeper \
  --net-alias=gatekeeper \
  --net=alvin-cora \
- --restart always \
+ --restart unless-stoped \
  alvin-docker-gatekeeper:1.0-SNAPSHOT
  
 echo ""
@@ -48,7 +48,7 @@ docker run -d --name alvin-idplogin \
  --net-alias=idplogin \
  --net=alvin-cora \
  -p 8412:8009 \
- --restart always \
+ --restart unless-stoped \
  -e "JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/" \
  cora-docker-idplogin:1.0-SNAPSHOT
  
@@ -58,7 +58,7 @@ docker run -d --name alvin-apptokenverifier \
  --net-alias=apptokenverifier \
  --net=alvin-cora \
  -p 8411:8009 \
- --restart always \
+ --restart unless-stoped \
  -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
  
@@ -67,14 +67,14 @@ echo "Starting solr"
 docker run -d --name alvin-solr \
  --net-alias=solr \
  --net=alvin-cora \
- --restart always \
+ --restart unless-stoped \
  cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 
 echo ""
 echo "Starting fitnesse"
 docker run -d --name alvin-fitnesse \
  --net=alvin-cora \
- --restart always \
+ --restart unless-stoped \
  -p 8490:8090 \
  -e tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/ \
  alvin-cora-docker-fitnesse:1.1-SNAPSHOT
