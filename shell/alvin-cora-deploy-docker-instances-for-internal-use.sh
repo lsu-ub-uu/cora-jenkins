@@ -1,9 +1,9 @@
 echo "Stoping dockers"
-docker stop alvin-fitnesse-test alvin-docker-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
+docker stop alvin-fitnesse-test alvin-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Remove dockers"
-docker rm alvin-fitnesse-test alvin-docker-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
+docker rm alvin-fitnesse-test alvin-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Remove volumes"
@@ -21,9 +21,9 @@ docker run -d --name alvin-postgresql-test \
 
 echo ""
 echo "Starting fedora for archive"
-docker run -d --name alvin-docker-fedora-test \
+docker run -d --name alvin-fedora-test \
  --net=alvin-cora-test \
- --network-alias=alvin-docker-fedora \
+ --network-alias=alvin-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
