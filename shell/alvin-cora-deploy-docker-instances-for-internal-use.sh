@@ -12,7 +12,7 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Starting postgresql as database"
 docker run -d --name alvin-postgresql-test \
- --net=alvin-test \
+ --net=alvin-cora-test \
  --net-alias=alvin-postgresql \
  -e POSTGRES_DB=alvin \
  -e POSTGRES_USER=alvin \
@@ -21,7 +21,7 @@ docker run -d --name alvin-postgresql-test \
 
 echo ""
 echo "Starting fedora for archive"
-docker run --net=alvin-test  --name alvin-docker-fedora-test --network-alias=alvin-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+docker run --net=alvin-cora-test  --name alvin-docker-fedora-test --network-alias=alvin-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
 echo "Starting alvin"
