@@ -12,7 +12,7 @@ echo "Starting alvin"
 docker run --net=alvin-cora --restart always  -v /mnt/data/basicstorage -p 8410:8009 --name alvin-cora --link alvin-gatekeeper:gatekeeper --link alvin-solr:solr --link alvin-cora-fedora:alvin-cora-fedora --link alvin-cora-docker-postgresql:alvin-cora-docker-postgresql -d  alvin-docker-cora:1.0-SNAPSHOT
 echo ""
 echo "Starting fedora for archive"
-docker run --net=alvin-test  --restart always --name alvin-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
+docker run --net=alvin-cora  --restart always --name alvin-docker-fedora -d cora-docker-fedora:1.0-SNAPSHOT
 echo ""
 echo "Starting gatekeeper"
 docker run --net=alvin-cora --restart always --volumes-from alvin-cora --name alvin-gatekeeper --link alvin-cora-docker-postgresql:alvin-cora-docker-postgresql -d  alvin-docker-gatekeeper:1.0-SNAPSHOT
