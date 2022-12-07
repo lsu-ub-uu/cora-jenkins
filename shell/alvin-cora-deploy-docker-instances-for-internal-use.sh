@@ -1,5 +1,4 @@
 echo "Stoping dockers"
-docker kill *-test
 docker stop alvin-fitnesse-test alvin-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
@@ -31,7 +30,7 @@ echo ""
 echo "Starting alvin"
 docker run -d --name alvin-test \
  --net=alvin-cora-test \ 
- --net-alias=alvin \
+ --net-alias=alvin-test \
  -v /mnt/data/basicstorage \
  alvin-docker-cora:1.0-SNAPSHOT
 
