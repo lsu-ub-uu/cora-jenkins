@@ -1,4 +1,5 @@
 echo "Stoping dockers"
+docker kill *-test
 docker stop alvin-fitnesse-test alvin-fedora-test alvin-test alvin-solr-test alvin-apptokenverifier-test alvin-idplogin-test alvin-gatekeeper-test  alvin-postgresql-test alvin-cora-fedora-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
