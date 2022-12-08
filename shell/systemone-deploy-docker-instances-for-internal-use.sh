@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-fitnesse-test systemone-docker-fedora-test systemone-postgresql-test systemone-docker-fedora-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -18,9 +18,9 @@ docker run -d --net=cora-test --name systemone-postgresql-test \
 
 echo ""
 echo "Starting fedora as archive"
-docker run -d --net=cora-test --name systemone-docker-fedora-test \
+docker run -d --net=cora-test --name systemone-fedora-test \
  --mount source=systemOneArchiveTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
- --network-alias=systemone-docker-fedora \
+ --network-alias=systemone-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
  
 echo ""
