@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-fitnesse systemone-postgresql systemone-docker-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-fitnesse systemone-postgresql systemone-docker-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -20,11 +20,10 @@ docker run -d --name systemone-postgresql \
 
 echo ""
 echo "Starting fedora for archive"
-docker run -d --name systemone-docker-fedora \
+docker run -d --name systemone-fedora \
  --net=cora \
  --restart unless-stopped \
  --mount source=systemOneArchive,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
- --network-alias=systemone-docker-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
