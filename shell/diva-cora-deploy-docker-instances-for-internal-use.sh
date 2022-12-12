@@ -97,7 +97,7 @@ echo ""
 echo "Starting fitnesse"
 docker run -d --name diva-fitnesse-test \
  --net=diva-cora-test \
- -p 8390:8090  \
+ -p 8590:8090  \
  -e tokenLogoutURL=https://apptokenverifier/rest/ \
  diva-cora-docker-fitnesse:1.1-SNAPSHOT
 
