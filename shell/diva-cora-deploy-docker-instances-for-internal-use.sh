@@ -26,132 +26,81 @@ echo ""
 echo "removing volumes"
 docker volume rm -f $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
-echo ""
-echo "starting dockers"
+
+echo "Kill dockers"
+docker kill diva-fitnesse-test diva-fedora-test diva-test diva-solr-test diva-apptokenverifier-test diva-idplogin-test diva-gatekeeper-test  diva-postgresql-test && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
-echo "starting diva"
-docker run --net=diva-cora-test -v /mnt/data/basicstorage --name diva-cora-test \
---network-alias=diva-cora \
---link diva-gatekeeper-test:gatekeeper \
---link diva-solr-test:solr \
---link diva-cora-fedora-test:diva-cora-fedora \
---link diva-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
---link diva-cora-postgresql-test:diva-cora-docker-postgresql \
--d diva-docker-cora:1.0-SNAPSHOT
+echo "Remove dockers"
+docker rm diva-fitnesse-test diva-fedora-test diva-test diva-solr-test diva-apptokenverifier-test diva-idplogin-test diva-gatekeeper-test  diva-postgresql-test && echo nothingToSeeMoveOnToNextCommand
+
+echo ""
+echo "Remove volumes"
+docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+
+echo ""
+echo "Starting postgresql as database"
+docker run -d --name diva-postgresql-test \
+ --net-alias=diva-postgresql \
+ --net=diva-cora-test \
+ -e POSTGRES_DB=diva \
+ -e POSTGRES_USER=diva \
+ -e POSTGRES_PASSWORD=diva \
+ diva-docker-postgresql:1.0-SNAPSHOT
 
 echo ""
 echo "Starting fedora for archive"
-docker run --net=diva-cora-test  --name diva-docker-fedora-test \
---network-alias=diva-archive -d cora-docker-fedora:1.0-SNAPSHOT
+docker run -d --name diva-fedora-test \
+ --net-alias=diva-fedora \
+ --net=diva-cora-test \
+ cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
-echo "starting solr"
-docker run --net=diva-cora-test --name diva-solr-test \
--d cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
+echo "Starting diva"
+docker run -d --name diva-test \
+ --net-alias=diva \
+ --net=diva-cora-test \
+ -v /mnt/data/basicstorage \
+ diva-docker-cora:1.0-SNAPSHOT
 
 echo ""
-echo "starting gatekeeper"
-docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-gatekeeper-test \
---link diva-mock-classic-postgresql-test:diva-docker-mock-classic-postgresql \
--d diva-docker-gatekeeper:1.0-SNAPSHOT
-
-echo ""
-echo "starting apptokenverifier"
-docker run --net=diva-cora-test --volumes-from diva-cora-test --name diva-apptokenverifier-test \
---network-alias=diva-apptokenverifier \
---link diva-gatekeeper-test:gatekeeper \
--d cora-docker-apptokenverifier:1.0-SNAPSHOT
-
+echo "Starting gatekeeper"
+docker run -d --name diva-gatekeeper-test \
+ --net-alias=gatekeeper \
+ --net=diva-cora-test \
+ diva-docker-gatekeeper:1.0-SNAPSHOT
+ 
 echo ""
 echo "starting idplogin"
-docker run --net=diva-cora-test --name diva-idplogin-test \
---link diva-gatekeeper-test:gatekeeper \
--e "JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" \
--d cora-docker-idplogin:1.0-SNAPSHOT
+docker run -d --name diva-idplogin-test \
+ --net-alias=idplogin \
+ --net=diva-cora-test \
+ -e "JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" \
+ cora-docker-idplogin:1.0-SNAPSHOT
 
 echo ""
-echo "starting synchronizer"
-docker run --net=diva-cora-test --name diva-synchronizer-test \
--e "JAVA_OPTS=-DapptokenVerifierURL=http://diva-apptokenverifier-test:8080/apptokenverifier/ -DbaseURL=http://diva-cora-test:8080/diva/rest/ -DuserId=${USER_ID} -DappToken=${AUTH_TOKEN}" \
--d cora-docker-synchronizer:1.0-SNAPSHOT
+echo "Starting apptokenverifier"
+docker run -d --name diva-apptokenverifier-test \
+ --net-alias=apptokenverifier \
+ --net=diva-cora-test \
+ -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" \
+ cora-docker-apptokenverifier:1.0-SNAPSHOT
 
 echo ""
-echo "starting fitnesse HttpListener"
-docker run --net=diva-cora-test --name diva-fitnesse-httplistener-test \
---network-alias=diva-fitnesse-httplistener \
--d diva-cora-docker-fitnesse:1.1-SNAPSHOT \
-java -classpath /fitnesse/divacorafitnesse.jar \
-se.uu.ub.cora.fitnesseintegration.httplistener.HttpListener 11111
+echo "Starting solr"
+docker run -d --name diva-solr-test \
+ --net-alias=solr \
+ --net=diva-cora-test \
+ cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 
 echo ""
-echo "starting fitnesse"
-docker run --net=diva-cora-test -p 8590:8090 --name diva-fitnesse-test \
---link diva-cora-test:diva \
---link diva-apptokenverifier-test:apptokenverifier \
---link diva-idplogin-test:idplogin \
---link diva-synchronizer-test:synchronizer \
--e tokenLogoutURL=https://apptokenverifier/rest/ \
--d diva-cora-docker-fitnesse:1.1-SNAPSHOT
+echo "Starting fitnesse"
+docker run -d --name diva-fitnesse-test \
+ --net=diva-cora-test \
+ -p 8390:8090  \
+ -e tokenLogoutURL=https://apptokenverifier/rest/ \
+ diva-cora-docker-fitnesse:1.1-SNAPSHOT
 
-echo ""
-echo "starting fedora db"
-docker run --net=diva-cora-test --restart always --name diva-cora-fcrepo-postgresql-test \
--e POSTGRES_DB=fedora32 -e POSTGRES_USER=fedoraAdmin -e POSTGRES_PASSWORD=fedora \
--d diva-cora-docker-fcrepo-postgresql:1.1-SNAPSHOT
-
-echo ""
-echo "wait for fedora db to start"
-sleep 20
-
-echo ""
-echo "starting fedora"
-docker run --net=diva-cora-test --restart always --name diva-cora-fedora-test \
---network-alias=diva-docker-fedora \
---link diva-cora-fcrepo-postgresql-test:postgres-fcrepo \
--d diva-cora-docker-fedora-3.2.1:1.1-SNAPSHOT
-
-echo ""
-echo "wait for fedora to start, before index connects"
+echo "wait for everything to start"
 sleep 10
-
-echo ""
-echo "starting db with diva mock data"
-docker run --net=diva-cora-test --restart always --name diva-mock-classic-postgresql-test \
--e POSTGRES_DB=diva \
--e POSTGRES_USER=diva \
--e POSTGRES_PASSWORD=diva \
--d diva-docker-mock-classic-postgresql:1.0-SNAPSHOT
-
-echo ""
-echo "starting db with diva data"
-docker run --net=diva-cora-test --restart always --name diva-cora-postgresql-test \
---network-alias=diva-cora-postgresql \
--e POSTGRES_DB=diva \
--e POSTGRES_USER=diva \
--e POSTGRES_PASSWORD=diva \
--d diva-cora-docker-postgresql:10.0-SNAPSHOT
-
-echo "starting diva classic fedora synchronizer"
-docker run --net=diva-cora-test --restart always --name diva-classic-fedora-synchronizer-test \
--e messaginghostname="diva-docker-fedora" \
--e messagingport="61616" \
--e messagingroutingKey="fedora.apim.update" \
--e messagingusername="fedoraAdmin" \
--e messagingpassword="fedora" \
--e databaseurl="jdbc:postgresql://diva-cora-postgresql:5432/diva" \
--e databaseuser="diva" \
--e databasepassword="diva" \
--e fedorabaseUrl="http://diva-docker-fedora:8088/fedora/" \
--e coraapptokenVerifierUrl="http://diva-apptokenverifier:8080/apptokenverifier/" \
--e corabaseUrl="http://diva-cora:8080/diva/rest/" \
--e corauserId="coraUser:490742519075086" \
--e coraapptoken="2e57eb36-55b9-4820-8c44-8271baab4e8e" \
--d diva-docker-classicfedorasynchronizer:1.0-SNAPSHOT
-
-echo ""
-echo "#wait for everything to start"
-sleep 40
-echo ""
-echo "dockers up and running"
-echo ""
+echo "All dockers started"
