@@ -1,32 +1,3 @@
-echo ""
-echo "stoping dockers"
-docker stop diva-cora-postgresql-test diva-mock-classic-postgresql-test \
-diva-fitnesse-httplistener-test \
-diva-fitnesse-test diva-cora-test diva-solr-test \
-diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
-diva-cora-fcrepo-postgresql-test \
-diva-cora-fedora-test diva-synchronizer-test \
-diva-classic-fedora-synchronizer-test \
-diva-docker-fedora-test \
-&& echo nothingToSeeMoveOnToNextCommand
-
-echo ""
-echo "removing dockers"
-docker rm -f diva-cora-postgresql-test diva-mock-classic-postgresql-test \
-diva-fitnesse-httplistener-test \
-diva-fitnesse-test diva-cora-test diva-solr-test \
-diva-apptokenverifier-test diva-gatekeeper-test diva-idplogin-test \
-diva-cora-fcrepo-postgresql-test \
-diva-cora-fedora-test diva-synchronizer-test \
-diva-classic-fedora-synchronizer-test \
-diva-docker-fedora-test \
-&& echo nothingToSeeMoveOnToNextCommand
-
-echo ""
-echo "removing volumes"
-docker volume rm -f $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
-
-
 echo "Kill dockers"
 docker kill diva-fitnesse-test diva-fedora-test diva-test diva-solr-test diva-apptokenverifier-test diva-idplogin-test diva-gatekeeper-test  diva-postgresql-test && echo nothingToSeeMoveOnToNextCommand
 
