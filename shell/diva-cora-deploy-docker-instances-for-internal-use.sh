@@ -102,5 +102,5 @@ docker run -d --name diva-fitnesse-test \
  diva-cora-docker-fitnesse:1.1-SNAPSHOT
 
 echo "wait for everything to start"
-sleep 10
+sleep 20
 echo "All dockers started"
