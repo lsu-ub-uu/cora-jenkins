@@ -12,7 +12,7 @@ pipeline {
             defaultValue: 'master', 
             description: 'Name of the branch to build')
         string( name: 'UB_DOCKER_PROPERTIES_LIST', 
-            defaultValue: 'systemone.version,cora-apptokenverifier-war.version,systemonegatekeeperwar.version,diva.version,classicfedorasynchronizer.version,divacorafitnesse.version,divagatekeeperwar.version,alvin.version,alvingatekeeperwar.version,idplogin.version,synchronizer.version,alvincorafitnesse.version,alvingatekeeperwar.version,corafitnesse.version', 
+            defaultValue: 'cora-metadata.version, diva-metadata.version, systemone-metadata.version, alvin-metadata.version, systemone.version,cora-apptokenverifier-war.version,systemonegatekeeperwar.version,diva.version,classicfedorasynchronizer.version,divacorafitnesse.version,divagatekeeperwar.version,alvin.version,alvingatekeeperwar.version,idplogin.version,synchronizer.version,alvincorafitnesse.version,alvingatekeeperwar.version,corafitnesse.version', 
             description: 'Name of the branch to build')
     }
     tools {
@@ -28,7 +28,12 @@ pipeline {
                 }
             }
         }
-        stage("step up dependencies for dockers"){
+        stage("update dependencies"){
+            steps {
+           	sh 'mvn -f $UB_PROJECT_NAME versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml"'
+            }
+        }
+        stage("step up dependencies for dockers, latest SNAPSHOT"){
             steps {
             sh 'mvn -f $UB_PROJECT_NAME versions:update-properties -DgenerateBackupPoms=false -DallowSnapshots=true -DincludeProperties=$UB_DOCKER_PROPERTIES_LIST'
             }
