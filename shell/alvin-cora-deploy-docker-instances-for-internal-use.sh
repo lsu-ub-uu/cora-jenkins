@@ -73,5 +73,5 @@ docker run -d --name alvin-fitnesse-test \
  alvin-cora-docker-fitnesse:1.1-SNAPSHOT
 
 echo "wait for everything to start"
-sleep 10
+sleep 20
 echo "All dockers started"
