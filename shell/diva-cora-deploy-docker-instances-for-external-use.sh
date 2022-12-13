@@ -1,34 +1,3 @@
-
-echo ""
-echo "stoping dockers"
-docker stop diva-mock-classic-postgresql diva-cora-postgresql \
-diva-fitnesse-httplistener \
-diva-fitnesse diva-cora diva-cora-fedora \
-diva-cora-fcrepo-postgresql \
-diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
-diva-classic-fedora-synchronizer \
-diva-docker-fedora \
-&& echo nothingToSeeMoveOnToNextCommand
-
-echo ""
-echo "removing dockers"
-docker rm -f diva-mock-classic-postgresql diva-cora-postgresql \
-diva-fitnesse-httplistener \
-diva-fitnesse diva-cora diva-cora-fedora \
-diva-cora-fcrepo-postgresql \
-diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper diva-synchronizer \
-diva-classic-fedora-synchronizer \
-diva-docker-fedora \
-&& echo nothingToSeeMoveOnToNextCommand
-
-echo ""
-echo "removing volumes"
-docker volume rm -f $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
-
-
-
-
-
 echo "Kill dockers"
 docker kill diva-fitnesse diva diva-fedora diva-postgresql diva-solr diva-idplogin diva-apptokenverifier diva-gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
