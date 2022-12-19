@@ -1,0 +1,73 @@
+pipeline {
+   	agent any
+   	environment {
+        CHECKED_IN = "";
+    }
+
+    parameters {
+        string( name: 'UB_PROJECT_NAME', 
+            defaultValue: 'cora-testrelease', 
+            description: 'Name of the project to release')
+    }
+    tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven 3.6.x'
+    }
+    stages {
+        stage("Release project"){
+            steps {
+                echo "Start releae of ${UB_PROJECT_NAME}"
+                
+                build job: 'cora-pipeline-release-updated-dependencies', parameters: [
+                    [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
+                    [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "master" ],
+                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "1" ]
+                ]
+            }
+        }
+        stage("Upgrade dependencies for all projects in cora"){
+            steps {
+                echo "Update and release, if necessary, all Cora projects"
+                build job: 'update-release-all-projects-batch'
+            }
+        }
+        stage("Update dockers"){
+            steps {
+                echo "Update and build all dockers"
+                build job: 'update-release-all-dockers-batch'
+            }
+        }
+        
+        // OBS. cora-test-deploy-preview jenkins jobb does not exists yet.
+        stage("Run tests and deploy to preview"){
+            parallel {
+                stage("Alvin test and deploy") {
+                    steps {
+                        build job: 'cora-test-deploy-preview', parameters: [
+                    		[$class: 'StringParameterValue', name: 'PLATFORM_NAME', value: "alvin" ]
+                    	]
+                    }
+                }
+                stage("Diva test and deploy") {
+                    steps {
+                        build job: 'cora-test-deploy-preview', parameters: [
+                    		[$class: 'StringParameterValue', name: 'PLATFORM_NAME', value: "diva" ]
+                    	]
+                    }
+                }
+                stage("Systemone deploy to build") {
+                    steps {
+                        build job: 'cora-test-deploy-preview', parameters: [
+                    		[$class: 'StringParameterValue', name: 'PLATFORM_NAME', value: "systemone" ]
+                    	]
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

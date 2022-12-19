@@ -51,8 +51,9 @@ pipeline {
                 expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
             steps {
-            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
-            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora sonar:sonar'
+            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy sonar:sonar'
+//            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
+//            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora sonar:sonar'
             }
         }
         stage("push update to git"){
@@ -99,7 +100,6 @@ pipeline {
                 echo "No dependencies to update, no release created"
             }
         }
-        
     }
     post {
         always {
