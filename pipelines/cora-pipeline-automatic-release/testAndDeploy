@@ -1,0 +1,36 @@
+pipeline {
+   	agent any
+    parameters {
+        string( name: 'PLATFORM_NAME', 
+            defaultValue: 'cora-testrelease', 
+            description: 'Name of the platform to test. Choose beteween [alvin, diva, systemone]')
+    }
+    
+// IMPORTANT be aware of the jobs names. Systemone does not have cora in any of the names and 
+// it should be addressed somehow
+    stages {
+        stage("Deploy to build") {
+            echo "Deploy ${PLATFORM_NAME}"
+            steps {
+                build job: "${PLATFORM_NAME}-cora-deploy-docker-instances-for-internal-use"
+            }
+        }
+        stage("Run tests") {
+        	echo "Test ${PLATFORM_NAME}"
+            steps {
+                build job: "${PLATFORM_NAME}-cora-fitnesse-test"
+            }
+        }
+        stage("Deploy to preview") {
+        	echo "Deploy ${PLATFORM_NAME} to preview"
+            steps {
+                build job: "${PLATFORM_NAME}-cora-deploy-docker-instances-for-external-use"
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
