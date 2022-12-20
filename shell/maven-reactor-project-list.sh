@@ -1,12 +1,13 @@
 #! /usr/bin/env bash
-userChoosenGroup=$1;
+projectName=$1
+userChoosenGroup=$2;
 
 start(){
 	importProjectListing;
 	PROJECTS_TO_RUN="${!userChoosenGroup}";
 	checkChoosenProjectsExists;
 	createTempPomFile;
-	cleanInstallAllUsingTempPomFile;	
+	generateProjectListFromReactor;	
 }
 
 importProjectListing(){
@@ -33,7 +34,6 @@ copyTempPomFileToWorkspace(){
 
 addAllProjectsToTempPomFile(){
 	for PROJECT in $PROJECTS_TO_RUN; do
-		echo "adding project $PROJECT"
 		echo "<module>$PROJECT</module>" >>  ~/workspace/tempPom.xml
 	done
 }
@@ -43,11 +43,26 @@ writeEndToTempPomFile(){
 		echo "</project>" >>  ~/workspace/tempPom.xml
 }
 
-cleanInstallAllUsingTempPomFile(){
-	mvn -q -f ~/workspace/tempPom.xml -Dexec.executable="echo" -Dexec.args='${project.scm.url}'  org.codehaus.mojo:exec-maven-plugin:3.1.0:exec
-	mvn -q -f ~/workspace/tempPom.xml -Dexec.executable="echo" -Dexec.args='${project.scm.connection}'  org.codehaus.mojo:exec-maven-plugin:3.1.0:exec
-	mvn -q -f ~/workspace/tempPom.xml -Dexec.executable="pwd" org.codehaus.mojo:exec-maven-plugin:3.1.0:exec
-}	
+generateProjectListFromReactor(){
+	allProjectsSortedByMvnReactor=mvn -q -f ~/workspace/tempPom.xml -Dexec.executable="echo" -Dexec.args='${project.scm.url}'  org.codehaus.mojo:exec-maven-plugin:3.1.0:exec | sed -rn 's/(.*)\/([a-z,-]+).git/\2/p' | sed -e 'H;${x;s/\n/||/g;s/^,//;p;};d'
+}
 
-# ################# calls start here #######################################
+filterOutUnderDependentProjectdFromProjectList(){
+	foundProject = 'false'
+	IFS='||' read -ra arrayAllProjectsSortedByMvnReactor <<< "$allProjectsSortedByMvnReactor"
+	
+	for i in "${arrayAllProjectsSortedByMvnReactor[@]}"; do
+		if [foundProject=='false'] then
+			if [projectName == $arrayAllProjectsSortedByMvnReactor[i]] then
+				foundProject  = 'true'
+			fi
+			currentProjectName = $arrayAllProjectsSortedByMvnReactor[i]
+			arrayAllProjectsSortedByMvnReactor = ${arrayAllProjectsSortedByMvnReactor[@]/currentProjectName}
+		fi
+	done
+	
+	for 
+	dependentProjectsToBeReleased
+}
+
 start;

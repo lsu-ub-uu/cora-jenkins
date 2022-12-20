@@ -9,10 +9,6 @@ pipeline {
             defaultValue: 'cora-testrelease', 
             description: 'Name of the project to release')
     }
-    tools {
-        jdk 'Cora OpenJDK'
-        maven 'Maven 3.6.x'
-    }
     stages {
         stage("Release project"){
             steps {
