@@ -5,7 +5,7 @@ pipeline {
         PROJECT_LISTNING_GROUP = "ALL_JAVA";
         PROJECT_LISTNING_LOCATION_PATH = "$JENKINS_HOME/workspace/cora-jenkins/shell/projectListing.sh";
 //        PROJECT_LISTNING_TEMP_POM_LOCATION_PATH = "$JENKINS_HOME/workspace/automatic-release/tmp/tempPom.xml";
-        PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH = "$JENKINS_HOME/workspace/cora-jenkins/development/modulePomTemplate.xml";
+        PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH = "$JENKINS_HOME/workspace/cora-jenkins/template/modulePomTemplate.xml";
     }
 
     parameters {
