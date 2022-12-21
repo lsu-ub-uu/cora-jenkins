@@ -30,7 +30,7 @@ pipeline {
 	        	stage("Prepare project list for next stage"){
 		            steps {
 		                script {
-		                    PROJECT_LIST = sh (script: "$JENKINS_HOME/cora-jenkins/shell/maven-reactor-project-list.sh $UB_PROJECT_NAME $PROJECT_LISTNING_GROUP $PROJECT_LISTNING_LOCATION_PATH $PROJECT_LISTNING_TEMP_POM_LOCATION_PATH $PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH", returnStatus: true, returnStdout: true)
+		                    PROJECT_LIST = sh (script: "$JENKINS_HOME/workspace/cora-jenkins/shell/maven-reactor-project-list.sh $UB_PROJECT_NAME $PROJECT_LISTNING_GROUP $PROJECT_LISTNING_LOCATION_PATH $PROJECT_LISTNING_TEMP_POM_LOCATION_PATH $PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH", returnStatus: true, returnStdout: true)
 		                }
 		            }
 	        	}
