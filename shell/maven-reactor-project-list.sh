@@ -1,6 +1,13 @@
 #! /usr/bin/env bash
 projectName=$1
 userChoosenGroup=$2;
+projectListningPath=$3
+#~/workspace/cora-eclipse/development/projectListing.sh
+#tempPomPath is the path where the temporary tempPom will be created
+tempPomPath=$4
+#~/workspace/tempPom.xml
+moduleTempPomPath=$5
+#~/workspace/cora-eclipse/development/modulePomTemplate.xml
 
 start(){
 	importProjectListing;
@@ -8,10 +15,11 @@ start(){
 	checkChoosenProjectsExists;
 	createTempPomFile;
 	generateProjectListFromReactor;	
+	filterOutUnderDependentProjectdFromProjectList;
 }
 
 importProjectListing(){
-	.  ~/workspace/cora-eclipse/development/projectListing.sh
+	.  ${projectListningPath}
 }
 
 checkChoosenProjectsExists(){
@@ -28,41 +36,39 @@ createTempPomFile(){
 }
 
 copyTempPomFileToWorkspace(){
-	touch ~/workspace/tempPom.xml
-	cp ~/workspace/cora-eclipse/development/modulePomTemplate.xml ~/workspace/tempPom.xml
+	touch $tempPomPath
+	cp $moduleTempPomPath $tempPomPath
 }
 
 addAllProjectsToTempPomFile(){
 	for PROJECT in $PROJECTS_TO_RUN; do
-		echo "<module>$PROJECT</module>" >>  ~/workspace/tempPom.xml
+		echo "<module>$PROJECT</module>" >>  $tempPomPath
 	done
 }
 
 writeEndToTempPomFile(){
-		echo "</modules>" >>  ~/workspace/tempPom.xml
-		echo "</project>" >>  ~/workspace/tempPom.xml
+		echo "</modules>" >>  $tempPomPath
+		echo "</project>" >>  $tempPomPath
 }
 
 generateProjectListFromReactor(){
-	allProjectsSortedByMvnReactor=mvn -q -f ~/workspace/tempPom.xml -Dexec.executable="echo" -Dexec.args='${project.scm.url}'  org.codehaus.mojo:exec-maven-plugin:3.1.0:exec | sed -rn 's/(.*)\/([a-z,-]+).git/\2/p' | sed -e 'H;${x;s/\n/||/g;s/^,//;p;};d'
+	delimiter=','
+	allProjectsSortedByMvnReactor=$(mvn -q -f $tempPomPath -Dexec.executable="echo" -Dexec.args='${project.scm.url}'  org.codehaus.mojo:exec-maven-plugin:3.1.0:exec | sed -rn 's/(.*)\/([a-z,-]+).git/\2/p' | sed -e 'H;${x;s/\n/'$delimiter'/g;s/^,//;p;};d')
 }
 
 filterOutUnderDependentProjectdFromProjectList(){
-	foundProject = 'false'
-	IFS='||' read -ra arrayAllProjectsSortedByMvnReactor <<< "$allProjectsSortedByMvnReactor"
+	foundProject="false"
+	IFS=',' read -ra arrayAllProjectsSortedByMvnReactor <<< "$allProjectsSortedByMvnReactor"
 	
-	for i in "${arrayAllProjectsSortedByMvnReactor[@]}"; do
-		if [foundProject=='false'] then
-			if [projectName == $arrayAllProjectsSortedByMvnReactor[i]] then
-				foundProject  = 'true'
+	for currentProjectName in "${arrayAllProjectsSortedByMvnReactor[@]}" ; do
+		if [[ "$foundProject" == "false" ]]; then
+			if [[ "$projectName" == "$currentProjectName" ]]; then
+				foundProject="true"
 			fi
-			currentProjectName = $arrayAllProjectsSortedByMvnReactor[i]
-			arrayAllProjectsSortedByMvnReactor = ${arrayAllProjectsSortedByMvnReactor[@]/currentProjectName}
+			arrayAllProjectsSortedByMvnReactor=${arrayAllProjectsSortedByMvnReactor[@]/$currentProjectName}
 		fi
 	done
-	
-	for 
-	dependentProjectsToBeReleased
+	echo $arrayAllProjectsSortedByMvnReactor
 }
 
 start;
