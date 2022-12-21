@@ -30,6 +30,7 @@ pipeline {
 	        	stage("Prepare project list for next stage"){
 		            steps {
 		            	sh 'pwd'
+		            	sh 'mkdir tmp'
 		                script {
 		                    WORKING_DIR = sh (script: "pwd", returnStatus: false, returnStdout: true)
 		                    PROJECT_LIST = sh (script: "$JENKINS_HOME/workspace/cora-jenkins/shell/maven-reactor-project-list.sh $UB_PROJECT_NAME $PROJECT_LISTNING_GROUP $PROJECT_LISTNING_LOCATION_PATH /home/diva2/.jenkins/workspace/automatic-release/tmp/tempPom.xml $PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH", returnStatus: false, returnStdout: true)
