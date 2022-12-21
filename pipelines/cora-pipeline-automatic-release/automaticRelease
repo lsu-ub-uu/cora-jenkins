@@ -14,24 +14,26 @@ pipeline {
             description: 'Name of the project to release')
     }
     stages {
-    	parallel{
-    	    stage("Release project"){
-	            steps {
-	                echo "Start release of ${UB_PROJECT_NAME}"
-	                
-	                build job: 'cora-pipeline-release-updated-dependencies', parameters: [
-	                    [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
-	                    [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "master" ],
-	                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "1" ]
-	                ]
-	            }
-        	}
-        	stage("Prepare project list for next stage"){
-	            steps {
-	                script {
-	                    PROJECT_LIST = sh (script: "$JENKINS_HOME/cora-jenkins/shell/maven-reactor-project-list.sh $UB_PROJECT_NAME $PROJECT_LISTNING_GROUP $PROJECT_LISTNING_LOCATION_PATH $PROJECT_LISTNING_TEMP_POM_LOCATION_PATH $PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH", returnStatus: true, returnStdout: true)
-	                }
-	            }
+    	stage("Release project and prepaere project list"){
+	    	parallel{
+	    	    stage("Release project"){
+		            steps {
+		                echo "Start release of ${UB_PROJECT_NAME}"
+		                
+		                build job: 'cora-pipeline-release-updated-dependencies', parameters: [
+		                    [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
+		                    [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "master" ],
+		                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "1" ]
+		                ]
+		            }
+	        	}
+	        	stage("Prepare project list for next stage"){
+		            steps {
+		                script {
+		                    PROJECT_LIST = sh (script: "$JENKINS_HOME/cora-jenkins/shell/maven-reactor-project-list.sh $UB_PROJECT_NAME $PROJECT_LISTNING_GROUP $PROJECT_LISTNING_LOCATION_PATH $PROJECT_LISTNING_TEMP_POM_LOCATION_PATH $PROJECT_LISTNING_MODULE_TEMP_POM_LOCATION_PATH", returnStatus: true, returnStdout: true)
+		                }
+		            }
+	        	}
         	}
     	}
         stage("Upgrade dependencies for all projects in cora"){
