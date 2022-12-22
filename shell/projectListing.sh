@@ -108,4 +108,6 @@ SERVER_CONTAINER=$LOGIN_CONTAINER" "$SYSTEMONE_CONTAINER" "$ALVIN_CONTAINER" "$D
 
 OTHER="friday-monitoring cora-utils cora-jenkins cora-indexloader"
 
+TEST="cora-testrelease-a cora-testrelease-b cora-testrelease-c"
+
 ALL=$ECLIPSE" "$ALL_JAVA" "$ALL_JS" "$DEV_CONTAINER" "$SERVER_CONTAINER" "$OTHER
