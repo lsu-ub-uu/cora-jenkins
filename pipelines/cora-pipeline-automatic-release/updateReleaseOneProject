@@ -36,8 +36,8 @@ pipeline {
             	script {
 	            		CURRENT_MAJOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
 		           		LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
-		           		echo "Current "${CURRENT_MAJOR_VERSION}
-		           		echo "Latest "${LATEST_MAJOR_VERSION}
+		           		echo "Current "$CURRENT_MAJOR_VERSION
+		           		echo "Latest "$LATEST_MAJOR_VERSION
 	            		if (CURRENT_MAJOR_VERSION > LATEST_MAJOR_VERSION){
 	            			error('It is a major change')
 	            		}
