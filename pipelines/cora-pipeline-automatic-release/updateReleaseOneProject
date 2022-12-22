@@ -33,10 +33,12 @@ pipeline {
         stage("Check is not a major release"){
             steps {
             	dir ("$UB_PROJECT_NAME") {
-            		CURRENT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
-	           		LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
-            		if (CURRENT_MAJOR_VERSION > LATEST_MAJOR_VERSION){
-            			error('It is a major change')
+            	script {
+	            		CURRENT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
+		           		LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
+	            		if (CURRENT_MAJOR_VERSION > LATEST_MAJOR_VERSION){
+	            			error('It is a major change')
+	            		}
             		}
             	}
             }
