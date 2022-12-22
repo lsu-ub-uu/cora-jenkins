@@ -32,19 +32,16 @@ pipeline {
         }
         stage("Check is not a major release"){
 	        environment {
-	        	LATEST_MAJOR_VERSION = ""
+	        	LATEST_MAJOR_VERSION = "0"
+	        	CURRENT_MAJOR_VERSION = "0"
 	        }
             steps {
             	dir ("$UB_PROJECT_NAME") {
-            	sh "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout"
-            	sh "git tag -l --sort=-refname | head -n 1 | sed -rn 's/(.*)-([0-9]+)[.].*/\1/p'"
-            	LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
-            	sh 'echo "$LATEST_MAJOR_VERSION"'
             	script {
-//	            		CURRENT_MAJOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
-//		           		LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
-		           		echo "Current "$CURRENT_MAJOR_VERSION
-		           		echo "Latest "$LATEST_MAJOR_VERSION
+	            		CURRENT_MAJOR_VERSION = sh(script: "mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
+		           		LATEST_MAJOR_VERSION = sh(script: "git tag -l --sort=-refname | head -n 1 | sed -rn 's/.*-([0-9]+)[.].*/\1/p'", returnStdout: true)
+		           		echo "Current $CURRENT_MAJOR_VERSION"
+		           		echo "Latest $LATEST_MAJOR_VERSION"
 	            		if (CURRENT_MAJOR_VERSION > LATEST_MAJOR_VERSION){
 	            			error('It is a major change')
 	            		}
