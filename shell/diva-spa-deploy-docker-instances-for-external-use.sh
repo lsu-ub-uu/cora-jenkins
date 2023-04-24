@@ -21,7 +21,7 @@ echo "Starting diva-react-spa-bff-dev"
 docker run -d --name diva-react-spa-bff-dev \
     --net-alias=bff \
     --net=diva-cora \
-    --restart=unless-stopped\
+    --restart=unless-stopped \
      -p 9877:80 \
     diva-react-spa-bff:latest
 
