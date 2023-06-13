@@ -33,7 +33,7 @@ indexMetadata(){
 }
 logoutFromCora(){
 	echo ""
-	curl -s -X DELETE -k  'http://localhost:8180/apptokenverifier/rest/apptoken/141414' --data ${AUTH_TOKEN} 
+	curl -s -X DELETE -k  '${LOGIN_URL}' --data ${AUTH_TOKEN} 
 	echo 'Logged out' 
 }
 
