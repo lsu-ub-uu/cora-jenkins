@@ -8,6 +8,7 @@ APP_TOKEN='63e6bd34-02a1-4c82-8001-158c104cae0e'
 #APP_TOKEN='935ae709-4056-4b3d-85d2-469b304acfae'
 
 start(){
+	sleep 15
 	login;
 	#Indexera alla posttyper.
 	indexMetadata 'metadata';

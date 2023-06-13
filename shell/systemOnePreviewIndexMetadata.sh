@@ -5,7 +5,7 @@ LOGIN_URL='https://cora.epc.ub.uu.se/systemone/apptokenverifier/rest/apptoken/14
 APP_TOKEN='63e6bd34-02a1-4c82-8001-158c104cae0e'
 
 start(){
-	sleep 10
+	sleep 15
 	login;
 	#Indexera alla posttyper.
 	indexMetadata 'metadata';
