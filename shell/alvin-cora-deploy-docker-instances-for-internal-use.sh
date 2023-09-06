@@ -54,7 +54,7 @@ echo "Starting apptokenverifier"
 docker run -d --name alvin-apptokenverifier-test \
  --net-alias=apptokenverifier \
  --net=alvin-cora-test \
- -e "JAVA_OPTS=Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
 
 echo ""
