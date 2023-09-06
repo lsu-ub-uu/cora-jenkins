@@ -59,7 +59,7 @@ docker run -d --name diva-apptokenverifier \
  --net=diva-cora \
  -p 8611:8009 \
 --restart unless-stopped  \
- -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" \
+ -e "JAVA_OPTS=Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
  
 echo ""
