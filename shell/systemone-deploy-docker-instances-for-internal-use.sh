@@ -46,7 +46,7 @@ echo ""
 echo "Starting apptokenverifier"
 docker run -d --net=cora-test --name apptokenverifier-test \
  --link gatekeeper-test:gatekeeper \
- -e "JAVA_OPTS=Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
 
 echo ""
