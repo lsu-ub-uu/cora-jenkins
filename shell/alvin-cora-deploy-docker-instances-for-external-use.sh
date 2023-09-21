@@ -59,7 +59,7 @@ docker run -d --name alvin-apptokenverifier \
  --net=alvin-cora \
  -p 8411:8009 \
 --restart unless-stopped  \
- -e "JAVA_OPTS= -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
+ -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" \
  cora-docker-apptokenverifier:1.0-SNAPSHOT
  
 echo ""
