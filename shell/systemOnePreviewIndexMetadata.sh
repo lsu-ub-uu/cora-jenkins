@@ -8,6 +8,8 @@ start(){
 	sleep 15
 	login;
 	#Indexera alla posttyper.
+	indexMetadata 'recordType';
+	indexMetadata 'validationType';
 	indexMetadata 'metadata';
 	indexMetadata 'text';
 	indexMetadata 'collectTerm';
