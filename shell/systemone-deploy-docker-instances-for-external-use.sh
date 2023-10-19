@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-rabbitmq systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-rabbitmq systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
