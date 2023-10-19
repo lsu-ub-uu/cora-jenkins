@@ -8,8 +8,8 @@ echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo "starting rabbitmq"
-docker run -d --net=cora-test --name systemone-rabbitmq \
--d --hostname systemone-rabbitmq \
+docker run -d --net=cora --name systemone-rabbitmq \
+--hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo ""
