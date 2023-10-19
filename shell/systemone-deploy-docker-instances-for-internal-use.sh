@@ -1,11 +1,17 @@
 echo "Kill dockers"
-docker kill systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-rabbitmq-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-rabbitmq-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+
+echo "starting rabbitmq"
+docker run -d --net=cora-test --name systemone-rabbitmq-test \
+ --net-alias=systemone-rabbitmq \
+-d --hostname systemone-rabbitmq \
+cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo ""
 echo "Starting postgresql as database"

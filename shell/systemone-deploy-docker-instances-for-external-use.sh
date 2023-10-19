@@ -7,6 +7,11 @@ echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
+echo "starting rabbitmq"
+docker run -d --net=cora-test --name systemone-rabbitmq \
+-d --hostname systemone-rabbitmq \
+cora-docker-rabbitmq:1.0-SNAPSHOT
+
 echo ""
 echo "Starting postgresql as database"
 docker run -d --name systemone-postgresql \
