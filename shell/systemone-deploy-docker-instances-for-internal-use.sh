@@ -9,8 +9,8 @@ docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
 echo "starting rabbitmq"
 docker run -d --net=cora-test --name systemone-rabbitmq-test \
- --net-alias=systemone-rabbitmq \
--d --hostname systemone-rabbitmq \
+--net-alias=systemone-rabbitmq \
+--hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo ""
