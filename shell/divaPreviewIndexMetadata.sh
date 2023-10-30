@@ -18,7 +18,12 @@ start(){
 	indexMetadata 'collectTerm';
 	indexMetadata 'presentation';
 	indexMetadata 'guiElement';
-	indexMetadata 'system';
+	indexMetadata 'system';	
+	
+	indexMetadata 'person';
+	indexMetadata 'organisation';
+	indexMetadata 'nationalSubjectCategory';
+	
 	logoutFromCora;
 }
 login(){
