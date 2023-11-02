@@ -14,7 +14,7 @@ docker run -d --net=cora-test --name systemone-rabbitmq-test \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo "sleep 5s for rabbit to start"
-sleep 5
+sleep 10
 
 echo "starting binaryConverter for smallConverterQueue"
 docker run -it -d --name systemone-binaryConverterSmall-test \
