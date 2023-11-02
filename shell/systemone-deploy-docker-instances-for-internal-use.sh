@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-rabbitmq-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-rabbitmq-test systemone-binaryConverterSmall-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-rabbitmq-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-rabbitmq-test systemone-binaryConverterSmall-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -12,6 +12,24 @@ docker run -d --net=cora-test --name systemone-rabbitmq-test \
 --net-alias=systemone-rabbitmq \
 --hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
+
+echo "sleep 5s for rabbit to start"
+sleep 5
+
+echo "starting binaryConverter for smallConverterQueue"
+docker run -it -d --name systemone-binaryConverterSmall-test \
+--mount type=bind,source=/mnt/depot/cora/sharedArchive/systemOne,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+--network=cora-test \
+-e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
+-e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
+-e userId="141414" \
+-e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+-e rabbitMqHostName="systemone-rabbitmq" \
+-e rabbitMqPort="5672" \
+-e rabbitMqVirtualHost="/" \
+-e rabbitMqQueueName="smallConverterQueue" \
+-e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
+cora-docker-binaryconverter:1.0-SNAPSHOT
 
 echo ""
 echo "Starting postgresql as database"
