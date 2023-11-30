@@ -57,7 +57,7 @@ echo "Starting systemone"
 docker run -d  --name systemone \
  --net=cora \
  --restart unless-stopped \
- --mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
+ --mount source=sharedFileStorageTest,target=/mnt/data/basicstorage \
  -p 8210:8009 \
  --link gatekeeper:gatekeeper \
  --link solr:solr \

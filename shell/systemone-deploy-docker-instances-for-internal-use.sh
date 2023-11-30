@@ -53,7 +53,7 @@ echo ""
 echo "Starting systemone"
 # -v /mnt/data/basicstorage
 docker run -d --net=cora-test --name systemone-test \
- --mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
+ --mount source=sharedFileStorageTest,target=/mnt/data/basicstorage \
  --link gatekeeper-test:gatekeeper \
  --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
