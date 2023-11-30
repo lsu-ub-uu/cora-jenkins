@@ -19,6 +19,7 @@ sleep 10
 echo "starting binaryConverter for smallConverterQueue"
 docker run -it -d --name systemone-binaryConverterSmall-test \
 --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+--mount type=bind,source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne
 --network=cora-test \
 -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
 -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
@@ -43,13 +44,14 @@ docker run -d --net=cora-test --name systemone-postgresql-test \
 echo ""
 echo "Starting fedora as archive"
 docker run -d --net=cora-test --name systemone-fedora-test \
- --mount source=systemOneArchiveTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
+ --mount source=sharedFileStorageTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
  --network-alias=systemone-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
  
 echo ""
 echo "Starting systemone"
 docker run -d --net=cora-test -v /mnt/data/basicstorage --name systemone-test \
+--mount source=systemOneArchiveTest,target=/mnt/data/convertedImages \
  --link gatekeeper-test:gatekeeper --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
 
