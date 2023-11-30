@@ -30,6 +30,7 @@ docker run -it -d --name systemone-binaryConverterSmall-test \
 -e rabbitMqVirtualHost="/" \
 -e rabbitMqQueueName="smallConverterQueue" \
 -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
+-e fedoraOcflHome="/tmp/sharedFileStorage/systemOne" \
 cora-docker-binaryconverter:1.0-SNAPSHOT
 
 echo ""
