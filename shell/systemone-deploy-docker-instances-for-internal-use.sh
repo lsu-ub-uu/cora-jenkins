@@ -19,7 +19,7 @@ sleep 10
 echo "starting binaryConverter for smallConverterQueue"
 docker run -it -d --name systemone-binaryConverterSmall-test \
 --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
---mount type=bind,source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne
+--mount type=bind,source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
 --network=cora-test \
 -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
 -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
