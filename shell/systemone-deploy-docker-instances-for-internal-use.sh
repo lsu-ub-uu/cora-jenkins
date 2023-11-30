@@ -13,7 +13,7 @@ docker run -d --net=cora-test --name systemone-rabbitmq-test \
 --hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
-echo "sleep 5s for rabbit to start"
+echo "sleep 10s for rabbit to start"
 sleep 10
 
 echo "starting binaryConverter for smallConverterQueue"
@@ -30,7 +30,7 @@ docker run -it -d --name systemone-binaryConverterSmall-test \
 -e rabbitMqVirtualHost="/" \
 -e rabbitMqQueueName="smallConverterQueue" \
 -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
--e fedoraOcflHome="/tmp/sharedFileStorage/systemOne" \
+-e fileStorageBasePath="/tmp/sharedFileStorage/systemOne" \
 cora-docker-binaryconverter:1.0-SNAPSHOT
 
 echo ""
