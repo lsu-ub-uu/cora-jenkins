@@ -48,7 +48,7 @@ echo "Starting fedora for archive"
 docker run -d --name systemone-fedora \
  --net=cora \
  --restart unless-stopped \
- --mount source=systemOneArchive,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
+ --mount source=sharedFileStorageTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
  cora-docker-fedora:1.0-SNAPSHOT
 
 echo ""
