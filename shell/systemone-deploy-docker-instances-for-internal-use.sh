@@ -45,7 +45,7 @@ docker run -d --net=cora-test --name systemone-postgresql-test \
 echo ""
 echo "Starting fedora as archive"
 docker run -d --net=cora-test --name systemone-fedora-test \
- --mount source=sharedFileStorageTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
+ --mount source=systemOneArchiveTest,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
  --network-alias=systemone-fedora \
  cora-docker-fedora:1.0-SNAPSHOT
  
