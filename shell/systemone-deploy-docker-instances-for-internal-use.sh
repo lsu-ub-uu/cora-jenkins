@@ -18,20 +18,20 @@ sleep 10
 
 echo "starting binaryConverter for smallConverterQueue"
 docker run -it -d --name systemone-binaryConverterSmall-test \
---mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
---mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
---network=cora-test \
--e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
--e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
--e userId="141414" \
--e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
--e rabbitMqHostName="systemone-rabbitmq" \
--e rabbitMqPort="5672" \
--e rabbitMqVirtualHost="/" \
--e rabbitMqQueueName="smallConverterQueue" \
--e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
--e fileStorageBasePath="/tmp/sharedFileStorage/systemOne" \
-cora-docker-binaryconverter:1.0-SNAPSHOT
+ --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
+ --network=cora-test \
+ -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="systemone-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="smallConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
 
 echo ""
 echo "Starting postgresql as database"
@@ -51,9 +51,11 @@ docker run -d --net=cora-test --name systemone-fedora-test \
  
 echo ""
 echo "Starting systemone"
-docker run -d --net=cora-test -v /mnt/data/basicstorage --name systemone-test \
---mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
- --link gatekeeper-test:gatekeeper --link solr-test:solr \
+# -v /mnt/data/basicstorage
+docker run -d --net=cora-test --name systemone-test \
+ --mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
+ --link gatekeeper-test:gatekeeper \
+ --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
 
 echo ""

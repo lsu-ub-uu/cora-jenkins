@@ -17,18 +17,20 @@ sleep 10
 
 echo "starting binaryConverter for smallConverterQueue"
 docker run -it -d --name systemone-binaryConverterSmall \
---mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
---network=cora \
--e coraBaseUrl="http://systemone:8080/systemone/rest/" \
--e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
--e userId="141414" \
--e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
--e rabbitMqHostName="systemone-rabbitmq" \
--e rabbitMqPort="5672" \
--e rabbitMqVirtualHost="/" \
--e rabbitMqQueueName="smallConverterQueue" \
--e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
-cora-docker-binaryconverter:1.0-SNAPSHOT
+ --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
+ --network=cora \
+ -e coraBaseUrl="http://systemone:8080/systemone/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="systemone-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="smallConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
 
 echo ""
 echo "Starting postgresql as database"
@@ -51,10 +53,11 @@ docker run -d --name systemone-fedora \
 
 echo ""
 echo "Starting systemone"
+#  -v /mnt/data/basicstorage \
 docker run -d  --name systemone \
  --net=cora \
  --restart unless-stopped \
- -v /mnt/data/basicstorage \
+ --mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
  -p 8210:8009 \
  --link gatekeeper:gatekeeper \
  --link solr:solr \
