@@ -51,7 +51,7 @@ docker run -d --net=cora-test --name systemone-fedora-test \
 echo ""
 echo "Starting systemone"
 docker run -d --net=cora-test -v /mnt/data/basicstorage --name systemone-test \
---mount source=systemOneArchiveTest,target=/mnt/data/convertedImages \
+--mount source=systemOneArchiveTest,target=/mnt/data/basicstorage \
  --link gatekeeper-test:gatekeeper --link solr-test:solr \
  systemone-docker:1.0-SNAPSHOT
 
