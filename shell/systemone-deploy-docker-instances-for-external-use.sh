@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-rabbitmq systemone-binaryConverterSmall systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-rabbitmq systemone-smallImageConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-rabbitmq systemone-binaryConverterSmall systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-rabbitmq systemone-smallImageConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -15,8 +15,8 @@ cora-docker-rabbitmq:1.0-SNAPSHOT
 echo "sleep 5s for rabbit to start"
 sleep 10
 
-echo "starting binaryConverter for smallConverterQueue"
-docker run -it -d --name systemone-binaryConverterSmall \
+echo "starting binaryConverter for smallImageConverterQueue"
+docker run -it -d --name systemone-smallImageConverter \
  --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
  --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne \
  --network=cora \
@@ -27,7 +27,24 @@ docker run -it -d --name systemone-binaryConverterSmall \
  -e rabbitMqHostName="systemone-rabbitmq" \
  -e rabbitMqPort="5672" \
  -e rabbitMqVirtualHost="/" \
- -e rabbitMqQueueName="smallConverterQueue" \
+ -e rabbitMqQueueName="smallImageConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne/" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
+ 
+echo "starting binaryConverter for smallImageConverterQueue"
+docker run -it -d --name systemone-smallImageConverter \
+ --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne \
+ --network=cora \
+ -e coraBaseUrl="http://systemone:8080/systemone/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="systemone-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="pdfConverterQueue" \
  -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
  -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne/" \
  cora-docker-binaryconverter:1.0-SNAPSHOT
