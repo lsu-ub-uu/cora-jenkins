@@ -1,8 +1,8 @@
 echo "Kill dockers"
-docker kill systemone-rabbitmq systemone-smallImageConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker kill systemone-rabbitmq systemone-smallImageConverter systemone-pdfConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm systemone-rabbitmq systemone-smallImageConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm systemone-rabbitmq systemone-smallImageConverter systemone-pdfConverter systemone-fitnesse systemone-postgresql systemone-fedora systemone solr idplogin apptokenverifier gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
@@ -32,8 +32,8 @@ docker run -it -d --name systemone-smallImageConverter \
  -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne/" \
  cora-docker-binaryconverter:1.0-SNAPSHOT
  
-echo "starting binaryConverter for smallImageConverterQueue"
-docker run -it -d --name systemone-smallImageConverter \
+echo "starting binaryConverter for pdfConverterQueue"
+docker run -it -d --name systemone-pdfConverter \
  --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
  --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne \
  --network=cora \
