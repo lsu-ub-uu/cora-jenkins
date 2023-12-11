@@ -17,6 +17,10 @@ docker run -d --name alvin-postgresql \
  -e POSTGRES_USER=alvin \
  -e POSTGRES_PASSWORD=alvin \
  alvin-docker-postgresql:1.0-SNAPSHOT
+ 
+ echo ""
+echo "sleep 10s for rabbit and database to start"
+sleep 10
 
 echo ""
 echo "Starting fedora for archive"

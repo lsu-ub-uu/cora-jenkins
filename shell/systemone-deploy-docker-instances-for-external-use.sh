@@ -14,11 +14,6 @@ docker run -d --net=cora --name systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo ""
-echo "sleep 10s for rabbit to start"
-sleep 10
-
-
-echo ""
 echo "Starting postgresql as database"
 docker run -d --name systemone-postgresql \
  --net=cora \
@@ -30,6 +25,10 @@ docker run -d --name systemone-postgresql \
  systemone-docker-postgresql:1.0-SNAPSHOT
 
 echo ""
+echo "sleep 10s for rabbit and database to start"
+sleep 10
+
+echo ""
 echo "Starting fedora for archive"
 docker run -d --name systemone-fedora \
  --net=cora \
@@ -39,7 +38,6 @@ docker run -d --name systemone-fedora \
 
 echo ""
 echo "Starting systemone"
-#  -v /mnt/data/basicstorage \
 docker run -d  --name systemone \
  --net=cora \
  --restart unless-stopped \
