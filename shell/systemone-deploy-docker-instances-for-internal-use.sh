@@ -1,18 +1,23 @@
-echo "Kill dockers"
+RED='\033[0;31m'
+RED2='\[\033[0;31m\]'
+NC='\033[0m' # No Color
+
+echo "${RED}Kill dockers${NC}"
 docker kill systemone-rabbitmq-test systemone-smallImageConverter-test systemone-jp2Converter-test systemone-pdfConverter-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
-echo "Remove dockers"
+echo "${RED2}Remove dockers${NC}"
 docker rm systemone-rabbitmq-test systemone-smallImageConverter-test systemone-jp2Converter-test systemone-pdfConverter-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
+echo ""
 echo "starting rabbitmq"
 docker run -d --net=cora-test --name systemone-rabbitmq-test \
 --net-alias=systemone-rabbitmq \
 --hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
-
+echo ""
 echo "sleep 10s for rabbit to start"
 sleep 10
 
@@ -89,7 +94,7 @@ echo "starting binaryConverter for jp2ConverterQueue"
 docker run -it -d --name systemone-jp2Converter-test \
  --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
  --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
- --network=eclipseForCoraNet \
+ --network=cora-test \
  -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
  -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
  -e userId="141414" \

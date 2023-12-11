@@ -7,11 +7,13 @@ echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
+echo ""
 echo "starting rabbitmq"
 docker run -d --net=cora --name systemone-rabbitmq \
 --hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
 
+echo ""
 echo "sleep 10s for rabbit to start"
 sleep 10
 
@@ -105,7 +107,7 @@ echo "starting binaryConverter for jp2ConverterQueue"
 docker run -it -d --name systemone-jp2Converter \
  --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
  --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
- --network=eclipseForCoraNet \
+ --network=cora \
  -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
  -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
  -e userId="141414" \
