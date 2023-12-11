@@ -13,9 +13,6 @@ docker run -d --net=cora-test --name systemone-rabbitmq-test \
 --net-alias=systemone-rabbitmq \
 --hostname systemone-rabbitmq \
 cora-docker-rabbitmq:1.0-SNAPSHOT
-echo ""
-echo "sleep 10s for rabbit to start"
-sleep 10
 
 echo ""
 echo "Starting postgresql as database"
@@ -25,6 +22,11 @@ docker run -d --net=cora-test --name systemone-postgresql-test \
  -e POSTGRES_USER=systemone \
  -e POSTGRES_PASSWORD=systemone \
  systemone-docker-postgresql:1.0-SNAPSHOT
+ 
+echo ""
+echo "wait 10s for rabbit and database to start"
+sleep 10
+
 
 echo ""
 echo "Starting fedora as archive"
