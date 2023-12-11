@@ -103,8 +103,8 @@ docker run -it -d --name systemone-smallImageConverter \
  
 echo "starting binaryConverter for jp2ConverterQueue"
 docker run -it -d --name systemone-jp2Converter \
- --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
- --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne \
+ --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne \
  --network=cora \
  -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
  -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \

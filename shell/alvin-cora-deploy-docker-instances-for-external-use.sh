@@ -1,12 +1,17 @@
 echo "Kill dockers"
-docker kill alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker kill alvin-rabbitmq alvin-smallImageConverter alvin-jp2Converter alvin-pdfConverter alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
+docker rm alvin-rabbitmq alvin-smallImageConverter alvin-jp2Converter alvin-pdfConverter alvin-fitnesse alvin alvin-fedora alvin-postgresql alvin-solr alvin-idplogin alvin-apptokenverifier alvin-gatekeeper && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
 docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
 
+echo ""
+echo "starting rabbitmq"
+docker run -d --net=cora --name alvin-rabbitmq \
+--hostname alvin-rabbitmq \
+cora-docker-rabbitmq:1.0-SNAPSHOT
 
 echo ""
 echo "Starting postgresql as database"
@@ -73,6 +78,62 @@ docker run -d --name alvin-solr \
  --net=alvin-cora \
 --restart unless-stopped  \
  cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
+
+echo ""
+echo "------------ STARTING BINARY CONVERTERS ------------"
+echo "starting binaryConverter for smallImageConverterQueue"
+docker run -it -d --name alvin-smallImageConverter \
+ --mount source=alvinArchive,target=/tmp/sharedArchiveReadable/alvin,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/alvin \
+ --network=cora \
+ -e coraBaseUrl="http://alvin:8080/alvin/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="alvin-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="smallImageConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/alvin" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/alvin/" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
+ 
+echo "starting binaryConverter for jp2ConverterQueue"
+docker run -it -d --name alvin-jp2Converter \
+ --mount source=alvinArchive,target=/tmp/sharedArchiveReadable/alvin,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/alvin \
+ --network=cora \
+ -e coraBaseUrl="http://alvin-test:8080/alvin/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="alvin-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="jp2ConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/alvin" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/alvin/" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
+ 
+echo "starting binaryConverter for pdfConverterQueue"
+docker run -it -d --name alvin-pdfConverter \
+ --mount source=alvinArchive,target=/tmp/sharedArchiveReadable/alvin,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/alvin \
+ --network=cora \
+ -e coraBaseUrl="http://alvin:8080/alvin/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+ -e userId="141414" \
+ -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
+ -e rabbitMqHostName="alvin-rabbitmq" \
+ -e rabbitMqPort="5672" \
+ -e rabbitMqVirtualHost="/" \
+ -e rabbitMqQueueName="pdfConverterQueue" \
+ -e fedoraOcflHome="/tmp/sharedArchiveReadable/alvin" \
+ -e fileStorageBasePath="/tmp/sharedFileStorage/alvin/" \
+ cora-docker-binaryconverter:1.0-SNAPSHOT
+   
+echo "----------------------------------------------------"
+
 
 echo ""
 echo "Starting fitnesse"
