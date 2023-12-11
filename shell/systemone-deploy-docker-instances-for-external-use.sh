@@ -106,8 +106,8 @@ docker run -it -d --name systemone-jp2Converter \
  --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
  --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne \
  --network=cora \
- -e coraBaseUrl="http://systemone-test:8080/systemone/rest/" \
- -e apptokenVerifierUrl="http://apptokenverifier-test:8080/apptokenverifier/rest/" \
+ -e coraBaseUrl="http://systemone:8080/systemone/rest/" \
+ -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
  -e userId="141414" \
  -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
  -e rabbitMqHostName="systemone-rabbitmq" \
