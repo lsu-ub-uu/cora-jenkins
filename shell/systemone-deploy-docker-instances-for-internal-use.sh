@@ -1,11 +1,7 @@
-RED='\033[0;31m'
-RED2='\[\033[0;31m\]'
-NC='\033[0m' # No Color
-
-echo "${RED}Kill dockers${NC}"
+echo "Kill dockers"
 docker kill systemone-rabbitmq-test systemone-smallImageConverter-test systemone-jp2Converter-test systemone-pdfConverter-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
-echo "${RED2}Remove dockers${NC}"
+echo "Remove dockers"
 docker rm systemone-rabbitmq-test systemone-smallImageConverter-test systemone-jp2Converter-test systemone-pdfConverter-test systemone-fitnesse-test systemone-fedora-test systemone-postgresql-test systemone-test solr-test apptokenverifier-test idplogin-test gatekeeper-test && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove volumes"
