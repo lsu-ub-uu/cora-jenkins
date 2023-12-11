@@ -25,7 +25,7 @@ docker run -d --name systemone-postgresql \
  systemone-docker-postgresql:1.0-SNAPSHOT
 
 echo ""
-echo "sleep 10s for rabbit and database to start"
+echo "wait 10s for rabbit and database to start"
 sleep 10
 
 echo ""

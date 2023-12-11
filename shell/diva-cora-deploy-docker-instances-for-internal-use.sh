@@ -18,6 +18,10 @@ docker run -d --name diva-postgresql-test \
  -e POSTGRES_USER=diva \
  -e POSTGRES_PASSWORD=diva \
  diva-docker-postgresql:1.0-SNAPSHOT
+ 
+echo ""
+echo "wait 10s for rabbit and database to start"
+sleep 10
 
 echo ""
 echo "Starting fedora for archive"
