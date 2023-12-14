@@ -143,6 +143,7 @@ docker run -d --name systemone-fitnesse \
  --net=cora \
  -p 8290:8090 \
  --mount source=systemOneArchive,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorage,target=/tmp/sharedFileStorage/systemOne,readonly \
  --link systemone:systemone \
  --link apptokenverifier:apptokenverifier \
  --link idplogin:idplogin \
