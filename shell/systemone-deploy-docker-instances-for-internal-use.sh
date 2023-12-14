@@ -128,6 +128,7 @@ echo ""
 echo "starting fitnesse"
 docker run -d --net=cora-test -p 8190:8090 --name systemone-fitnesse-test \
  --mount source=systemOneArchiveTest,target=/tmp/sharedArchiveReadable/systemOne,readonly \
+ --mount source=sharedFileStorageTest,target=/tmp/sharedFileStorage/systemOne,readonly \
  --link systemone-test:systemone \
  --link apptokenverifier-test:apptokenverifier \
  --link idplogin-test:idplogin \
