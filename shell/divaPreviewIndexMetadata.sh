@@ -22,6 +22,7 @@ start(){
 	
 	indexMetadata 'person';
 	indexMetadata 'organisation';
+	indexMetadata 'divaOutput';
 	indexMetadata 'nationalSubjectCategory';
 	
 	logoutFromCora;
