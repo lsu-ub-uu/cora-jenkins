@@ -25,7 +25,7 @@ docker run -d --net=cora-test --name systemone-postgresql-test \
  
 echo ""
 echo "wait 10s for rabbit and database to start"
-sleep 10
+sleep 15
 
 
 echo ""
