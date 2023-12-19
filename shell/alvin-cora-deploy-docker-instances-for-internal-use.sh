@@ -1,5 +1,5 @@
-NETWORK=alvin-cora$SUFFIX
 SUFFIX=-test
+NETWORK=alvin-cora$SUFFIX
 
 echo "Kill dockers"
 docker kill \
