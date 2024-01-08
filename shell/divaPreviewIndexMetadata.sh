@@ -2,7 +2,7 @@
 
 INDEX_URL='https://cora.epc.ub.uu.se/diva/rest/record/index'
 LOGIN_URL='https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/161616'
-APP_TOKEN='89cba2b0-6d1d-4fd5-b864-04f09a2a23b0'
+APP_TOKEN='f7973be9-02e0-4c42-979b-09e42372a02a'
 
 #LOGIN_URL='https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/141414'
 #APP_TOKEN='63e6bd34-02a1-4c82-8001-158c104cae0e'
