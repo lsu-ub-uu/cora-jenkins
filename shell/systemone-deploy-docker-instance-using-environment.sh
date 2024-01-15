@@ -1,8 +1,4 @@
-#!/bin/bash
-
-#ENV_SUFFIX=$1
-#SHARED_FILE_SUFFIX=$2
-
+#! /bin/bash
 ENV_SUFFIX=-test
 SHARED_FILE_SUFFIX=Test
 NETWORK=cora$ENV_SUFFIX
@@ -18,13 +14,16 @@ start(){
 	startFedora
 	startPostgresql
 	startIIP
+	
 	sleepAndWait 10
+	
 	startBinaryConverters
 	startSystemone
 	startGatekeeper
 	startIdplogin
 	startApptokenverifier
 	startFitnesse
+	
 	sleepAndWait 20
 	
 	echoStartingWithMarkers "All dockers started"
