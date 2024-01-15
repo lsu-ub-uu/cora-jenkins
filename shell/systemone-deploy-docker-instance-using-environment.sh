@@ -1,8 +1,8 @@
 #! /bin/bash
-PARAM1=$1
+ENVIRONMENT=$1
 
 start(){
-	setParameters "$PARAM1"
+	setParameters "$ENVIRONMENT"
 	killDockers
 	removeDockers
 	removeVolumes
@@ -28,8 +28,6 @@ start(){
 }
 
 setParameters(){
-echo "$1"
-
 if [ "$1" == "preview" ]; then
     echo "Choosen environment: preview"
     ENV_SUFFIX=""
