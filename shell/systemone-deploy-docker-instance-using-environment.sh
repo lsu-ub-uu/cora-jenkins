@@ -76,8 +76,6 @@ DOCKERS=(
 
 }
 
-#converters dockers cannot be killed/removed, wrong name
-
 killDockers() {
     docker kill "${DOCKERS[@]}" && echo nothingToSeeMoveOnToNextCommand
 }
@@ -111,6 +109,7 @@ startSolr() {
     docker run -d --name solr$ENV_SUFFIX \
      --network=$NETWORK \
      --network-alias=solr \
+     $SOLR_PORT \
      --restart unless-stopped \
      cora-solr:1.0-SNAPSHOT solr-precreate coracore /opt/solr/server/solr/configsets/coradefaultcore
 }
@@ -120,7 +119,6 @@ startFedora() {
     docker run -d --name systemone-fedora$ENV_SUFFIX \
      --network=$NETWORK \
      --network-alias=systemone-fedora \
-     $SOLR_PORT \
      --restart unless-stopped \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
      cora-docker-fedora:1.0-SNAPSHOT
@@ -190,8 +188,6 @@ startSystemone() {
      --restart unless-stopped \
      --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
      systemone-docker:1.0-SNAPSHOT
-     #--link solr$ENV_SUFFIX:solr \
-     #--link gatekeeper$ENV_SUFFIX:gatekeeper \
 }
 
 startGatekeeper() {
@@ -212,8 +208,6 @@ startIdplogin() {
      -e "$IDPLOGIN_OPTIONS" \
      $IDPLOGIN_PORT \
      cora-docker-idplogin:1.0-SNAPSHOT
-     #--link apptokenverifier$ENV_SUFFIX:apptokenverifier \
-     #--link gatekeeper$ENV_SUFFIX:gatekeeper \
 }
 
 startApptokenverifier() {
@@ -225,9 +219,7 @@ startApptokenverifier() {
      --restart unless-stopped \
      -e "$APPTOKEN_VERIFIER_OPTIONS" \
      cora-docker-apptokenverifier:1.0-SNAPSHOT
-     #--link gatekeeper$ENV_SUFFIX:gatekeeper \
 }
-
 
 startFitnesse() {
 	echoStartingWithMarkers "fitnesse"
@@ -238,9 +230,6 @@ startFitnesse() {
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
      systemone-docker-fitnesse:1.0-SNAPSHOT
-     #--link systemone$ENV_SUFFIX:systemone \
-	 #--link apptokenverifier$ENV_SUFFIX:apptokenverifier \
-	 #--link idplogin$ENV_SUFFIX:idplogin \
 }
 
 sleepAndWait(){
