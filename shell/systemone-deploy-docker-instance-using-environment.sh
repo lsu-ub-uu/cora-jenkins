@@ -1,20 +1,4 @@
 #! /bin/bash
-DOCKERS=(
-    "systemone-rabbitmq$ENV_SUFFIX"
-    "solr$ENV_SUFFIX"
-    "systemone-fedora$ENV_SUFFIX"
-    "systemone-postgresql$ENV_SUFFIX"
-    "systemone-iipimageserver$ENV_SUFFIX"
-    "systemone-smallImageConverterQueue$ENV_SUFFIX"
-    "systemone-jp2ConverterQueue$ENV_SUFFIX"
-    "systemone-pdfConverterQueue$ENV_SUFFIX"
-    "systemone$ENV_SUFFIX"
-    "gatekeeper$ENV_SUFFIX"
-    "idplogin$ENV_SUFFIX"
-    "apptokenverifier$ENV_SUFFIX"
-    "systemone-fitnesse$ENV_SUFFIX"
-)
-
 start(){
 	setParameters "$1"
 	killDockers
@@ -55,8 +39,8 @@ if [ "$1" == "preview" ]; then
 	FITNESSE_PORT="-p 8290:8090"
 else
     echo "Choosen environment: build"
-    ENV_SUFFIX=-test
-	SHARED_FILE_SUFFIX=Test
+    ENV_SUFFIX="-test"
+	SHARED_FILE_SUFFIX="Test"
 	SOLR_PORT=""
 	SYSTEMONE_PORT=""
 	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" 
@@ -72,6 +56,22 @@ SOURCE_SHARED_ARCHIVE=systemOneArchive$SHARED_FILE_SUFFIX
 SOURCE_SHARED_FILE=sharedFileStorage$SHARED_FILE_SUFFIX
 TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/systemOne
 TARGET_SHARED_FILE=/tmp/sharedFileStorage/systemOne
+
+DOCKERS=(
+    "systemone-rabbitmq$ENV_SUFFIX"
+    "solr$ENV_SUFFIX"
+    "systemone-fedora$ENV_SUFFIX"
+    "systemone-postgresql$ENV_SUFFIX"
+    "systemone-iipimageserver$ENV_SUFFIX"
+    "systemone-smallImageConverterQueue$ENV_SUFFIX"
+    "systemone-jp2ConverterQueue$ENV_SUFFIX"
+    "systemone-pdfConverterQueue$ENV_SUFFIX"
+    "systemone$ENV_SUFFIX"
+    "gatekeeper$ENV_SUFFIX"
+    "idplogin$ENV_SUFFIX"
+    "apptokenverifier$ENV_SUFFIX"
+    "systemone-fitnesse$ENV_SUFFIX"
+)
 
 }
 
