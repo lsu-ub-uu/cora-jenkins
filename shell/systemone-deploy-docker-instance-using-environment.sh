@@ -8,7 +8,7 @@ SHARED_FILE_SUFFIX=Test
 NETWORK=cora$ENV_SUFFIX
 
 start(){
-	checkAndSetParameters
+	setParameters "$1"
 	killDockers
 	removeDockers
 	removeVolumes
@@ -30,12 +30,7 @@ start(){
 	echoStartingWithMarkers "All dockers started"
 }
 
-checkAndSetParameters(){
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <build/preview>"
-    exit 1
-fi
-
+setParameters(){
 if [ "$1" == "preview" ]; then
     echo "Choosen environment: preview"
     ENV_SUFFIX=
