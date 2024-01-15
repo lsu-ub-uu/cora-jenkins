@@ -45,7 +45,7 @@ else
 	SYSTEMONE_PORT=""
 	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" 
 	IDPLOGIN_PORT=""
-	APPTOKEN_VERIFIER_OPTIONS="\"JAVA_OPTS=-Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone -Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/\"" 
+	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone -Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/" 
 	APPTOKEN_VERIFIER_PORT=""
 	FITNESSE_PORT="-p 8190:8090"
 fi
@@ -221,7 +221,7 @@ startApptokenverifier() {
      --network-alias=apptokenverifier \
      $APPTOKEN_VERIFIER_PORT \
      --restart unless-stopped \
-     -e $APPTOKEN_VERIFIER_OPTIONS \
+     -e "$APPTOKEN_VERIFIER_OPTIONS" \
      cora-docker-apptokenverifier:1.0-SNAPSHOT
      #--link gatekeeper$ENV_SUFFIX:gatekeeper \
 }
