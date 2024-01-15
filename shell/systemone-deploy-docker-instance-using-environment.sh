@@ -1,15 +1,4 @@
 #! /bin/bash
-ENV_SUFFIX=-test
-NETWORK=cora$ENV_SUFFIX
-
-SHARED_FILE_SUFFIX=Test
-SOURCE_SHARED_ARCHIVE=systemOneArchive$SHARED_FILE_SUFFIX
-SOURCE_SHARED_FILE=sharedFileStorage$SHARED_FILE_SUFFIX
-TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/systemOne
-TARGET_SHARED_FILE=/tmp/sharedFileStorage/systemOne
-
-SYSTEMONE_PORT=
-
 DOCKERS=(
     "systemone-rabbitmq$ENV_SUFFIX"
     "solr$ENV_SUFFIX"
@@ -55,29 +44,35 @@ start(){
 setParameters(){
 if [ "$1" == "preview" ]; then
     echo "Choosen environment: preview"
-    ENV_SUFFIX=
-	SHARED_FILE_SUFFIX=
-	SOLR_PORT=-p 8983:8983
-	SYSTEMONE_PORT=-p 8210:8009
+    ENV_SUFFIX=""
+	SHARED_FILE_SUFFIX=""
+	SOLR_PORT="-p 8983:8983"
+	SYSTEMONE_PORT="-p 8210:8009"
 	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/apptokenverifier/rest/apptoken/" 
-	IDPLOGIN_PORT=-p 8212:8009
+	IDPLOGIN_PORT="-p 8212:8009"
 	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" 
-	APPTOKEN_VERIFIER_PORT=-p 8211:8009 
-	FITNESSE_PORT=-p 8290:8090
+	APPTOKEN_VERIFIER_PORT="-p 8211:8009" 
+	FITNESSE_PORT="-p 8290:8090"
 else
     echo "Choosen environment: build"
     ENV_SUFFIX=-test
 	SHARED_FILE_SUFFIX=Test
-	SOLR_PORT=
-	SYSTEMONE_PORT=
+	SOLR_PORT=""
+	SYSTEMONE_PORT=""
 	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" 
-	IDPLOGIN_PORT=
+	IDPLOGIN_PORT=""
 	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" 
 	echo $APPTOKEN_VERIFIER_OPTIONS
-	APPTOKEN_VERIFIER_PORT=
-	FITNESSE_PORT=-p 8190:8090
-	
+	APPTOKEN_VERIFIER_PORT=""
+	FITNESSE_PORT="-p 8190:8090"
 fi
+
+NETWORK=cora$ENV_SUFFIX
+SOURCE_SHARED_ARCHIVE=systemOneArchive$SHARED_FILE_SUFFIX
+SOURCE_SHARED_FILE=sharedFileStorage$SHARED_FILE_SUFFIX
+TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/systemOne
+TARGET_SHARED_FILE=/tmp/sharedFileStorage/systemOne
+
 }
 
 #converters dockers cannot be killed/removed, wrong name
