@@ -22,10 +22,12 @@ start(){
 	
 	sleepAndWait 20
 	
-	echoStartingWithMarkers "All dockers started"
+	echoStartingWithMarkers "All dockers finished"
 }
 
 setParameters(){
+echo "$1"
+
 if [ "$1" == "preview" ]; then
     echo "Choosen environment: preview"
     ENV_SUFFIX=""
@@ -207,7 +209,7 @@ startIdplogin() {
      --network=$NETWORK \
      --network-alias=idplogin \
      --restart unless-stopped \
-     -e $IDPLOGIN_OPTIONS \
+     -e "$IDPLOGIN_OPTIONS" \
      $IDPLOGIN_PORT \
      cora-docker-idplogin:1.0-SNAPSHOT
      #--link apptokenverifier$ENV_SUFFIX:apptokenverifier \
