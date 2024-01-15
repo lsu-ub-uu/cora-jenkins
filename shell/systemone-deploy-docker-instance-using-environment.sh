@@ -65,7 +65,7 @@ if [ "$1" == "preview" ]; then
 	APPTOKEN_VERIFIER_PORT=-p 8211:8009 
 	FITNESSE_PORT=-p 8290:8090
 else
-     echo "Choosen environment: build"
+    echo "Choosen environment: build"
     ENV_SUFFIX=-test
 	SHARED_FILE_SUFFIX=Test
 	SOLR_PORT=
@@ -224,7 +224,7 @@ startApptokenverifier() {
      --network=$NETWORK \
      --network-alias=apptokenverifier \
      --restart unless-stopped \
-     -e $APPTOKEN_VERIFIER_OPTIONS \
+     -e "JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" \
      $APPTOKEN_VERIFIER_PORT \
      cora-docker-apptokenverifier:1.0-SNAPSHOT
      #--link gatekeeper$ENV_SUFFIX:gatekeeper \
