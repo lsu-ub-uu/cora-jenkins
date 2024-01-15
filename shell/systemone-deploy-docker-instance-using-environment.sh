@@ -1,7 +1,28 @@
 #! /bin/bash
 ENV_SUFFIX=-test
-SHARED_FILE_SUFFIX=Test
 NETWORK=cora$ENV_SUFFIX
+
+SHARED_FILE_SUFFIX=Test
+SOURCE_SHARED_ARCHIVE=systemOneArchive$SHARED_FILE_SUFFIX
+SOURCE_SHARED_FILE=sharedFileStorage$SHARED_FILE_SUFFIX
+TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/systemOne
+TARGET_SHARED_FILE=/tmp/sharedFileStorage/systemOne
+
+DOCKERS=(
+    "systemone-rabbitmq$ENV_SUFFIX"
+    "solr$ENV_SUFFIX"
+    "systemone-fedora$ENV_SUFFIX"
+    "systemone-postgresql$ENV_SUFFIX"
+    "systemone-iipimageserver$ENV_SUFFIX"
+    "systemone-smallImageConverterQueue$ENV_SUFFIX"
+    "systemone-jp2ConverterQueue$ENV_SUFFIX"
+    "systemone-pdfConverterQueue$ENV_SUFFIX"
+    "systemone$ENV_SUFFIX"
+    "gatekeeper$ENV_SUFFIX"
+    "idplogin$ENV_SUFFIX"
+    "apptokenverifier$ENV_SUFFIX"
+    "systemone-fitnesse$ENV_SUFFIX"
+)
 
 start(){
 	setParameters "$1"
@@ -41,14 +62,14 @@ else
 fi
 }
 
-
+#converters dockers cannot be killed/removed, wrong name
 
 killDockers() {
-    docker kill systemone-rabbitmq$ENV_SUFFIX systemone-iipimageserver$ENV_SUFFIX systemone-smallImageConverter$ENV_SUFFIX systemone-jp2Converter$ENV_SUFFIX systemone-pdfConverter$ENV_SUFFIX systemone-fitnesse$ENV_SUFFIX systemone-fedora$ENV_SUFFIX systemone-postgresql$ENV_SUFFIX systemone$ENV_SUFFIX solr$ENV_SUFFIX apptokenverifier$ENV_SUFFIX idplogin$ENV_SUFFIX gatekeeper$ENV_SUFFIX && echo nothingToSeeMoveOnToNextCommand
+    docker kill "${DOCKERS[@]}" && echo nothingToSeeMoveOnToNextCommand
 }
 
 removeDockers() {
-    docker rm systemone-rabbitmq$ENV_SUFFIX systemone-iipimageserver$ENV_SUFFIX systemone-smallImageConverter$ENV_SUFFIX systemone-jp2Converter$ENV_SUFFIX systemone-pdfConverter$ENV_SUFFIX systemone-fitnesse$ENV_SUFFIX systemone-fedora$ENV_SUFFIX systemone-postgresql$ENV_SUFFIX systemone$ENV_SUFFIX solr$ENV_SUFFIX apptokenverifier$ENV_SUFFIX idplogin$ENV_SUFFIX gatekeeper$ENV_SUFFIX && echo nothingToSeeMoveOnToNextCommand
+    docker rm "${DOCKERS[@]}" && echo nothingToSeeMoveOnToNextCommand
 }
 
 removeVolumes() {
@@ -78,7 +99,7 @@ startSolr() {
 startFedora() {
 	echoStartingWithMarkers "fedora"
     docker run -d --network=$NETWORK --name systemone-fedora$ENV_SUFFIX \
-        --mount source=systemOneArchive$SHARED_FILE_SUFFIX,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
+        --mount source=$SOURCE_SHARED_ARCHIVE,target=/usr/local/tomcat/fcrepo-home/data/ocfl-root \
         --network-alias=systemone-fedora \
         cora-docker-fedora:1.0-SNAPSHOT
 }
@@ -98,11 +119,11 @@ startIIP() {
 	docker run -d --name systemone-iipimageserver$ENV_SUFFIX \
 	 --network=$NETWORK \
 	 -e VERBOSITY=0 \
-	 -e FILESYSTEM_PREFIX=/tmp/sharedFileStorage/systemOne/streams/ \
+	 -e FILESYSTEM_PREFIX=$TARGET_SHARED_FILE/streams/ \
 	 -e FILESYSTEM_SUFFIX=-jp2 \
 	 -e CORS=* \
 	 -e MAX_IMAGE_CACHE_SIZE=1000 \
-	 --mount type=source=sharedFileStorage$SHARED_FILE_SUFFIX,target=/tmp/sharedFileStorage/systemOne,readonly \
+	 --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
 	 cora-docker-iipimageserver:1.0-SNAPSHOT
 }
 
@@ -118,8 +139,8 @@ startBinaryConverterUsingQueueName() {
 
     echo "starting binaryConverter for $queueName"
     docker run -it -d --name systemone-$queueName$ENV_SUFFIX \
-        --mount source=systemOneArchive$SHARED_FILE_SUFFIX,target=/tmp/sharedArchiveReadable/systemOne,readonly \
-        --mount source=sharedFileStorage$SHARED_FILE_SUFFIX,target=/tmp/sharedFileStorage/systemOne \
+        --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
+        --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
         --network=$NETWORK \
         -e coraBaseUrl="http://systemone$ENV_SUFFIX:8080/systemone/rest/" \
         -e apptokenVerifierUrl="http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" \
@@ -129,15 +150,15 @@ startBinaryConverterUsingQueueName() {
         -e rabbitMqPort="5672" \
         -e rabbitMqVirtualHost="/" \
         -e rabbitMqQueueName=$queueName \
-        -e fedoraOcflHome="/tmp/sharedArchiveReadable/systemOne" \
-        -e fileStorageBasePath="/tmp/sharedFileStorage/systemOne/" \
+        -e fedoraOcflHome="$TARGET_SHARED_ARCHIVE" \
+        -e fileStorageBasePath="$TARGET_SHARED_FILE/" \
         cora-docker-binaryconverter:1.0-SNAPSHOT
 }
 
 startSystemone() {
 	echoStartingWithMarkers "systemone"
     docker run -d --network=$NETWORK --name systemone$ENV_SUFFIX \
-        --mount source=sharedFileStorage$SHARED_FILE_SUFFIX,target=/mnt/data/basicstorage \
+        --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
         --link gatekeeper$ENV_SUFFIX:gatekeeper \
         --link solr$ENV_SUFFIX:solr \
         systemone-docker:1.0-SNAPSHOT
@@ -170,8 +191,8 @@ startApptokenverifier() {
 startFitnesse() {
 	echoStartingWithMarkers "fitnesse"
     docker run -d --network=$NETWORK -p 8190:8090 --name systemone-fitnesse$ENV_SUFFIX \
-        --mount source=systemOneArchive$SHARED_FILE_SUFFIX,target=/tmp/sharedArchiveReadable/systemOne,readonly \
-        --mount source=sharedFileStorage$SHARED_FILE_SUFFIX,target=/tmp/sharedFileStorage/systemOne,readonly \
+        --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
+        --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
         --link systemone$ENV_SUFFIX:systemone \
         --link apptokenverifier$ENV_SUFFIX:apptokenverifier \
         --link idplogin$ENV_SUFFIX:idplogin \
