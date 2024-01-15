@@ -1,6 +1,8 @@
 #! /bin/bash
+PARAM1=$1
+
 start(){
-	setParameters "$1"
+	setParameters "$PARAM1"
 	killDockers
 	removeDockers
 	removeVolumes
