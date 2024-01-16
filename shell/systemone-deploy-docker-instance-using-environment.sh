@@ -20,6 +20,7 @@ start(){
 	startGatekeeper
 	startIdplogin
 	startApptokenverifier
+	
 	startFitnesse
 	
 	sleepAndWait 20
