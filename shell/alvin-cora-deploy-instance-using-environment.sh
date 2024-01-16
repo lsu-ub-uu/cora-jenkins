@@ -231,7 +231,7 @@ startFitnesse() {
      -e $FITNESSE_OPTIONS \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
-     alvin-cora-docker-fitnesse:1.0-SNAPSHOT
+     alvin-cora-docker-fitnesse:1.1-SNAPSHOT
 }
 
 sleepAndWait(){
