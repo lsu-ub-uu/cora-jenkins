@@ -64,17 +64,18 @@ setParameters(){
 	
 	DOCKERS=(
 		"alvin-rabbitmq$ENV_SUFFIX"
+    	"alvin-solr$ENV_SUFFIX"
+    	"alvin-postgresql$ENV_SUFFIX"
+    	"alvin-fedora$ENV_SUFFIX"
+    	"alvin-iipimageserverENV_SUFFIX"
     	"alvin-smallImageConverterQueue$ENV_SUFFIX"
     	"alvin-jp2ConverterQueue$ENV_SUFFIX"
     	"alvin-pdfConverterQueue$ENV_SUFFIX"
-    	"alvin-fitnesse$ENV_SUFFIX"
-    	"alvin-fedora$ENV_SUFFIX"
     	"alvin$ENV_SUFFIX"
-    	"alvin-solr$ENV_SUFFIX"
     	"alvin-apptokenverifier$ENV_SUFFIX"
     	"alvin-idplogin$ENV_SUFFIX"
     	"alvin-gatekeeper$ENV_SUFFIX"
-    	"alvin-postgresql$ENV_SUFFIX"
+    	"alvin-fitnesse$ENV_SUFFIX"
 	)
 }
 
