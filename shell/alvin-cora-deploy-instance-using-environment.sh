@@ -8,19 +8,23 @@ start(){
     removeVolumes
 
     startRabbitMq
+    startSolr
+    startFedora
     startPostgresql
+    startIIP
 
     sleepAndWait 10
 
-    startFedora
+	startBinaryConverters
     startAlvin
     startGatekeeper
     startIdplogin
     startApptokenverifier
-    startSolr
 
+	startFitnesse
+	
     sleepAndWait 20
-
+    
     echoStartingWithMarkers "dockers FINISHED"
 }
 
@@ -35,6 +39,7 @@ setParameters(){
 		IDPLOGIN_PORT="-p 8412:8009"
 		#APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
 		APPTOKEN_VERIFIER_PORT="-p 8411:8009" 
+		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/"
 		FITNESSE_PORT="-p 8490:8090"
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -46,6 +51,7 @@ setParameters(){
 		IDPLOGIN_PORT=""
 		#APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
 		APPTOKEN_VERIFIER_PORT=""
+		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8390:8090"
 	fi
 	
@@ -222,9 +228,10 @@ startFitnesse() {
      --network=$NETWORK \
      $FITNESSE_PORT \
      --restart unless-stopped \
+     -e $FITNESSE_OPTIONS \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
-     alvin-docker-fitnesse:1.0-SNAPSHOT
+     alvin-cora-docker-fitnesse:1.0-SNAPSHOT
 }
 
 sleepAndWait(){
