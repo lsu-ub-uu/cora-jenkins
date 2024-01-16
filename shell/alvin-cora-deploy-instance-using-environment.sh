@@ -2,7 +2,7 @@
 ENVIRONMENT=$1
 
 start(){
-	setParameters "$ENVIRONMENT"
+	setParameters
     killDockers
     removeDockers
     removeVolumes
@@ -21,39 +21,40 @@ start(){
 
     sleepAndWait 20
 
-    echoStartingWithMarkers "All dockers finished"
+    echoStartingWithMarkers "dockers FINISHED"
 }
 
 setParameters(){
-	if [ "$1" == "preview" ]; then
-	    echo "Choosen environment: preview"
+	if [ "$ENVIRONMENT" == "preview" ]; then
+	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX=""
 		SHARED_FILE_SUFFIX=""
 		SOLR_PORT="-p 8483:8983"
 		ALVIN_PORT="-p 8410:8009"
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8412:8009"
-		APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
+		#APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
 		APPTOKEN_VERIFIER_PORT="-p 8411:8009" 
 		FITNESSE_PORT="-p 8490:8090"
 	else
-	    echo "Choosen environment: build"
+	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX="-test"
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		ALVIN_PORT=""
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
 		IDPLOGIN_PORT=""
-		APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
+		#APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
 		APPTOKEN_VERIFIER_PORT=""
 		FITNESSE_PORT="-p 8390:8090"
 	fi
 	
 	NETWORK=alvin-cora$ENV_SUFFIX
-	SOURCE_SHARED_ARCHIVE=alvinArchive$SHARED_FILE_SUFFIX
+	SOURCE_SHARED_ARCHIVE=alvinSharedArchive$SHARED_FILE_SUFFIX
 	SOURCE_SHARED_FILE=alvinSharedFileStorage$SHARED_FILE_SUFFIX
 	TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/alvin
 	TARGET_SHARED_FILE=/tmp/sharedFileStorage/alvin
+	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
 	
 	DOCKERS=(
 		"alvin-rabbitmq$ENV_SUFFIX"

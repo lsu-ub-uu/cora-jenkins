@@ -24,7 +24,7 @@ start(){
 	
 	sleepAndWait 20
 	
-	echoStartingWithMarkers "All dockers finished"
+	echoStartingWithMarkers "dockers FINISHED"
 }
 
 setParameters(){
