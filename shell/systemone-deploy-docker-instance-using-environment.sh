@@ -13,7 +13,7 @@ start(){
 	startPostgresql
 	startIIP
 	
-	sleepAndWait 10
+	sleepAndWait 20
 	
 	startBinaryConverters
 	startSystemone
