@@ -167,8 +167,8 @@ startBinaryConverterUsingQueueName() {
      --restart unless-stopped \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
-     -e coraBaseUrl="http://diva$ENV_SUFFIX:8080/systemone/rest/" \
-     -e apptokenVerifierUrl="http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" \
+     -e coraBaseUrl="http://diva:8080/diva/rest/" \
+     -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
      -e userId="141414" \
      -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
      -e rabbitMqHostName="diva-rabbitmq$ENV_SUFFIX" \
