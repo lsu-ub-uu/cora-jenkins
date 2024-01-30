@@ -186,7 +186,7 @@ startAlvin() {
         --network-alias=alvin \
         --network=$NETWORK \
         $ALVIN_PORT \
-        -v /mnt/data/basicstorage \
+        --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
         alvin-docker-cora:1.0-SNAPSHOT
 }
 
