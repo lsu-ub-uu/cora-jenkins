@@ -171,7 +171,7 @@ startBinaryConverterUsingQueueName() {
      -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
      -e userId="141414" \
      -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
-     -e rabbitMqHostName="diva-rabbitmq$ENV_SUFFIX" \
+     -e rabbitMqHostName="diva-rabbitmq" \
      -e rabbitMqPort="5672" \
      -e rabbitMqVirtualHost="/" \
      -e rabbitMqQueueName=$queueName \
