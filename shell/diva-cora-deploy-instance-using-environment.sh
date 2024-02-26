@@ -40,6 +40,19 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/"
 		FITNESSE_PORT="-p 8690:8090"
+		
+	elif [ "$ENVIRONMENT" == "20240226" ]; then
+	    echo "Choosen environment: $ENVIRONMENT"
+	    ENV_SUFFIX="-20240226"
+		SHARED_FILE_SUFFIX="20240226"
+		SOLR_PORT=""
+		DIVA_PORT="-p 8710:8009"
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
+		IDPLOGIN_PORT="-p 8712:8009"
+		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
+		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
+		FITNESSE_PORT="-p 8790:8090"
+		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX="-test"
