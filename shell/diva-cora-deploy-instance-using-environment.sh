@@ -45,17 +45,18 @@ setParameters(){
 		
 	elif [ "$ENVIRONMENT" == "20240226" ]; then
 	    echo "Choosen environment: $ENVIRONMENT"
-	    ENV_SUFFIX="-20240226"
-		SHARED_FILE_SUFFIX="20240226"
+		TAGGED_VERSION="20240226"
+	    ENV_SUFFIX="-$TAGGED_VERSION"
+		SHARED_FILE_SUFFIX=$TAGGED_VERSION
 		SOLR_PORT=""
 		DIVA_PORT="-p 8710:8009"
-		DIVA_JAVA_OPTIONS="JAVA_OPTS=-DtheRestPublicPathToSystem=/20240226/diva/rest/"
+		DIVA_VERSION=$TAGGED_VERSION
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
 		IDPLOGIN_PORT="-p 8712:8009"
 		APPTOKEN_VERIFIER_PORT="-p 8711:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8790:8090"
-		DIVA_POSTGRES_VERSION="20240226"
+		DIVA_POSTGRES_VERSION=$TAGGED_VERSION
 		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -208,9 +209,8 @@ startDiva() {
         --network-alias=diva \
         --network=$NETWORK \
         $DIVA_PORT \
-        -e $DIVA_JAVA_OPTIONS \
         --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
-        diva-docker-cora:1.0-SNAPSHOT
+        diva-docker-cora:$DIVA_VERSION
 }
 
 startGatekeeper() {
