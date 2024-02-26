@@ -30,6 +30,13 @@ start(){
 }
 
 setParameters(){
+	NETWORK=diva-cora$ENV_SUFFIX
+	SOURCE_SHARED_ARCHIVE=divaSharedArchive$SHARED_FILE_SUFFIX
+	SOURCE_SHARED_FILE=divaSharedFileStorage$SHARED_FILE_SUFFIX
+	TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/diva
+	TARGET_SHARED_FILE=/tmp/sharedFileStorage/diva
+	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
+	
 	if [ "$ENVIRONMENT" == "preview" ]; then
 	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX=""
@@ -57,6 +64,7 @@ setParameters(){
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8790:8090"
 		DIVA_POSTGRES_VERSION=$TAGGED_VERSION
+		APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/20240226/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
 		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -71,13 +79,6 @@ setParameters(){
 		FITNESSE_PORT="-p 8590:8090"
 		DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 	fi
-	
-	NETWORK=diva-cora$ENV_SUFFIX
-	SOURCE_SHARED_ARCHIVE=divaSharedArchive$SHARED_FILE_SUFFIX
-	SOURCE_SHARED_FILE=divaSharedFileStorage$SHARED_FILE_SUFFIX
-	TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/diva
-	TARGET_SHARED_FILE=/tmp/sharedFileStorage/diva
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
 	
 	DOCKERS=(
 		"diva-rabbitmq$ENV_SUFFIX"
