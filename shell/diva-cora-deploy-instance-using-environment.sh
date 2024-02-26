@@ -51,7 +51,7 @@ setParameters(){
 		DIVA_PORT="-p 8710:8009"
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
 		IDPLOGIN_PORT="-p 8712:8009"
-		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
+		APPTOKEN_VERIFIER_PORT="-p 8711:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8790:8090"
 		DIVA_POSTGRES_VERSION="20240226"
