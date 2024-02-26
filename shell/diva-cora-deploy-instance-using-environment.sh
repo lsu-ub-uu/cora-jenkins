@@ -208,7 +208,7 @@ startDiva() {
         --network-alias=diva \
         --network=$NETWORK \
         $DIVA_PORT \
-        -e $DIVA_JAVA_OPTIONS
+        -e $DIVA_JAVA_OPTIONS \
         --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
         diva-docker-cora:1.0-SNAPSHOT
 }
