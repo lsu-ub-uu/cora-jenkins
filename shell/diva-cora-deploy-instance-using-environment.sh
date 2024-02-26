@@ -49,6 +49,7 @@ setParameters(){
 		SHARED_FILE_SUFFIX="20240226"
 		SOLR_PORT=""
 		DIVA_PORT="-p 8710:8009"
+		DIVA_JAVA_OPTIONS="JAVA_OPTS=-DtheRestPublicPathToSystem=/20240226/diva/rest/"
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
 		IDPLOGIN_PORT="-p 8712:8009"
 		APPTOKEN_VERIFIER_PORT="-p 8711:8009" 
@@ -207,6 +208,7 @@ startDiva() {
         --network-alias=diva \
         --network=$NETWORK \
         $DIVA_PORT \
+        -e $DIVA_JAVA_OPTIONS
         --mount source=$SOURCE_SHARED_FILE,target=/mnt/data/basicstorage \
         diva-docker-cora:1.0-SNAPSHOT
 }
