@@ -40,6 +40,7 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/"
 		FITNESSE_PORT="-p 8690:8090"
+		DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 		
 	elif [ "$ENVIRONMENT" == "20240226" ]; then
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -52,6 +53,7 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8790:8090"
+		DIVA_POSTGRES_VERSION="20240226"
 		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -64,6 +66,7 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT=""
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8590:8090"
+		DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 	fi
 	
 	NETWORK=diva-cora$ENV_SUFFIX
@@ -147,7 +150,7 @@ startPostgresql() {
      -e POSTGRES_DB=diva \
      -e POSTGRES_USER=diva \
      -e POSTGRES_PASSWORD=diva \
-     diva-docker-postgresql:1.0-SNAPSHOT
+     diva-docker-postgresql:$DIVA_POSTGRES_VERSION
 }
 
 startIIP() {
