@@ -6,7 +6,8 @@ start(){
     killDockers
     removeDockers
     removeVolumes
-
+    
+	createNetwork
     startRabbitMq
     startSolr
     startFedora
@@ -103,6 +104,10 @@ removeDockers() {
 
 removeVolumes() {
     docker volume rm $(docker volume ls -q) && echo nothingToSeeMoveOnToNextCommand
+}
+
+createNetwork() {
+    docker network create $NETWORK
 }
 
 startRabbitMq() {
