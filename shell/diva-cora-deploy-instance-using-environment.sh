@@ -31,6 +31,8 @@ start(){
 
 setParameters(){
 	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
+	DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
+	DIVA_VERSION="1.0-SNAPSHOT"
 	
 	if [ "$ENVIRONMENT" == "preview" ]; then
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -43,7 +45,6 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/"
 		FITNESSE_PORT="-p 8690:8090"
-		DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 		
 	elif [ "$ENVIRONMENT" == "20240226" ]; then
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -72,7 +73,6 @@ setParameters(){
 		APPTOKEN_VERIFIER_PORT=""
 		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
 		FITNESSE_PORT="-p 8590:8090"
-		DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 	fi
 	
 	NETWORK=diva-cora$ENV_SUFFIX
