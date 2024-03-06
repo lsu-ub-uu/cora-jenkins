@@ -17,7 +17,7 @@ pipeline {
     }
     tools {
         jdk 'Cora OpenJDK'
-        maven 'Maven 3.6.x'
+        maven 'Maven latest'
     }
     stages {
         stage("checkout"){
