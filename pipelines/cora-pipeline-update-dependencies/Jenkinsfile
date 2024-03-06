@@ -20,7 +20,7 @@ pipeline {
         stage("checkout"){
             steps{
             	echo "Project: ${UB_PROJECT_NAME}"
-                withCredentials([string(credentialsId: '124b7411-d19a-4d4c-baa4-0769d04ff0be', variable: 'TOKEN'),string(credentialsId: '2a106c39-922c-4d77-9828-916e98b8a95a', variable: 'USERNAME')]) {
+                withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
                     sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
                 }
             }
