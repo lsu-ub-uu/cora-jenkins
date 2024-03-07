@@ -141,6 +141,7 @@ startIIP() {
 	echoStartingWithMarkers "IIPImageServer"
 	docker run -d --name alvin-iipimageserver$ENV_SUFFIX \
 	 --network=$NETWORK \
+	 --net-alias=alvin-iipimageserver \
      --restart unless-stopped \
 	 -e VERBOSITY=0 \
 	 -e FILESYSTEM_PREFIX=$TARGET_SHARED_FILE/streams/ \
