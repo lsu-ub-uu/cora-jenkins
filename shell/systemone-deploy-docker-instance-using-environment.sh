@@ -129,8 +129,8 @@ startPostgresql() {
 	echoStartingWithMarkers "postgresql"
     docker run -d --name systemone-postgresql$ENV_SUFFIX \
      --network=$NETWORK \
-     --restart unless-stopped \
      --net-alias=systemone-postgresql \
+     --restart unless-stopped \
      -e POSTGRES_DB=systemone \
      -e POSTGRES_USER=systemone \
      -e POSTGRES_PASSWORD=systemone \
@@ -141,6 +141,7 @@ startIIP() {
 	echoStartingWithMarkers "IIPImageServer"
 	docker run -d --name systemone-iipimageserver$ENV_SUFFIX \
 	 --network=$NETWORK \
+     --net-alias=systemone-iipimageserver \
      --restart unless-stopped \
 	 -e VERBOSITY=0 \
 	 -e FILESYSTEM_PREFIX=$TARGET_SHARED_FILE/streams/ \

@@ -166,6 +166,7 @@ startIIP() {
 	echoStartingWithMarkers "IIPImageServer"
 	docker run -d --name diva-iipimageserver$ENV_SUFFIX \
 	 --network=$NETWORK \
+	 --net-alias=diva-iipimageserver \
      --restart unless-stopped \
 	 -e VERBOSITY=0 \
 	 -e FILESYSTEM_PREFIX=$TARGET_SHARED_FILE/streams/ \
