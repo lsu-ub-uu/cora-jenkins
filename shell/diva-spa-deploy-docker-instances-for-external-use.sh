@@ -24,7 +24,8 @@ docker run -d --name diva-react-spa-bff-dev \
     --net=diva-cora \
     --restart=unless-stopped \
      -p 9877:8080 \
-     -e CORA_API_URL=https://cora.epc.ub.uu.se/diva/rest  \
+     -e CORA_API_URL=https://cora.epc.ub.uu.se/20240226/diva/rest/  \
+     -e CORA_APPTOKENVERIFIER_URL=https://cora.epc.ub.uu.se/20240226/diva/  \
     diva-react-spa-bff:latest
 
 echo ""
