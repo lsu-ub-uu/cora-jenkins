@@ -5,18 +5,15 @@
 	<ignoreVersions>
 		<ignoreVersion type="regex">(?i).*(alpha|b|beta|rc|m|ea|jre).*</ignoreVersion>
 	</ignoreVersions>
-<!-- 	Filters for specific groupIds -->
-<!-- 	<rules> -->
-<!-- 		<rule groupId="se.uu.ub.cora" comparisonMethod="maven"> -->
-<!-- 			<ignoreVersions> -->
-<!-- 				<ignoreVersion>2.1.0</ignoreVersion> -->
-<!-- 			</ignoreVersions> -->
-<!-- 		</rule> -->
-<!-- 	</rules> -->
 	<rules>
 		<rule groupId="jakarta.servlet" artifactId="jakarta.servlet-api" comparisonMethod="maven" >
 			<ignoreVersions>
 				<ignoreVersion>6.0.0</ignoreVersion>
+			</ignoreVersions>
+		</rule>
+		<rule groupId="se.uu.ub.cora" artifactId="diva-metadata" comparisonMethod="maven" >
+			<ignoreVersions>
+				<ignoreVersion>20240226</ignoreVersion>
 			</ignoreVersions>
 		</rule>
 	</rules>
