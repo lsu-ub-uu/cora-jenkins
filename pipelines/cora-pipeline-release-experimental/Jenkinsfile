@@ -24,8 +24,8 @@ pipeline {
             steps{
             	echo "Project: ${UB_PROJECT_NAME}"
             	echo "FORCE_RELEASE: ${FORCE_RELEASE}"
-                withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
-                    sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
+                withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'GITHUB_TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'GITHUB_USERNAME')]) {
+                    sh 'git clone https://$GITHUB_TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
                 }
             }
         }
@@ -34,13 +34,22 @@ pipeline {
 //	           	sh 'mvn -f $UB_PROJECT_NAME -DgenerateBackupPoms=false -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml" \
 //	           	versions:update-parent versions:update-properties' 
  //           }
+ environment {
+                GIT_AUTH = credentials('04bc33f5-abdd-4486-b43b-a5900f6fc080')
+                MVN_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
+                MVN_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
+                MVN_NEXT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
+                MVN_NEXT_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout", returnStdout: true) 
+                BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
+                DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
+            }
            steps {
 	           	sh 'mvn -f $UB_PROJECT_NAME -DgenerateBackupPoms=false -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml" \
-	           	 -Dusername=$GITHUB_USERNAME -Dpassword=$GITHUB_TOKEN release:branch -DbranchName=release/$UB_BRANCH_VERSION -DupdateBranchVersions=true \
+	           	 -Dusername=$GITHUB_USERNAME -Dpassword=$GITHUB_TOKEN -DbranchName=release/$UB_BRANCH_VERSION -DupdateBranchVersions=true \
 	           	 -DreleaseVersion=$UB_BRANCH_VERSION.0-SNAPSHOT -DupdateWorkingCopyVersions=true -DdevelopmentVersion=$UB_DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" -Dresume=false \
 	           	 -DpushChanges=false -DpreparationGoals=initialize \
-	           	versions:update-parent versions:update-properties release:branch release:prepare release:perform' 
+	           	versions:update-parent versions:update-properties release:branch release:perform' 
            }
         }
 
