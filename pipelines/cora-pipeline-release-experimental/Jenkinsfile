@@ -46,6 +46,7 @@ pipeline {
            steps {
 	           	sh 'mvn -f $UB_PROJECT_NAME -DgenerateBackupPoms=false -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml" \
 	           	 -Dusername=$GITHUB_USERNAME -Dpassword=$GITHUB_TOKEN -DbranchName=release/$UB_BRANCH_VERSION -DupdateBranchVersions=true \
+	           	 -Dscm.checkLocalModification.skip=true \
 	           	 -DreleaseVersion=$UB_BRANCH_VERSION.0-SNAPSHOT -DupdateWorkingCopyVersions=true -DdevelopmentVersion=$UB_DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" -Dresume=false \
 	           	 -DpushChanges=false -DpreparationGoals=initialize \
