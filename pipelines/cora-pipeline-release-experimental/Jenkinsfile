@@ -67,7 +67,7 @@ pipeline {
 	           	 release:perform' 
            }
         }
-        stage("commit updates"){
+        stage("commit and push to git"){
             steps {
             	dir ("$UB_PROJECT_NAME") {
  	                sh 'git config user.email "jenkins@ub"'
@@ -76,19 +76,6 @@ pipeline {
  	                    CHECKED_IN = sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
  	                }
                 }
-            }
-        }
-        stage("build new version"){
-            when {
-                expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
-            }
-            steps {
-            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy sonar:sonar'
-            }
-        }
-        stage("push update to git"){
-            when {
-                expression { CHECKED_IN == 0 }
             }
             steps {
             	dir ("$UB_PROJECT_NAME") {
