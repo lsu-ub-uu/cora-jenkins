@@ -63,6 +63,7 @@ pipeline {
 	           	 -Dresume=false \
 	           	 -DpushChanges=false \
 	           	 -DpreparationGoals=initialize \
+	           	 -DlocalCheckout=true \
 	           	 versions:update-parent \
 	           	 versions:update-properties \
 	           	 release:branch \
