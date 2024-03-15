@@ -51,7 +51,7 @@ pipeline {
 	           	 -Dpassword=$GITHUB_TOKEN \
 	           	 -DbranchName=release/$UB_BRANCH_VERSION \
 	           	 -DupdateBranchVersions=true \
-	           	 -DcheckModificationExcludes=["**\\pom.xml"] \
+	           	 -checkModificationExcludeList=**\\pom.xml \
 	           	 -DreleaseVersion=$UB_BRANCH_VERSION.0-SNAPSHOT \
 	           	 -DupdateWorkingCopyVersions=true \
 	           	 -DdevelopmentVersion=$UB_DEV_BRANCH_VERSION-SNAPSHOT \
