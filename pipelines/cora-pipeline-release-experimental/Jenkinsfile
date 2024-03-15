@@ -6,7 +6,7 @@ pipeline {
 
     parameters {
         string( name: 'UB_PROJECT_NAME', 
-            defaultValue: 'cora-testrelease', 
+            defaultValue: 'cora-testrelease-a', 
             description: 'Name of the project to build')
         string( name: 'UB_BRANCH_NAME', 
             defaultValue: 'master', 
@@ -44,6 +44,9 @@ pipeline {
                 DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
             }
            steps {
+            	echo "Branch version:$BRANCH_VERSION"
+                echo "Dev branch version:$DEV_BRANCH_VERSION"
+           
 	           	sh 'mvn -f $UB_PROJECT_NAME \
 	           	 -DgenerateBackupPoms=false \
 	           	 -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml" \
