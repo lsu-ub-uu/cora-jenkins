@@ -72,7 +72,7 @@ pipeline {
             	dir ("$UB_PROJECT_NAME") {
  	                sh 'git config user.email "jenkins@ub"'
  	                sh 'git config user.name "Jenkins CI"'
- 	                sh 'git commit -am="Commit form jenkins"'
+ 	                sh 'git commit -m="Commit form jenkins"'
  	                sh 'git push'
                 }
             }
