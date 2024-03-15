@@ -72,15 +72,9 @@ pipeline {
             	dir ("$UB_PROJECT_NAME") {
  	                sh 'git config user.email "jenkins@ub"'
  	                sh 'git config user.name "Jenkins CI"'
- 	                script {
- 	                    CHECKED_IN = sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
- 	                }
-                }
-            }
-            steps {
-            	dir ("$UB_PROJECT_NAME") {
+ 	                sh 'git commit -am="Commit form jenkins"'
  	                sh 'git push'
- 	            }
+                }
             }
         }
     }
