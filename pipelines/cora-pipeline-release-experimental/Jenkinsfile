@@ -40,7 +40,7 @@ pipeline {
                 BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
                 DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
             }
-           steps {
+            steps {
             	echo "Branch version:$BRANCH_VERSION"
                 echo "Dev branch version:$DEV_BRANCH_VERSION"
            
@@ -66,7 +66,7 @@ pipeline {
 	           	 release:prepare \
 	           	 release:perform' 
            }
-        
+        }
         stage("commit updates"){
             steps {
             	dir ("$UB_PROJECT_NAME") {
@@ -96,7 +96,6 @@ pipeline {
  	            }
             }
         }
-      }
     }
     post {
         always {
