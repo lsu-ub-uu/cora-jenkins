@@ -39,7 +39,8 @@ pipeline {
 	           	 -Dusername=$GITHUB_USERNAME -Dpassword=$GITHUB_TOKEN release:branch -DbranchName=release/$UB_BRANCH_VERSION -DupdateBranchVersions=true \
 	           	 -DreleaseVersion=$UB_BRANCH_VERSION.0-SNAPSHOT -DupdateWorkingCopyVersions=true -DdevelopmentVersion=$UB_DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" -Dresume=false \
-	           	versions:update-parent versions:update-properties release:branch release:prepare release:perform -Pskip-karma-tests' 
+	           	 -DpushChanges=false -DpreparationGoals=initialize \
+	           	versions:update-parent versions:update-properties release:branch release:prepare release:perform' 
            }
         }
 
