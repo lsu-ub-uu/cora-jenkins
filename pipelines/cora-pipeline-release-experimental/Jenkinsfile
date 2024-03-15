@@ -35,7 +35,8 @@ pipeline {
 //	           	versions:update-parent versions:update-properties' 
  //           }
  environment {
-                GIT_AUTH = credentials('04bc33f5-abdd-4486-b43b-a5900f6fc080')
+                GITHUB_USERNAME = credentials('04bc33f5-abdd-4486-b43b-a5900f6fc080')
+                GITHUB_TOKEN = credentials('9af4f5c5-4a09-4bbe-9436-2c102765d85b')
                 MVN_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
                 MVN_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
                 MVN_NEXT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
@@ -52,12 +53,12 @@ pipeline {
 	           	 -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml" \
 	           	 -Dusername=$GITHUB_USERNAME \
 	           	 -Dpassword=$GITHUB_TOKEN \
-	           	 -DbranchName=release/$UB_BRANCH_VERSION \
+	           	 -DbranchName=release/$BRANCH_VERSION \
 	           	 -DupdateBranchVersions=true \
 	           	 -DcheckModificationExcludeList=**\\pom.xml \
-	           	 -DreleaseVersion=$UB_BRANCH_VERSION.0-SNAPSHOT \
+	           	 -DreleaseVersion=$BRANCH_VERSION.0-SNAPSHOT \
 	           	 -DupdateWorkingCopyVersions=true \
-	           	 -DdevelopmentVersion=$UB_DEV_BRANCH_VERSION-SNAPSHOT \
+	           	 -DdevelopmentVersion=$DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" \
 	           	 -Dresume=false \
 	           	 -DpushChanges=false \
