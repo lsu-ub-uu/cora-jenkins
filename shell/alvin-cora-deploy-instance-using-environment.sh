@@ -33,7 +33,7 @@ setParameters(){
 	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX=""
 		SHARED_FILE_SUFFIX=""
-		SOLR_PORT=""
+		SOLR_PORT="-p 8983:8983"
 		ALVIN_PORT="-p 8410:8009"
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8412:8009"
@@ -58,7 +58,7 @@ setParameters(){
 	SOURCE_SHARED_FILE=alvinSharedFileStorage$SHARED_FILE_SUFFIX
 	TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/alvin
 	TARGET_SHARED_FILE=/tmp/sharedFileStorage/alvin
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://alvin-postgresql:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin" 
+	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://alvin-postgresql$ENV_SUFFIX:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin -Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/" 
 	
 	DOCKERS=(
 		"alvin-rabbitmq$ENV_SUFFIX"
@@ -129,8 +129,8 @@ startPostgresql() {
 	echoStartingWithMarkers "postgresql"
     docker run -d --name alvin-postgresql$ENV_SUFFIX \
      --network=$NETWORK \
-     --restart unless-stopped \
      --net-alias=alvin-postgresql \
+     --restart unless-stopped \
      -e POSTGRES_DB=alvin \
      -e POSTGRES_USER=alvin \
      -e POSTGRES_PASSWORD=alvin \
