@@ -33,7 +33,7 @@ setParameters(){
 	    echo "Choosen environment: $ENVIRONMENT"
 	    ENV_SUFFIX=""
 		SHARED_FILE_SUFFIX=""
-		SOLR_PORT="-p 8983:8983"
+		SOLR_PORT=""
 		ALVIN_PORT="-p 8410:8009"
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8412:8009"
