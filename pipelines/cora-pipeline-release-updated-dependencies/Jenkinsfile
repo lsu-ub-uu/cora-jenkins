@@ -17,14 +17,14 @@ pipeline {
     }
     tools {
         jdk 'Cora OpenJDK'
-        maven 'Maven 3.6.x'
+        maven 'Maven latest'
     }
     stages {
         stage("checkout"){
             steps{
             	echo "Project: ${UB_PROJECT_NAME}"
             	echo "FORCE_RELEASE: ${FORCE_RELEASE}"
-                withCredentials([string(credentialsId: '124b7411-d19a-4d4c-baa4-0769d04ff0be', variable: 'TOKEN'),string(credentialsId: '2a106c39-922c-4d77-9828-916e98b8a95a', variable: 'USERNAME')]) {
+                withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
                     sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
                 }
             }
@@ -70,7 +70,7 @@ pipeline {
                 expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
            environment {
-                GIT_AUTH = credentials('2a106c39-922c-4d77-9828-916e98b8a95a')
+                GIT_AUTH = credentials('04bc33f5-abdd-4486-b43b-a5900f6fc080')
                 MVN_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
                 MVN_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
                 MVN_NEXT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
