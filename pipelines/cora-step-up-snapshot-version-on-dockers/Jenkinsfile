@@ -12,7 +12,7 @@ pipeline {
             defaultValue: 'master', 
             description: 'Name of the branch to build')
         string( name: 'UB_DOCKER_PROPERTIES_LIST', 
-            defaultValue: 'cora-metadata.version,diva-metadata.version,systemone-metadata.version,alvin-metadata.version,systemone.version,cora-apptokenverifier-war.version,systemonegatekeeperwar.version,diva.version,divacorafitnesse.version,divagatekeeperwar.version,alvin.version,alvingatekeeperwar.version,idplogin.version,alvincorafitnesse.version,alvingatekeeperwar.version,corafitnesse.version', 
+            defaultValue: 'cora-metadata.version,diva-metadata.version,systemone-metadata.version,alvin-metadata.version,systemone.version,cora-apptokenverifier-war.version,systemonegatekeeperwar.version,diva.version,divacorafitnesse.version,divagatekeeperwar.version,alvin.version,alvingatekeeperwar.version,idplogin.version,alvincorafitnesse.version,alvingatekeeperwar.version,corafitnesse.version, binaryconverter.version', 
             description: 'Name of the branch to build')
     }
     tools {
