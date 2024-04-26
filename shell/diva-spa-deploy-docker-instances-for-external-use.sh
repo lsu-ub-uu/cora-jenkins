@@ -1,12 +1,12 @@
 echo "Kill dockers"
-docker kill diva-react-spa diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker kill diva-react-spa-dev diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm diva-react-spa diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker rm diva-react-spa-dev diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Starting diva-client-gui"
-docker run -d --name diva-react-spa \
+docker run -d --name diva-react-spa-dev \
     --restart=unless-stopped \
     --net=diva-cora \
      -e VITE_BFF_API_URL=http://bff:8080/api \
