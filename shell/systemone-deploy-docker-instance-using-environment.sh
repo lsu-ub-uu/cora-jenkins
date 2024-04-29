@@ -19,7 +19,7 @@ start(){
 	startSystemone
 	startGatekeeper
 	startIdplogin
-	startApptokenverifier
+	startLogin
 	
 	startFitnesse
 	
@@ -35,10 +35,10 @@ if [ "$1" == "preview" ]; then
 	SHARED_FILE_SUFFIX=""
 	SOLR_PORT="-p 8983:8983"
 	SYSTEMONE_PORT="-p 8210:8009"
-	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/apptokenverifier/rest/apptoken/" 
+	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/login/rest/apptoken/" 
 	IDPLOGIN_PORT="-p 8212:8009"
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" 
-	APPTOKEN_VERIFIER_PORT="-p 8211:8009" 
+	LOGIN_OPTIONS="JAVA_OPTS=-Dlogin.public.path.to.system=/systemone/login/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" 
+	LOGIN_PORT="-p 8211:8009" 
 	FITNESSE_PORT="-p 8290:8090"
 else
     echo "Choosen environment: build"
@@ -46,10 +46,10 @@ else
 	SHARED_FILE_SUFFIX="Test"
 	SOLR_PORT=""
 	SYSTEMONE_PORT=""
-	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://apptokenverifier$ENV_SUFFIX:8080/apptokenverifier/rest/" 
+	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/login/rest/" 
 	IDPLOGIN_PORT=""
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone -Dapptokenverifier.public.path.to.system=/systemone/apptokenverifier/rest/" 
-	APPTOKEN_VERIFIER_PORT=""
+	LOGIN_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone -Dlogin.public.path.to.system=/systemone/login/rest/" 
+	LOGIN_PORT=""
 	FITNESSE_PORT="-p 8190:8090"
 fi
 
@@ -71,7 +71,7 @@ DOCKERS=(
     "systemone$ENV_SUFFIX"
     "gatekeeper$ENV_SUFFIX"
     "idplogin$ENV_SUFFIX"
-    "apptokenverifier$ENV_SUFFIX"
+    "login$ENV_SUFFIX"
     "systemone-fitnesse$ENV_SUFFIX"
 )
 
@@ -169,7 +169,7 @@ startBinaryConverterUsingQueueName() {
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
      -e coraBaseUrl="http://systemone:8080/systemone/rest/" \
-     -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+     -e apptokenVerifierUrl="http://login:8080/login/rest/" \
      -e userId="141414" \
      -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
      -e rabbitMqHostName="systemone-rabbitmq" \
@@ -212,15 +212,15 @@ startIdplogin() {
      cora-docker-idplogin:1.0-SNAPSHOT
 }
 
-startApptokenverifier() {
-   	echoStartingWithMarkers "apptokenverifier"
-    docker run -d --name apptokenverifier$ENV_SUFFIX \
+startLogin() {
+   	echoStartingWithMarkers "login"
+    docker run -d --name login$ENV_SUFFIX \
      --network=$NETWORK \
-     --network-alias=apptokenverifier \
-     $APPTOKEN_VERIFIER_PORT \
+     --network-alias=login \
+     $LOGIN_PORT \
      --restart unless-stopped \
-     -e "$APPTOKEN_VERIFIER_OPTIONS" \
-     cora-docker-apptokenverifier:1.0-SNAPSHOT
+     -e "$LOGIN_OPTIONS" \
+     cora-docker-login:1.0-SNAPSHOT
 }
 
 startFitnesse() {
