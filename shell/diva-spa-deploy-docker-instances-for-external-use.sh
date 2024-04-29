@@ -9,8 +9,8 @@ echo "Starting diva-client-gui"
 docker run -d --name diva-client-gui \
     --restart=unless-stopped \
     --net=diva-cora \
-     -e VITE_BFF_API_URL=http://bff:8080/api \
-     -p 9876:80 \
+    -e VITE_BFF_API_URL=http://bff:8080/api \
+    -p 9876:80 \
     diva-client-gui-docker:1.0-SNAPSHOT
 
 echo ""
@@ -19,9 +19,9 @@ docker run -d --name diva-client-bff \
     --net-alias=bff \
     --net=diva-cora \
     --restart=unless-stopped \
-     -p 9877:8080 \
-     -e CORA_API_URL=https://cora.epc.ub.uu.se/diva/rest  \
-     -e CORA_APPTOKENVERIFIER_URL=https://cora.epc.ub.uu.se/diva  \
+    -p 9877:8080 \
+    -e CORA_API_URL=https://diva:8080/diva/rest  \
+    -e CORA_APPTOKENVERIFIER_URL=https://login:8080/login/rest  \
     diva-client-bff-docker:1.0-SNAPSHOT
 
 echo ""
