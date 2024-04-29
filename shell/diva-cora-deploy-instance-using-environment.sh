@@ -20,7 +20,7 @@ start(){
     startDiva
     startGatekeeper
     startIdplogin
-    startApptokenverifier
+    startLogin
 
 	startFitnesse
 	
@@ -30,7 +30,7 @@ start(){
 }
 
 setParameters(){
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
+	LOGIN_OPTIONS="JAVA_OPTS=-Dlogin.public.path.to.system=/diva/login/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
 	DIVA_POSTGRES_VERSION="1.0-SNAPSHOT"
 	DIVA_VERSION="1.0-SNAPSHOT"
 	
@@ -40,10 +40,10 @@ setParameters(){
 		SHARED_FILE_SUFFIX=""
 		SOLR_PORT=""
 		DIVA_PORT="-p 8610:8009"
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8612:8009"
-		APPTOKEN_VERIFIER_PORT="-p 8611:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest/apptoken/"
+		LOGIN_PORT="-p 8611:8009" 
+		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/"
 		FITNESSE_PORT="-p 8690:8090"
 		
 	elif [ "$ENVIRONMENT" == "20240226" ]; then
@@ -54,13 +54,13 @@ setParameters(){
 		SOLR_PORT=""
 		DIVA_PORT="-p 8710:8009"
 		DIVA_VERSION=$TAGGED_VERSION
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://login/rest/" 
 		IDPLOGIN_PORT="-p 8712:8009"
-		APPTOKEN_VERIFIER_PORT="-p 8711:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
+		LOGIN_PORT="-p 8711:8009" 
+		FITNESSE_OPTIONS="tokenLogoutURL=https://login/rest/"
 		FITNESSE_PORT="-p 8790:8090"
 		DIVA_POSTGRES_VERSION=$TAGGED_VERSION
-		APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Dapptokenverifier.public.path.to.system=/20240226/diva/apptokenverifier/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
+		LOGIN_OPTIONS="JAVA_OPTS=-Dlogin.public.path.to.system=/20240226/diva/login/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
 		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -68,10 +68,10 @@ setParameters(){
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		DIVA_PORT=""
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://login/rest/" 
 		IDPLOGIN_PORT=""
-		APPTOKEN_VERIFIER_PORT=""
-		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
+		LOGIN_PORT=""
+		FITNESSE_OPTIONS="tokenLogoutURL=https://login/rest/"
 		FITNESSE_PORT="-p 8590:8090"
 	fi
 	
@@ -91,7 +91,7 @@ setParameters(){
     	"diva-jp2ConverterQueue$ENV_SUFFIX"
     	"diva-pdfConverterQueue$ENV_SUFFIX"
     	"diva$ENV_SUFFIX"
-    	"diva-apptokenverifier$ENV_SUFFIX"
+    	"diva-login$ENV_SUFFIX"
     	"diva-idplogin$ENV_SUFFIX"
     	"diva-gatekeeper$ENV_SUFFIX"
     	"diva-fitnesse$ENV_SUFFIX"
@@ -194,7 +194,7 @@ startBinaryConverterUsingQueueName() {
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
      -e coraBaseUrl="http://diva:8080/diva/rest/" \
-     -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+     -e apptokenVerifierUrl="http://login:8080/login/rest/" \
      -e userId="141414" \
      -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
      -e rabbitMqHostName="diva-rabbitmq" \
@@ -236,15 +236,15 @@ startIdplogin() {
      cora-docker-idplogin:1.0-SNAPSHOT
 }
 
-startApptokenverifier() {
-   	echoStartingWithMarkers "apptokenverifier"
-    docker run -d --name diva-apptokenverifier$ENV_SUFFIX \
+startLogin() {
+   	echoStartingWithMarkers "login"
+    docker run -d --name diva-login$ENV_SUFFIX \
      --network=$NETWORK \
-     --network-alias=apptokenverifier \
-     $APPTOKEN_VERIFIER_PORT \
+     --network-alias=login \
+     $LOGIN_PORT \
      --restart unless-stopped \
-     -e "$APPTOKEN_VERIFIER_OPTIONS" \
-     cora-docker-apptokenverifier:1.0-SNAPSHOT
+     -e "$LOGIN_OPTIONS" \
+     cora-docker-login:1.0-SNAPSHOT
 }
 
 startFitnesse() {

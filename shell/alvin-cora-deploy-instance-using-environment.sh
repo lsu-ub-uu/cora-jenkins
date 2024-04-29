@@ -19,7 +19,7 @@ start(){
     startAlvin
     startGatekeeper
     startIdplogin
-    startApptokenverifier
+    startLogin
 
 	startFitnesse
 	
@@ -35,10 +35,10 @@ setParameters(){
 		SHARED_FILE_SUFFIX=""
 		SOLR_PORT=""
 		ALVIN_PORT="-p 8410:8009"
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8412:8009"
-		APPTOKEN_VERIFIER_PORT="-p 8411:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/apptokenverifier/rest/apptoken/"
+		LOGIN_PORT="-p 8411:8009" 
+		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/"
 		FITNESSE_PORT="-p 8490:8090"
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
@@ -46,10 +46,10 @@ setParameters(){
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		ALVIN_PORT=""
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://apptokenverifier/rest/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://login/rest/" 
 		IDPLOGIN_PORT=""
-		APPTOKEN_VERIFIER_PORT=""
-		FITNESSE_OPTIONS="tokenLogoutURL=https://apptokenverifier/rest/"
+		LOGIN_PORT=""
+		FITNESSE_OPTIONS="tokenLogoutURL=https://login/rest/"
 		FITNESSE_PORT="-p 8390:8090"
 	fi
 	
@@ -58,7 +58,7 @@ setParameters(){
 	SOURCE_SHARED_FILE=alvinSharedFileStorage$SHARED_FILE_SUFFIX
 	TARGET_SHARED_ARCHIVE=/tmp/sharedArchiveReadable/alvin
 	TARGET_SHARED_FILE=/tmp/sharedFileStorage/alvin
-	APPTOKEN_VERIFIER_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://alvin-postgresql$ENV_SUFFIX:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin -Dapptokenverifier.public.path.to.system=/alvin/apptokenverifier/rest/" 
+	LOGIN_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://alvin-postgresql$ENV_SUFFIX:5432/alvin -Ddbusername=alvin -Ddbpassword=alvin -Dlogin.public.path.to.system=/alvin/login/rest/" 
 	
 	DOCKERS=(
 		"alvin-rabbitmq$ENV_SUFFIX"
@@ -70,7 +70,7 @@ setParameters(){
     	"alvin-jp2ConverterQueue$ENV_SUFFIX"
     	"alvin-pdfConverterQueue$ENV_SUFFIX"
     	"alvin$ENV_SUFFIX"
-    	"alvin-apptokenverifier$ENV_SUFFIX"
+    	"alvin-login$ENV_SUFFIX"
     	"alvin-idplogin$ENV_SUFFIX"
     	"alvin-gatekeeper$ENV_SUFFIX"
     	"alvin-fitnesse$ENV_SUFFIX"
@@ -169,7 +169,7 @@ startBinaryConverterUsingQueueName() {
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
      -e coraBaseUrl="http://alvin:8080/alvin/rest/" \
-     -e apptokenVerifierUrl="http://apptokenverifier:8080/apptokenverifier/rest/" \
+     -e apptokenVerifierUrl="http://login:8080/login/rest/" \
      -e userId="141414" \
      -e appToken="63e6bd34-02a1-4c82-8001-158c104cae0e" \
      -e rabbitMqHostName="alvin-rabbitmq" \
@@ -211,15 +211,15 @@ startIdplogin() {
      cora-docker-idplogin:1.0-SNAPSHOT
 }
 
-startApptokenverifier() {
-   	echoStartingWithMarkers "apptokenverifier"
-    docker run -d --name alvin-apptokenverifier$ENV_SUFFIX \
+startLogin() {
+   	echoStartingWithMarkers "login"
+    docker run -d --name alvin-login$ENV_SUFFIX \
      --network=$NETWORK \
-     --network-alias=apptokenverifier \
-     $APPTOKEN_VERIFIER_PORT \
+     --network-alias=login \
+     $LOGIN_PORT \
      --restart unless-stopped \
-     -e "$APPTOKEN_VERIFIER_OPTIONS" \
-     cora-docker-apptokenverifier:1.0-SNAPSHOT
+     -e "$LOGIN_OPTIONS" \
+     cora-docker-login:1.0-SNAPSHOT
 }
 
 startFitnesse() {
