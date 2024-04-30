@@ -21,7 +21,7 @@ docker run -d --name diva-client-bff \
     --restart=unless-stopped \
     -p 9877:8080 \
     -e CORA_API_URL=https://diva:8080/diva/rest  \
-    -e CORA_APPTOKENVERIFIER_URL=https://login:8080/login/rest  \
+    -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/apptokenverifier/rest  \
     diva-client-bff-docker:1.0-SNAPSHOT
 
 echo ""
