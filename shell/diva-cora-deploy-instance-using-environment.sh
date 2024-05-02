@@ -14,7 +14,7 @@ start(){
     startPostgresql
     startIIP
 
-    sleepAndWait 20
+    sleepAndWait 15
 
 	startBinaryConverters
     startDiva
@@ -24,7 +24,7 @@ start(){
 
 	startFitnesse
 	
-    sleepAndWait 20
+    sleepAndWait 15
     
     echoStartingWithMarkers "dockers FINISHED"
 }
@@ -45,22 +45,6 @@ setParameters(){
 		LOGIN_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/"
 		FITNESSE_PORT="-p 8690:8090"
-		
-	elif [ "$ENVIRONMENT" == "20240226" ]; then
-	    echo "Choosen environment: $ENVIRONMENT"
-		TAGGED_VERSION="20240226"
-	    ENV_SUFFIX="-$TAGGED_VERSION"
-		SHARED_FILE_SUFFIX=$TAGGED_VERSION
-		SOLR_PORT=""
-		DIVA_PORT="-p 8710:8009"
-		DIVA_VERSION=$TAGGED_VERSION
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=https://login/rest/" 
-		IDPLOGIN_PORT="-p 8712:8009"
-		LOGIN_PORT="-p 8711:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://login/rest/"
-		FITNESSE_PORT="-p 8790:8090"
-		DIVA_POSTGRES_VERSION=$TAGGED_VERSION
-		LOGIN_OPTIONS="JAVA_OPTS=-Dlogin.public.path.to.system=/20240226/diva/login/rest/ -Ddburl=jdbc:postgresql://diva-postgresql:5432/diva -Ddbusername=diva -Ddbpassword=diva" 
 		
 	else
 	    echo "Choosen environment: $ENVIRONMENT"
