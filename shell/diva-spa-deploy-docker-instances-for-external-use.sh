@@ -20,8 +20,8 @@ docker run -d --name diva-client-bff \
     --net=diva-cora \
     --restart=unless-stopped \
     -p 9877:8080 \
-    -e CORA_API_URL=https://diva:8080/diva/rest  \
-    -e CORA_LOGIN_URL=https://login:8080/diva/login/rest  \
+    -e CORA_API_URL=http://diva:8080/diva/rest  \
+    -e CORA_LOGIN_URL=http://login:8080/diva/login/rest  \
     diva-client-bff-docker:1.0-SNAPSHOT
 
 echo ""
