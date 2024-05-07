@@ -29,7 +29,7 @@ start(){
 }
 login(){
 	#AUTH_TOKEN=$(curl -s -X POST -k -i ${LOGIN_URL} --data ${APP_TOKEN} | grep -o -P '(?<={"name":"id","value":").*?(?="})')
-	local loginAnswer=$(curl -s -X POST -k -i ${LOGIN_URL} --data ${APP_TOKEN});
+	local loginAnswer=$(curl -s -X POST -H "Content-Type: text/plain" -k -i ${LOGIN_URL} --data ${APP_TOKEN});
 	echo 'LoginAnswer: '${loginAnswer} 
 	AUTH_TOKEN=$(echo ${loginAnswer} | grep -o -P '(?<={"name":"id","value":").*?(?="})')
 	echo 'Logged in, got authToken: '${AUTH_TOKEN} 
@@ -42,7 +42,7 @@ indexMetadata(){
 }
 logoutFromCora(){
 	echo ""
-	curl -s -X DELETE -k  '${LOGIN_URL}' --data ${AUTH_TOKEN} 
+	curl -s -X DELETE -H "Content-Type: text/plain" -k  '${LOGIN_URL}' --data ${AUTH_TOKEN} 
 	echo 'Logged out' 
 }
 
