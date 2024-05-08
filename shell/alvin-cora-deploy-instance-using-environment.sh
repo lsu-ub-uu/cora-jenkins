@@ -35,10 +35,10 @@ setParameters(){
 		SHARED_FILE_SUFFIX=""
 		SOLR_PORT=""
 		ALVIN_PORT="-p 8410:8009"
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/alvin/login/rest/authToken/" 
 		IDPLOGIN_PORT="-p 8412:8009"
 		LOGIN_PORT="-p 8411:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/"
+		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/alvin/login/rest/authToken/"
 		FITNESSE_PORT="-p 8490:8090"
 	else
 	    echo "Choosen environment: $ENVIRONMENT"

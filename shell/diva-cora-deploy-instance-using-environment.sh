@@ -43,7 +43,7 @@ setParameters(){
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/" 
 		IDPLOGIN_PORT="-p 8612:8009"
 		LOGIN_PORT="-p 8611:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/"
+		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/authToken/"
 		FITNESSE_PORT="-p 8690:8090"
 		
 	else
