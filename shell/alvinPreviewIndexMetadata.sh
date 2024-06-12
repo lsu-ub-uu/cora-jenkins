@@ -5,7 +5,7 @@ INDEX_URL='https://cora.epc.ub.uu.se/alvin/rest/record/index'
 #APP_TOKEN='63e6bd34-02a1-4c82-8001-158c104cae0e'
 
 LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/151515'
-APP_TOKEN='935ae709-4056-4b3d-85d2-469b304acfae'
+APP_TOKEN='63ef81cd-1d88-4a6a-aff0-f0d809a74d34'
 
 start(){
 	sleep 15
