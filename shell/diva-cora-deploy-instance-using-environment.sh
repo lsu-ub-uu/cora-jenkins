@@ -40,7 +40,7 @@ setParameters(){
 		SHARED_FILE_SUFFIX=""
 		SOLR_PORT=""
 		DIVA_PORT="-p 8610:8009"
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/login/rest/apptoken/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/login/rest/authToken/" 
 		IDPLOGIN_PORT="-p 8612:8009"
 		LOGIN_PORT="-p 8611:8009" 
 		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/authToken/"
