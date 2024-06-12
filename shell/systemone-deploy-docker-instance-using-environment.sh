@@ -35,7 +35,7 @@ if [ "$1" == "preview" ]; then
 	SHARED_FILE_SUFFIX=""
 	SOLR_PORT="-p 8983:8983"
 	SYSTEMONE_PORT="-p 8210:8009"
-	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/login/rest/apptoken/" 
+	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/systemone/login/rest/authToken/" 
 	IDPLOGIN_PORT="-p 8212:8009"
 	LOGIN_OPTIONS="JAVA_OPTS=-Dlogin.public.path.to.system=/systemone/login/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone" 
 	LOGIN_PORT="-p 8211:8009" 
