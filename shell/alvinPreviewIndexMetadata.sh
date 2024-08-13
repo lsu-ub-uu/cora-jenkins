@@ -1,11 +1,11 @@
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/alvin/rest/record/index'
-#LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/141414'
-#APP_TOKEN='63e6bd34-02a1-4c82-8001-158c104cae0e'
+#LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/jsClientUser@system.cora.uu.se'
+#APP_TOKEN='5d3f3ed4-4931-4924-9faa-8eaf5ac6457e'
 
-LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/151515'
-APP_TOKEN='63ef81cd-1d88-4a6a-aff0-f0d809a74d34'
+LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/alvinAdmin@cora.epc.ub.uu.se'
+APP_TOKEN='a50ca087-a3f5-4393-b2bb-315436d3c3be'
 
 start(){
 	sleep 15
