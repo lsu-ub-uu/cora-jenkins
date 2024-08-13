@@ -1,8 +1,8 @@
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/20240226/diva/rest/record/index'
-LOGIN_URL='https://cora.epc.ub.uu.se/20240226/diva/apptokenverifier/rest/apptoken/161616'
-APP_TOKEN='f7973be9-02e0-4c42-979b-09e42372a02a'
+LOGIN_URL='https://cora.epc.ub.uu.se/20240226/diva/apptokenverifier/rest/apptoken/divaAdmin@cora.epc.ub.uu.se'
+APP_TOKEN='49ce00fb-68b5-4089-a5f7-1c225d3cf156'
 
 start(){
 	sleep 15
