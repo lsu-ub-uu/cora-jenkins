@@ -170,7 +170,7 @@ startBinaryConverterUsingQueueName() {
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
      -e coraBaseUrl="http://systemone:8080/systemone/rest/" \
      -e apptokenVerifierUrl="http://login:8080/login/rest/" \
-     -e userId="jsClientUser@system.cora.uu.se" \
+     -e userId="systemoneAdmin@system.cora.uu.se" \
      -e appToken="5d3f3ed4-4931-4924-9faa-8eaf5ac6457e" \
      -e rabbitMqHostName="systemone-rabbitmq" \
      -e rabbitMqPort="5672" \

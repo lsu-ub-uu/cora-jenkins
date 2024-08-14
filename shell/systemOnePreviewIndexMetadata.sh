@@ -1,7 +1,7 @@
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/systemone/rest/record/index'
-LOGIN_URL='https://cora.epc.ub.uu.se/systemone/login/rest/apptoken/jsClientUser@system.cora.uu.se'
+LOGIN_URL='https://cora.epc.ub.uu.se/systemone/login/rest/apptoken/systemoneAdmin@system.cora.uu.se'
 APP_TOKEN='5d3f3ed4-4931-4924-9faa-8eaf5ac6457e'
 
 start(){

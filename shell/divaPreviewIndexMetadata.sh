@@ -4,7 +4,7 @@ INDEX_URL='https://cora.epc.ub.uu.se/diva/rest/record/index'
 LOGIN_URL='https://cora.epc.ub.uu.se/diva/login/rest/apptoken/divaAdmin@cora.epc.ub.uu.se'
 APP_TOKEN='49ce00fb-68b5-4089-a5f7-1c225d3cf156'
 
-#LOGIN_URL='https://cora.epc.ub.uu.se/diva/login/rest/apptoken/jsClientUser@system.cora.uu.se'
+#LOGIN_URL='https://cora.epc.ub.uu.se/diva/login/rest/apptoken/systemoneAdmin@system.cora.uu.se'
 #APP_TOKEN='5d3f3ed4-4931-4924-9faa-8eaf5ac6457e'
 
 start(){
