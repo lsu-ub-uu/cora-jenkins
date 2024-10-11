@@ -134,6 +134,7 @@ startPostgresql() {
      -e POSTGRES_DB=systemone \
      -e POSTGRES_USER=systemone \
      -e POSTGRES_PASSWORD=systemone \
+     -e DATA_DIVIDERS="cora jsClient systemOne testSystem" \
      systemone-docker-postgresql:1.0-SNAPSHOT
 }
 

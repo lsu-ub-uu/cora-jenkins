@@ -143,6 +143,7 @@ startPostgresql() {
      -e POSTGRES_DB=diva \
      -e POSTGRES_USER=diva \
      -e POSTGRES_PASSWORD=diva \
+     -e DATA_DIVIDERS="cora jsClient diva divaClient divaPreview" \
      diva-docker-postgresql:$DIVA_POSTGRES_VERSION
 }
 
