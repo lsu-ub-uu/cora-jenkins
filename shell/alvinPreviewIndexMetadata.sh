@@ -1,10 +1,9 @@
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/alvin/rest/record/index'
-#LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/systemoneAdmin@system.cora.uu.se'
-#APP_TOKEN='5d3f3ed4-4931-4924-9faa-8eaf5ac6457e'
 
-LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken/alvinAdmin@cora.epc.ub.uu.se'
+LOGIN_URL='https://cora.epc.ub.uu.se/alvin/login/rest/apptoken'
+LOGINID='alvinAdmin@cora.epc.ub.uu.se'
 APP_TOKEN='a50ca087-a3f5-4393-b2bb-315436d3c3be'
 
 start(){
@@ -28,21 +27,27 @@ start(){
 	logoutFromCora;
 }
 login(){
-	#AUTH_TOKEN=$(curl -s -X POST -k -i ${LOGIN_URL} --data ${APP_TOKEN} | grep -o -P '(?<={"name":"id","value":").*?(?="})')
-	local loginAnswer=$(curl -s -X POST -H "Content-Type: text/plain" -k -i ${LOGIN_URL} --data ${APP_TOKEN});
+	local loginAnswer=$(curl -s -X POST -H "Content-Type: application/vnd.uub.login" -k -i ${LOGIN_URL} --data ${LOGINID}$'\n'${APP_TOKEN});
 	echo 'LoginAnswer: '${loginAnswer} 
-	AUTH_TOKEN=$(echo ${loginAnswer} | grep -o -P '(?<={"name":"id","value":").*?(?="})')
+	AUTH_TOKEN=$(echo ${loginAnswer} | grep -o -P '(?<={"name":"token","value":").*?(?="})')
+	AUTH_TOKEN_DELETE_URL=$(echo ${loginAnswer} | grep -o -P '(?<="url":").*?(?=")')
 	echo 'Logged in, got authToken: '${AUTH_TOKEN} 
 }
 indexMetadata(){
 	echo ""
 	local recordType=$1
 	echo 'Indexing recordType: '${recordType}
-	curl -s -X POST -k -H 'authToken: '${AUTH_TOKEN} -i ${INDEX_URL}'/'${recordType} | grep -o -P '(?<={"name":"id","value":").*?(?="})'
+	local indexAnswer=$(curl -s -X POST -k -H "authToken: ${AUTH_TOKEN}" -H "Accept: application/vnd.uub.record+json" -i ${INDEX_URL}'/'${recordType} )
+	echo 'IndexAnswer: '${indexAnswer}
+	
+	local indexAnswerId=$(echo ${indexAnswer} | grep -o -P '(?<="name":"id","value":").*?(?=")')
+	echo 'IndexAnswerId: '${indexAnswerId}
 }
+
 logoutFromCora(){
-	echo ""
-	curl -s -X DELETE -H "Content-Type: text/plain" -k  '${LOGIN_URL}' --data ${AUTH_TOKEN} 
+	echo
+	echo 'Loggin out on' ${AUTH_TOKEN_DELETE_URL} 
+	curl -s -X DELETE -k -H 'authToken: '${AUTH_TOKEN} -i ${AUTH_TOKEN_DELETE_URL}
 	echo 'Logged out' 
 }
 
