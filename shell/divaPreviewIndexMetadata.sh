@@ -1,7 +1,7 @@
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/diva/rest/record/index'
-LOGIN_URL='https://cora.epc.ub.uu.se/diva/login/rest/apptoken/divaAdmin@cora.epc.ub.uu.se'
+LOGIN_URL='https://cora.epc.ub.uu.se/diva/login/rest/apptoken'
 LOGINID='divaAdmin@cora.epc.ub.uu.se'
 APP_TOKEN='49ce00fb-68b5-4089-a5f7-1c225d3cf156'
 
