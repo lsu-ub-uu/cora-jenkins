@@ -179,7 +179,7 @@ startBinaryConverterUsingQueueName() {
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE \
      -e coraBaseUrl="http://diva:8080/diva/rest/" \
      -e apptokenVerifierUrl="http://login:8080/login/rest/" \
-     -e userId="systemoneAdmin@system.cora.uu.se" \
+     -e loginId="systemoneAdmin@system.cora.uu.se" \
      -e appToken="5d3f3ed4-4931-4924-9faa-8eaf5ac6457e" \
      -e rabbitMqHostName="diva-rabbitmq" \
      -e rabbitMqPort="5672" \
