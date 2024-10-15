@@ -43,7 +43,6 @@ setParameters(){
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dmain.system.domain=https://cora.epc.ub.uu.se -Dtoken.logout.url=https://cora.epc.ub.uu.se/diva/login/rest/authToken/" 
 		IDPLOGIN_PORT="-p 8612:8009"
 		LOGIN_PORT="-p 8611:8009" 
-		FITNESSE_OPTIONS="tokenLogoutURL=https://cora.epc.ub.uu.se/diva/login/rest/authToken/"
 		FITNESSE_PORT="-p 8690:8090"
 		
 	else
@@ -55,7 +54,6 @@ setParameters(){
 		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/login/rest/authToken/"
 		IDPLOGIN_PORT=""
 		LOGIN_PORT=""
-		FITNESSE_OPTIONS="tokenLogoutURL=https://login/rest/"
 		FITNESSE_PORT="-p 8590:8090"
 	fi
 	
@@ -238,7 +236,6 @@ startFitnesse() {
      --network=$NETWORK \
      $FITNESSE_PORT \
      --restart unless-stopped \
-     -e $FITNESSE_OPTIONS \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
      diva-cora-docker-fitnesse:1.1-SNAPSHOT
