@@ -46,7 +46,7 @@ else
 	SHARED_FILE_SUFFIX="Test"
 	SOLR_PORT=""
 	SYSTEMONE_PORT=""
-	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/login/rest/" 
+	IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/login/rest/authToken/" 
 	IDPLOGIN_PORT=""
 	LOGIN_OPTIONS="JAVA_OPTS=-Ddburl=jdbc:postgresql://systemone-postgresql$ENV_SUFFIX:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone -Dlogin.public.path.to.system=/systemone/login/rest/" 
 	LOGIN_PORT=""
