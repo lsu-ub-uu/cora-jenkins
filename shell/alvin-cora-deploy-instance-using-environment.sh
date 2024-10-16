@@ -45,7 +45,7 @@ setParameters(){
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		ALVIN_PORT=""
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/alvin/login/rest/authToken/" 
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://alvin-login$ENV_SUFFIX:8080/alvin/login/rest/authToken/" 
 		IDPLOGIN_PORT=""
 		LOGIN_PORT=""
 		FITNESSE_PORT="-p 8390:8090"
