@@ -35,7 +35,7 @@ pipeline {
         }
         stage("step up dependencies for dockers, latest SNAPSHOT"){
             steps {
-            sh 'mvn -f $UB_PROJECT_NAME versions:update-properties -DgenerateBackupPoms=false -DallowSnapshots=true -DincludeProperties=$UB_DOCKER_PROPERTIES_LIST'
+            sh 'mvn -f $UB_PROJECT_NAME versions:update-properties -DgenerateBackupPoms=false -DallowSnapshots=true -DincludeProperties=$UB_DOCKER_PROPERTIES_LIST -Dmaven.version.rules="https://raw.github.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml"'
             }
         }
         stage("commit updates"){
