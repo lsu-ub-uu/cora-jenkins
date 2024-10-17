@@ -4,11 +4,13 @@
 	xsi:schemaLocation="http://mojo.codehaus.org/versions-maven-plugin/rule/2.0.0 https://www.mojohaus.org/versions-maven-plugin/xsd/rule-2.0.0.xsd">
 	<ignoreVersions>
 		<ignoreVersion type="regex">(?i).*(alpha|b|beta|rc|m|ea|jre).*</ignoreVersion>
+		<ignoreVersion>20240226</ignoreVersion>
 	</ignoreVersions>
 	<rules>
 		<rule groupId="jakarta.servlet" artifactId="jakarta.servlet-api" comparisonMethod="maven" >
 			<ignoreVersions>
 				<ignoreVersion>6.0.0</ignoreVersion>
+				<ignoreVersion>6.1.0</ignoreVersion>
 			</ignoreVersions>
 		</rule>
 		<rule groupId="se.uu.ub.cora" artifactId="diva-metadata" comparisonMethod="maven" >
