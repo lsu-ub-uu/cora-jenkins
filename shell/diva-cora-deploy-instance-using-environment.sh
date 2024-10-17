@@ -46,12 +46,12 @@ setParameters(){
 		FITNESSE_PORT="-p 8690:8090"
 		
 	else
-	    echo "Choosen environment: $ENVIRONMENT"
-	    ENV_SUFFIX="-test"
+		echo "Choosen environment: $ENVIRONMENT"
+		ENV_SUFFIX="-test"
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		DIVA_PORT=""
-		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login$ENV_SUFFIX:8080/login/rest/authToken/"
+		IDPLOGIN_OPTIONS="JAVA_OPTS=-Dtoken.logout.url=http://login:8080/login/rest/authToken/" 
 		IDPLOGIN_PORT=""
 		LOGIN_PORT=""
 		FITNESSE_PORT="-p 8590:8090"

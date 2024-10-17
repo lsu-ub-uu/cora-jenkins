@@ -40,8 +40,8 @@ setParameters(){
 		LOGIN_PORT="-p 8411:8009" 
 		FITNESSE_PORT="-p 8490:8090"
 	else
-	    echo "Choosen environment: $ENVIRONMENT"
-	    ENV_SUFFIX="-test"
+		echo "Choosen environment: $ENVIRONMENT"
+		ENV_SUFFIX="-test"
 		SHARED_FILE_SUFFIX="Test"
 		SOLR_PORT=""
 		ALVIN_PORT=""
