@@ -1,5 +1,3 @@
-dockerVersion=$1
-
 echo "Kill dockers"
 docker kill diva-client && echo nothingToSeeMoveOnToNextCommand
 echo ""
@@ -7,7 +5,7 @@ echo "Remove dockers"
 docker rm diva-client && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
-echo "Starting diva-client:$dockerVersion"
+echo "Starting diva-client"
 docker run -d --name diva-client \
     --restart=unless-stopped \
     --net=diva-cora \
@@ -15,7 +13,7 @@ docker run -d --name diva-client \
     -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/login/rest \
     -e ENVIRONMENT=preview \
     -p 9876:5173 \
-    diva-client:$dockerVersion
+    diva-client:1.9-SNAPSHOT
 
 echo ""
 echo "All dockers started"
