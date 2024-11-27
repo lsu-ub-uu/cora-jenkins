@@ -144,7 +144,7 @@ startIIP() {
 	 --network=$NETWORK \
      --net-alias=systemone-iipimageserver \
      --restart unless-stopped \
-	 -e VERBOSITY=0 \
+	 -e VERBOSITY=6 \
 	 -e FILESYSTEM_PREFIX=$TARGET_SHARED_FILE/streams/ \
 	 -e FILESYSTEM_SUFFIX=-jp2 \
 	 -e CORS=* \
