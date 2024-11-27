@@ -1,28 +1,21 @@
+dockerVersion=$1
+
 echo "Kill dockers"
-docker kill diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker kill diva-client && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker rm diva-client && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
-echo "Starting diva-client-gui"
-docker run -d --name diva-client-gui \
+echo "Starting diva-client:$dockerVersion"
+docker run -d --name diva-client \
     --restart=unless-stopped \
     --net=diva-cora \
-    -e VITE_BFF_API_URL=http://bff:8080/api \
-    -p 9876:80 \
-    diva-client-gui-docker:1.0-SNAPSHOT
-
-echo ""
-echo "Starting diva-client-bff"
-docker run -d --name diva-client-bff \
-    --net-alias=bff \
-    --net=diva-cora \
-    --restart=unless-stopped \
-    -p 9877:8080 \
-    -e CORA_API_URL=https://cora.epc.ub.uu.se/diva/rest  \
-    -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/login/rest  \
-    diva-client-bff-docker:1.0-SNAPSHOT
+    -e CORA_API_URL=https://cora.epc.ub.uu.se/diva/rest \
+    -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/login/rest \
+    -e ENVIRONMENT=preview \
+    -p 9876:5173 \
+    diva-client:$dockerVersion
 
 echo ""
 echo "All dockers started"
