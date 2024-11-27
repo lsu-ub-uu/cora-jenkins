@@ -13,6 +13,7 @@ docker run -d --name diva-client \
     --net=diva-cora \
     -e CORA_API_URL=https://cora.epc.ub.uu.se/diva/rest \
     -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/login/rest \
+    -e DOMAIN=cora.epc.ub.uu.se \
     -e BASE_PATH=/divaclient \
     -e ENVIRONMENT=preview \
     -p 9876:5173 \
