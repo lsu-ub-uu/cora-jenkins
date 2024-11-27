@@ -1,10 +1,10 @@
 
 
 echo "Kill dockers"
-docker kill diva-client diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker kill diva-client && echo nothingToSeeMoveOnToNextCommand
 echo ""
 echo "Remove dockers"
-docker rm diva-client diva-client-gui diva-client-bff && echo nothingToSeeMoveOnToNextCommand
+docker rm diva-client && echo nothingToSeeMoveOnToNextCommand
 
 echo ""
 echo "Starting diva-client"
