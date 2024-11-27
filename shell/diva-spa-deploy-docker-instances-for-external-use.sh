@@ -13,7 +13,7 @@ docker run -d --name diva-client \
     -e CORA_LOGIN_URL=https://cora.epc.ub.uu.se/diva/login/rest \
     -e ENVIRONMENT=preview \
     -p 9876:5173 \
-    diva-client:1.9-SNAPSHOT
+    diva-client:1.10-SNAPSHOT
 
 echo ""
 echo "All dockers started"
