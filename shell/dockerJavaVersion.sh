@@ -1,12 +1,11 @@
 set -e
-DOCKERS="systemone-fitnesse systemone solr idplogin login gatekeeper alvin-fitnesse alvin alvin-cora-fedora alvin-solr alvin-idplogin alvin-login alvin-gatekeeper diva-fitnesse diva diva-cora-fedora diva-solr diva-idplogin diva-login diva-gatekeeper diva-synchronizer jsclient diva-jsclient diva-jsclient"
-#excluded = alvin-cora-postgresql, alvin-cora-docker-postgresql, diva-cora-docker-postgresql, diva-cora-postgresql fitnesse therest 
 
+DOCKERS=$(docker ps --format "{{.Names}}")
 
 for DOCKER in $DOCKERS
 do
 	echo ""
 	echo ""
 	echo $DOCKER
-	docker exec $DOCKER java -version
+	docker exec $DOCKER java -version || echo "Failed to execute java -version in $DOCKER"
 done
