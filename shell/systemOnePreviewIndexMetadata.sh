@@ -18,6 +18,7 @@ start(){
 	indexMetadata 'presentation';
 	indexMetadata 'guiElement';
 	indexMetadata 'system';
+	indexMetadata 'permissionUnit';
 	logoutFromCora;
 }
 login(){
