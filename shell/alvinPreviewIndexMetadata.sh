@@ -18,6 +18,8 @@ start(){
 	indexMetadata 'presentation';
 	indexMetadata 'guiElement';
 	indexMetadata 'system';
+	indexMetadata 'permissionUnit';	
+	
 	indexMetadata 'alvin-place';
 	indexMetadata 'alvin-person';
 	indexMetadata 'alvin-organisation';

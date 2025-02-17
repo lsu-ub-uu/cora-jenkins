@@ -17,6 +17,7 @@ start(){
 	indexMetadata 'presentation';
 	indexMetadata 'guiElement';
 	indexMetadata 'system';	
+	indexMetadata 'permissionUnit';	
 	
 	indexMetadata 'person';
 	indexMetadata 'organisation';
