@@ -19,10 +19,24 @@ start(){
 	indexMetadata 'system';	
 	indexMetadata 'permissionUnit';	
 	
-	indexMetadata 'person';
-	indexMetadata 'organisation';
+	#indexMetadata 'person';
 	indexMetadata 'divaOutput';
 	indexMetadata 'nationalSubjectCategory';
+	
+	indexMetadata 'diva-organisation';
+	indexMetadata 'diva-output'
+	indexMetadata 'diva-publisher'
+	indexMetadata 'diva-person'
+	indexMetadata 'diva-funder'
+	indexMetadata 'diva-journal'
+	indexMetadata 'diva-series'
+	indexMetadata 'diva-subject'
+	indexMetadata 'diva-course'
+	indexMetadata 'diva-project'
+	indexMetadata 'diva-programme'
+	indexMetadata 'diva-partOfOrganisation'
+	indexMetadata 'diva-topOrganisation'
+	indexMetadata 'diva-localGenericMarkup'
 	
 	logoutFromCora;
 }
