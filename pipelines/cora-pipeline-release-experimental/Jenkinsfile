@@ -83,7 +83,7 @@ pipeline {
             	dir ("$UB_PROJECT_NAME") {
 //	                sh 'git push'
 	                sh 'git push origin release/$BRANCH_VERSION'
-            		sh 'git push --tags
+            		sh 'git push --tags'
 	            }
             }
         }
