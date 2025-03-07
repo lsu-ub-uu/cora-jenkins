@@ -57,7 +57,7 @@ pipeline {
 	           	 -DupdateBranchVersions=true \
 	           	 -DcheckModificationExcludeList=**\\pom.xml \
 	           	 -DreleaseVersion=$BRANCH_VERSION.0-SNAPSHOT \
-	           	 -Dtag=$BRANCH_VERSION.0 \
+	           	 -Dtag=$UB_PROJECT_NAME-$BRANCH_VERSION.0 \
 	           	 -DupdateWorkingCopyVersions=true \
 	           	 -DdevelopmentVersion=$DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" \
