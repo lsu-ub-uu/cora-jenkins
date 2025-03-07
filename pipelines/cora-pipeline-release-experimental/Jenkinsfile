@@ -82,7 +82,8 @@ pipeline {
             steps {
             	dir ("$UB_PROJECT_NAME") {
 //	                sh 'git push'
-	                sh 'git push origin release/$BRANCH_VERSION'
+//	                sh 'git push origin release/$BRANCH_VERSION'
+	                sh 'git push origin'
             		sh 'git push --tags'
 	            }
             }
