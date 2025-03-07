@@ -76,7 +76,7 @@ pipeline {
                 BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
                 DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
                 
-                sh(script: "mvn -f $UB_PROJECT_NAME help:evaluate -Dexpression=aggregated.version -q -DforceStdout", returnStdout: true)
+                AGGREGATED_BRANCH_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME help:evaluate -Dexpression=aggregated.version -q -DforceStdout", returnStdout: true)
             }
             steps {
                 echo "Current version is ${env.MVN_MAJOR_VERSION}.${env.MVN_MINOR_VERSION}"
