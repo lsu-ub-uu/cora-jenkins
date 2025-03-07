@@ -57,7 +57,7 @@ pipeline {
 	           	 -DdevelopmentVersion=$DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" \
 	           	 -Dresume=false \
-	           	 -DpushChanges=false \
+	           	 -DpushChanges=true \
 	           	 -DpreparationGoals=initialize \
 	           	 -DlocalCheckout=true \
 	           	 versions:update-parent \
