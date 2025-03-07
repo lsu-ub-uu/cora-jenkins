@@ -81,7 +81,9 @@ pipeline {
         stage("push update to git"){
             steps {
             	dir ("$UB_PROJECT_NAME") {
-	                sh 'git push'
+//	                sh 'git push'
+	                sh 'git push origin release/$BRANCH_VERSION'
+            		sh 'git push --tags
 	            }
             }
         }
