@@ -33,8 +33,12 @@ pipeline {
 		 environment {
                 GITHUB_USERNAME = credentials('04bc33f5-abdd-4486-b43b-a5900f6fc080')
                 GITHUB_TOKEN = credentials('9af4f5c5-4a09-4bbe-9436-2c102765d85b')
+                
                 MVN_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.majorVersion -q -DforceStdout", returnStdout: true)
                 MVN_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
+               
+           //     MVN_PATCH_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.incrementalVersion -q -DforceStdout", returnStdout: true).trim()
+               
                 MVN_NEXT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
                 MVN_NEXT_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout", returnStdout: true) 
                 BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
@@ -53,6 +57,7 @@ pipeline {
 	           	 -DupdateBranchVersions=true \
 	           	 -DcheckModificationExcludeList=**\\pom.xml \
 	           	 -DreleaseVersion=$BRANCH_VERSION.0-SNAPSHOT \
+	           	 -Dtag=$BRANCH_VERSION.0 \
 	           	 -DupdateWorkingCopyVersions=true \
 	           	 -DdevelopmentVersion=$DEV_BRANCH_VERSION-SNAPSHOT \
 	           	 -Darguments="-Dmaven.javadoc.skip=true" \
