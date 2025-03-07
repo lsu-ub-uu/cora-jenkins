@@ -73,23 +73,10 @@ pipeline {
                 MVN_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.minorVersion -q -DforceStdout", returnStdout: true)
                 MVN_NEXT_MAJOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMajorVersion -q -DforceStdout", returnStdout: true)
                 MVN_NEXT_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout", returnStdout: true) 
-                
-                ///////////////
-                def aggVersion = sh(script: "mvn -f $UB_PROJECT_NAME help:evaluate -Dexpression=aggregated.version -q -DforceStdout", returnStdout: true).trim()
-                echo "Aggregated version string: ${aggVersion}"
-            
-            // Split the output by commas
-//                def (MVN_MAJOR_VERSION, MVN_MINOR_VERSION, MVN_NEXT_MAJOR_VERSION, MVN_NEXT_MINOR_VERSION) = aggVersion.tokenize(',')
-//            
-//                echo "Major: ${MVN_MAJOR_VERSION}"
-//                echo "Minor: ${MVN_MINOR_VERSION}"
-//                echo "Next Major: ${MVN_NEXT_MAJOR_VERSION}"
-//                echo "Next Minor: ${MVN_NEXT_MINOR_VERSION}"
-                
-                //////////////////
-                
                 BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
                 DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
+                
+                sh(script: "mvn -f $UB_PROJECT_NAME help:evaluate -Dexpression=aggregated.version -q -DforceStdout", returnStdout: true)
             }
             steps {
                 echo "Current version is ${env.MVN_MAJOR_VERSION}.${env.MVN_MINOR_VERSION}"
