@@ -50,7 +50,8 @@ pipeline {
                 expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
             steps {
-            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy sonar:sonar'
+            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
+//            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy sonar:sonar'
             }
         }
         stage("push update to git"){
@@ -75,11 +76,8 @@ pipeline {
                 MVN_NEXT_MINOR_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout", returnStdout: true) 
                 BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_MINOR_VERSION"
                 DEV_BRANCH_VERSION="$MVN_MAJOR_VERSION.$MVN_NEXT_MINOR_VERSION"
-                
-                AGGREGATED_VERSION = sh(script: "mvn -f $UB_PROJECT_NAME help:evaluate -Dexpression=aggregated.version -q -DforceStdout", returnStdout: true)
             }
             steps {
-				echo "Aggregated version .... ${env.AGGREGATED_VERSION}"
                 echo "Current version is ${env.MVN_MAJOR_VERSION}.${env.MVN_MINOR_VERSION}"
                 
                 echo "Branch version:$BRANCH_VERSION"
