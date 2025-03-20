@@ -96,7 +96,7 @@ startRabbitMq() {
      --network-alias=systemone-rabbitmq \
      --restart unless-stopped \
      --hostname systemone-rabbitmq \
-     cora-docker-rabbitmq:1.0-SNAPSHOT
+     cora-docker-rabbitmq:1.1-SNAPSHOT
 }
 
 echoStartingWithMarkers() {
@@ -179,7 +179,7 @@ startBinaryConverterUsingQueueName() {
      -e rabbitMqQueueName=$queueName \
      -e fedoraOcflHome="$TARGET_SHARED_ARCHIVE" \
      -e fileStorageBasePath="$TARGET_SHARED_FILE/" \
-     cora-docker-binaryconverter:1.1-SNAPSHOT
+     cora-docker-binaryconverter:1.0-SNAPSHOT
 }
 
 startSystemone() {
