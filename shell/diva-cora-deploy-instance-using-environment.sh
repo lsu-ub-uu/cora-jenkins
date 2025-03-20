@@ -186,7 +186,7 @@ startBinaryConverterUsingQueueName() {
      -e rabbitMqQueueName=$queueName \
      -e fedoraOcflHome="$TARGET_SHARED_ARCHIVE" \
      -e fileStorageBasePath="$TARGET_SHARED_FILE/" \
-     cora-docker-binaryconverter:1.0-SNAPSHOT
+     cora-docker-binaryconverter:1.1-SNAPSHOT
 }
 
 startDiva() {
