@@ -232,7 +232,7 @@ startFitnesse() {
      --restart unless-stopped \
      --mount source=$SOURCE_SHARED_ARCHIVE,target=$TARGET_SHARED_ARCHIVE,readonly \
      --mount source=$SOURCE_SHARED_FILE,target=$TARGET_SHARED_FILE,readonly \
-     systemone-docker-fitnesse:1.0-SNAPSHOT
+     systemone-docker-fitnesse:1.1-SNAPSHOT
 }
 
 sleepAndWait(){
