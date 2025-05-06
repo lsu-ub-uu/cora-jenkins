@@ -41,7 +41,7 @@ start(){
 	logoutFromCora;
 }
 login(){
-	local loginAnswer=$(curl -s -X POST -H "Content-Type: application/vnd.uub.login" -k -i ${LOGIN_URL} --data ${LOGINID}$'\n'${APP_TOKEN});
+	local loginAnswer=$(curl -s -X POST -H "Content-Type: application/vnd.cora.login" -k -i ${LOGIN_URL} --data ${LOGINID}$'\n'${APP_TOKEN});
 	echo 'LoginAnswer: '${loginAnswer} 
 	AUTH_TOKEN=$(echo ${loginAnswer} | grep -o -P '(?<={"name":"token","value":").*?(?="})')
 	AUTH_TOKEN_DELETE_URL=$(echo ${loginAnswer} | grep -o -P '(?<="url":").*?(?=")')
@@ -51,7 +51,7 @@ indexMetadata(){
 	echo ""
 	local recordType=$1
 	echo 'Indexing recordType: '${recordType}
-	local indexAnswer=$(curl -s -X POST -k -H "authToken: ${AUTH_TOKEN}" -H "Accept: application/vnd.uub.record+json" -i ${INDEX_URL}'/'${recordType} )
+	local indexAnswer=$(curl -s -X POST -k -H "authToken: ${AUTH_TOKEN}" -H "Accept: application/vnd.cora.record+json" -i ${INDEX_URL}'/'${recordType} )
 	echo 'IndexAnswer: '${indexAnswer}
 	
 	local indexAnswerId=$(echo ${indexAnswer} | grep -o -P '(?<="name":"id","value":").*?(?=")')
