@@ -5,12 +5,13 @@ if [ -z "$1" ]; then
 fi
 
 MINIKUBE_IP="$1"
+APPLICATION="$2"
 
 URLS=(
   "http://$MINIKUBE_IP:30580"
-  "http://$MINIKUBE_IP:30080"
-  "http://$MINIKUBE_IP:30180"
-  "http://$MINIKUBE_IP:30380"
+  "http://$MINIKUBE_IP:30080/$APPLICATION/rest/"
+  "http://$MINIKUBE_IP:30180/login/"
+  #"http://$MINIKUBE_IP:30380/idplogin/login/"
 )
 
 MAX_ATTEMPTS=30
