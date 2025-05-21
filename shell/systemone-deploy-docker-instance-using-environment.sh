@@ -7,25 +7,25 @@ start(){
 	removeDockers
 	removeVolumes
 	
-	startRabbitMq
-	startSolr
-	startFedora
-	startPostgresql
-	startIIP
-	
-	sleepAndWait 20
-	
-	startBinaryConverters
-	startSystemone
-	startGatekeeper
-	startIdplogin
-	startLogin
-	
-	startFitnesse
-	
-	sleepAndWait 20
-	
-	echoStartingWithMarkers "dockers FINISHED"
+#	startRabbitMq
+#	startSolr
+#	startFedora
+#	startPostgresql
+#	startIIP
+#	
+#	sleepAndWait 20
+#	
+#	startBinaryConverters
+#	startSystemone
+#	startGatekeeper
+#	startIdplogin
+#	startLogin
+#	
+#	startFitnesse
+#	
+#	sleepAndWait 20
+#	
+#	echoStartingWithMarkers "dockers FINISHED"
 }
 
 setParameters(){
