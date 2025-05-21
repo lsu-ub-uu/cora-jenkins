@@ -8,9 +8,9 @@ MINIKUBE_IP="$1"
 APPLICATION="$2"
 
 URLS=(
-  "http://$MINIKUBE_IP:30580"
   "http://$MINIKUBE_IP:30080/$APPLICATION/rest/"
   "http://$MINIKUBE_IP:30180/login/"
+  "http://$MINIKUBE_IP:30580/fitnesse/"
   #"http://$MINIKUBE_IP:30380/idplogin/login/"
 )
 
