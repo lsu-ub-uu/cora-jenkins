@@ -1,3 +1,34 @@
+/*
+ * Docker Snapshot Version Step-Up Pipeline
+ *
+ * This pipeline is responsible for stepping up (releasing) a set of Docker images
+ * if they contain updated dependencies. It is typically triggered after a main release,
+ * to ensure downstream Docker images are updated accordingly.
+ *
+ * Functionality:
+ * - Prompts for a comma-separated list of Docker project names (optionally with branch names).
+ * - For each Docker project:
+ *     - Checks if it has updated dependencies.
+ *     - If updates are found, it triggers the 'cora-step-up-snapshot-version-on-dockers' job.
+ * - All Docker projects are processed in parallel to speed up execution.
+ *
+ * Input Format:
+ *   - Comma-separated list of Docker names
+ *   - Optionally append a branch (default: 'master')
+ *
+ *   Example:
+ *     cora-docker-jsclient, cora-docker-fedora develop, systemone-docker
+ *
+ * Example Behavior:
+ *   - Checks cora-docker-jsclient (branch: master)
+ *   - Checks cora-docker-fedora (branch: develop)
+ *   - Checks systemone-docker (branch: master)
+ *   - All valid jobs are run in parallel.
+ *
+ * Post Actions:
+ *   - Workspace is cleaned after every run.
+ */
+
 pipeline {
    agent any
    environment {
