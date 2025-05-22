@@ -1,0 +1,67 @@
+pipeline {
+   agent any
+   environment {
+      projectsToUpdate = "";
+   }
+   stages {
+      stage("user input") {
+         steps {
+            script {
+               dockersToStepUp = input message: 'Enter docker names to step up',
+               parameters: [text(defaultValue: 'cora-docker-jsclient,cora-docker-solr,cora-docker-fedora,cora-docker-rabbitmq,cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,systemone-docker-fitnesse,alvin-docker-cora,alvin-docker-gatekeeper,alvin-cora-docker-fitnesse,diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper',
+               description: 'Dockers to be step up. After releasing top artifacts we need to step up them in the respective dockers. Here it will be a list with all the dockers that might need to be updated after release (comma separated list)',
+               name: 'DOCKERS_TO_RELEASE', trim: true)]
+               
+               echo "Dockers to step up: $dockersToStepUp"
+            }
+         }
+      }
+      stage("loop step up") {
+         steps {
+            script {
+               echo "Dockers to step up"
+               def splitteddockersToStepUp = dockersToStepUp.split(',')
+               def parallelJobs = [:]
+               
+               splitteddockersToStepUp.each {
+                  dockerItem ->
+                  def trimmed = dockerItem.trim()
+                  def splittedTrimmed = trimmed.split(' ')
+                  def project = splittedTrimmed[0].trim()
+                  def branch = 'master'
+                  if (splittedTrimmed.length > 1) {
+                     branch = splittedTrimmed[1].trim()
+                  }
+                  
+                  if (project && project.length() > 0) {
+                     // Use closure binding to avoid lazy-evaluation issues
+                     def projectCopy = project
+                     def branchCopy = branch
+                     
+                     parallelJobs["Step up ${projectCopy} (${branchCopy})"] = {
+                        build job: 'cora-pipeline-release-updated-dependencies',
+                        parameters: [
+                        string(name: 'UB_PROJECT_NAME', value: projectCopy),
+                        string(name: 'BRANCH_NAME', value: branchCopy),
+                        string(name: 'FORCE_RELEASE', value: "0")
+                        ]
+                     }
+                  }
+               }
+               
+               if (parallelJobs.isEmpty()) {
+                  echo "No valid projects to step up."
+               } else {
+                  parallel parallelJobs
+               }
+            }
+         }
+      }
+   }
+   
+   post {
+      always {
+         cleanWs()
+      }
+   }
+}
