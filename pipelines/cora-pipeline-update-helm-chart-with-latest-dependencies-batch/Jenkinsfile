@@ -156,18 +156,18 @@ pipeline {
             }
          }
       }
-      stage('Commit and Push') {
-         steps {
-            script {
-               sh """
-               git config user.email "jenkins@ub"
-               git config user.name "Jenkins CI"
-               git add -A
-               git commit -m "Update docker versions for ${params.APPLICATION_NAME}"
-               git push origin main
-               """
+      stage("commit updates"){
+            steps {
+            	dir ('cora-deployment-onlyForTest') {
+	                sh 'git config user.email "jenkins@ub"'
+	                sh 'git config user.name "Jenkins CI"'
+	                script {
+	                    sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
+	                	sh 'git push'
+	                }
+                }
             }
-         }
-      }
+        }
+      
    }
 }
