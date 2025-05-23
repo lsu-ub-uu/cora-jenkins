@@ -8,7 +8,6 @@ pipeline {
       description: 'Name of the application that Helm chart will be updated'
       )
    }
-   
    stages {
       stage("Determine Docker Artifacts") {
          steps {
@@ -31,7 +30,6 @@ pipeline {
                "diva"     : coraDockers + ["diva-docker-postgresql", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper"]
                ]
                
-               // Helper: Fetch latest release or fallback
                def getLatestVersion = {
                   groupId, artifactId, repoUrl ->
                   def groupPath = groupId.replace('.', '/')
@@ -44,14 +42,13 @@ pipeline {
                   def releaseVersion = metadata.versioning.release?.text()
                   
                   if (!releaseVersion) {
-                     releaseVersion = "Not released yet"
+                     releaseVersion = "-"
                      echo "Warning: No <release> found for ${artifactId}, using default: ${releaseVersion}"
                   }
                   
                   return releaseVersion
                }
                
-               // Helper: Use group and repo constants
                def getLatestVersionByArtifactId = {
                   artifactId ->
                   def groupId = 'se.uu.ub.cora'
@@ -77,7 +74,9 @@ pipeline {
                dockerList.each {
                   artifactId ->
                   def version = getLatestVersionByArtifactId(artifactId)
-                  versionsMap[artifactId] = version
+                  if(version != "-") {
+                     versionsMap[artifactId] = version
+                  }
                }
                
                // Save versionsMap to env for next stage or keep in variable
@@ -90,7 +89,6 @@ pipeline {
             
          }
       }
-      
       stage("checkout") {
          steps {
             script {
@@ -101,6 +99,70 @@ pipeline {
                ]) {
                   sh "git clone https://${TOKEN}@github.com/lsu-ub-uu/${projectName}.git ${projectName}"
                }
+            }
+         }
+      }
+      stage('Update values.yaml') {
+         steps {
+            script {
+               // YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
+               @NonCPS
+               def parseYaml(String content) {
+                  def yaml = new org.yaml.snakeyaml.Yaml()
+                  return yaml.load(content)
+               }
+               
+               @NonCPS
+               def dumpYaml(Object data) {
+                  def yaml = new org.yaml.snakeyaml.Yaml()
+                  return yaml.dump(data)
+               }
+               
+               def readYamlFile = {
+                  pathToFile ->
+                  def yamlContent = readFile(pathToFile)
+                  return parseYaml(yamlContent)
+               }
+               
+               def readJsonFile = {
+                  pathToFile ->
+                  def jsonContent = readFile(pathToFile)
+                  return new groovy.json.JsonSlurper().parseText(jsonContent)
+               }
+               
+               def pathToValuesYaml = 'cora-deployment-onlyForTest/charts/systemone/values.yaml'
+               def yamlData = readYamlFile(pathToValuesYaml)
+               def versionsMap = readJsonFile('versions.json')
+               
+               versionsMap.each {
+                  artifactId, version ->
+                  // Find key by artifactId suffix
+                  def key = null
+                  if (artifactId.contains("solr")) key = "solr"
+                  else if (artifactId.contains("idplogin")) key = "idplogin"
+                  else if (artifactId.contains("rabbitmq")) key = "rabbitmq"
+                  else if (artifactId.contains("fedora")) key = "fedora"
+                  
+                  if (key && yamlData?.dockers?.containsKey(key)) {
+                     yamlData.dockers[key] = "${artifactId}:${version}"
+                  }
+               }
+               
+               def newYamlStr = dumpYaml(yamlData)
+               writeFile file: pathToValuesYaml, text: newYamlStr
+            }
+         }
+      }
+      stage('Commit and Push') {
+         steps {
+            script {
+               sh """
+               git config user.email "jenkins@example.com"
+               git config user.name "Jenkins CI"
+               git add values.yaml
+               git commit -m "Update docker versions for ${params.APPLICATION_NAME}"
+               git push origin main
+               """
             }
          }
       }
