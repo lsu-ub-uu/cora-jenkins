@@ -1,4 +1,6 @@
 // YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
+import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.DumperOptions
 @NonCPS
 def parseYaml(String content) {
    def yaml = new org.yaml.snakeyaml.Yaml()
@@ -7,7 +9,9 @@ def parseYaml(String content) {
 
 @NonCPS
 def dumpYaml(Object data) {
-   def yaml = new org.yaml.snakeyaml.Yaml()
+   def options = new org.yaml.snakeyaml.DumperOptions()
+   options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
+   def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
 pipeline {
@@ -147,7 +151,7 @@ pipeline {
                   else if (artifactId.contains("fedora")) key = "fedora"
                   
                   if (key && yamlData?.dockers?.containsKey(key)) {
-                     yamlData.dockers[key] = "${artifactId}:${version}"
+                     yamlData.dockers[key] = "${artifactId}:${version}".toString()
                   }
                }
                
@@ -156,18 +160,18 @@ pipeline {
             }
          }
       }
-      stage("commit updates"){
-            steps {
-            	dir ('cora-deployment-onlyForTest') {
-	                sh 'git config user.email "jenkins@ub"'
-	                sh 'git config user.name "Jenkins CI"'
-	                script {
-	                    sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
-	                	sh 'git push'
-	                }
-                }
+      stage("commit updates") {
+         steps {
+            dir ('cora-deployment-onlyForTest') {
+               sh 'git config user.email "jenkins@ub"'
+               sh 'git config user.name "Jenkins CI"'
+               script {
+                  sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
+                  sh 'git push'
+               }
             }
-        }
+         }
+      }
       
    }
 }
