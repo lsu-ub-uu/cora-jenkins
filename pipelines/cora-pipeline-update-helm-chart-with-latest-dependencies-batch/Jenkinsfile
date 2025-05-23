@@ -149,9 +149,16 @@ pipeline {
                   else if (artifactId.contains("idplogin")) key = "idplogin"
                   else if (artifactId.contains("rabbitmq")) key = "rabbitmq"
                   else if (artifactId.contains("fedora")) key = "fedora"
+                  else if (artifactId.contains("iipimageserver")) key = "iip"
+                  else if (artifactId.contains("postgresql")) key = "postgresql"
+                  else if (artifactId.contains("fitnesse")) key = "fitnesse"
+                  else if (artifactId.contains("gatekeeper")) key = "gatekeeper"
+                  else if (artifactId.contains("jsclient")) key = "jsclient"
+                  else if (artifactId.contains("rest")) key = "systemone"
+                  else if (artifactId.contains("login")) key = "login"
                   
                   if (key && yamlData?.dockers?.containsKey(key)) {
-                     yamlData.dockers[key] = "${artifactId}:${version}".toString()
+                     yamlData.docker[key] = "${artifactId}:${version}".toString()
                   }
                }
                
