@@ -35,6 +35,7 @@ pipeline {
                }
                
                // Define Docker image lists
+               //TODO decide what to do with cora-docker-gatekeeper / systemone-docker-gatekeeper
                def coraDockers = [
                "cora-docker-jsclient", "cora-docker-solr", "cora-docker-fedora",
                "cora-docker-rabbitmq", "cora-docker-iipimageserver", "cora-docker-binaryconverter",
@@ -123,8 +124,6 @@ pipeline {
       stage('Update values.yaml') {
          steps {
             script {
-               
-               
                def readYamlFile = {
                   pathToFile ->
                   def yamlContent = readFile(pathToFile)
