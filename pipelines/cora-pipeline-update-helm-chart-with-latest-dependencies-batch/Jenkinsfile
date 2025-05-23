@@ -93,12 +93,18 @@ pipeline {
    
    stage("checkout") {
       steps {
-         def projectName = 'cora-deployment-onlyForTest'
-         withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
-            sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$projectName.git $projectNam'
-         }
-      }
+                script {
+                    def projectName = 'cora-deployment-onlyForTest'
+                    withCredentials([
+                        string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
+                        string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
+                    ]) {
+                        sh "git clone https://${TOKEN}@github.com/lsu-ub-uu/${projectName}.git ${projectName}"
+                    }
+                }
+            }
    }
+}
   // stage('Update values.yaml') {
   //    steps {
   //       script {
@@ -147,5 +153,3 @@ pipeline {
     //     }
      // }
    //}
-}
-}
