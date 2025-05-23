@@ -1,3 +1,15 @@
+// YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
+@NonCPS
+def parseYaml(String content) {
+   def yaml = new org.yaml.snakeyaml.Yaml()
+   return yaml.load(content)
+}
+
+@NonCPS
+def dumpYaml(Object data) {
+   def yaml = new org.yaml.snakeyaml.Yaml()
+   return yaml.dump(data)
+}
 pipeline {
    agent any
    
@@ -105,18 +117,7 @@ pipeline {
       stage('Update values.yaml') {
          steps {
             script {
-               // YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
-               @NonCPS
-               def parseYaml(String content) {
-                  def yaml = new org.yaml.snakeyaml.Yaml()
-                  return yaml.load(content)
-               }
                
-               @NonCPS
-               def dumpYaml(Object data) {
-                  def yaml = new org.yaml.snakeyaml.Yaml()
-                  return yaml.dump(data)
-               }
                
                def readYamlFile = {
                   pathToFile ->
