@@ -1,0 +1,65 @@
+pipeline {
+   agent any
+   parameters {
+      string( name: 'APPLICATION_NAME',
+      defaultValue: 'systemone',
+      description: 'Name of the application that helm chart will be updated')
+   }
+   stage("for each ") {
+      steps {
+         script {
+            def coraDockersList = ["cora-docker-jsclient","cora-docker-solr","cora-docker-fedora","cora-docker-rabbitmq","cora-docker-iipimageserver","cora-docker-binaryconverter"," cora-docker-idplogin","cora-docker-login","cora-docker-gatekeeper"]
+            def systemoneDockersList = ["systemone-docker-postgresql","systemone-docker","systemone-docker-fitnesse"]
+            def alvinDockersList = ["alvin-docker-postgresql","alvin-docker-cora","alvin-docker-gatekeeper","alvin-cora-docker-fitnesse"]
+            def divaDockersList = ["diva-docker-postgresql","diva-cora-docker-fitnesse","diva-docker-cora","diva-docker-gatekeeper"]
+            
+            def dockerList = []
+            if (params.APPLICATION_NAME == "alvin") {
+               echo "Update helm chart for alvin"
+               dockerList = coraDockersList + alvinDockersList
+            } else if(params.APPLICATION_NAME == "diva") {
+               echo "Update helm chart for diva"
+               dockerList = coraDockersList + divaDockersList
+            } else {
+               echo "Update helm chart for systemone"
+               dockerList = coraDockersList + systemoneDockersList
+            }
+            
+            echo "Dockers to step up:"
+            dockerList.each {
+               artifactId ->
+               getLatestVersionByArtifactId(artifactId)
+            }
+            
+            def getLatestVersionByArtifactId = {
+               artifactId ->
+               def groupId = 'se/uu/ub/cora'
+               def repoUrl = 'http://epc.ub.uu.se/nexus/repository/maven-public/'
+               
+               def latestVersion = getLatestVersion(groupId, artifactId, repoUrl)
+               echo "Latest version of ${groupId}:${artifactId} is ${latestVersion}"
+               return latestVersion
+            }
+            def getLatestVersion = {
+               groupId, artifactId, repoUrl ->
+               def groupPath = groupId.replace('.', '/')
+               def metadataUrl = "${repoUrl}/${groupPath}/${artifactId}/maven-metadata.xml"
+               echo "Call ${metadataUrl}"
+               def metadata = new XmlSlurper().parse(metadataUrl.toURL())
+               def releaseVersion = metadata.versioning.release?.text()
+               if (!releaseVersion) {
+                  releaseVersion = "Not release yet" // fallback default version
+                  echo "Warning: <release> not found in metadata for ${artifactId}, using default: ${releaseVersion}"
+               }
+               return releaseVersion
+            }
+         }
+      }
+   }
+   stage('Use Latest Version') {
+      steps {
+         //echo "Using artifact version: ${env.LATEST_ARTIFACT_VERSION}"
+         // For example, update Helm values, deploy, etc.
+      }
+   }
+}
