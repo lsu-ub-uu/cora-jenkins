@@ -157,7 +157,7 @@ pipeline {
                   else if (artifactId.contains("rest")) key = "systemone"
                   else if (artifactId.contains("login")) key = "login"
                   
-                  if (key && yamlData?.dockers?.containsKey(key)) {
+                  if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
                   }
                }
