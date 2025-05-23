@@ -38,7 +38,9 @@ pipeline {
                   def metadataUrl = "${repoUrl}/${groupPath}/${artifactId}/maven-metadata.xml"
                   echo "Fetching: ${metadataUrl}"
                   
-                  def metadata = new XmlSlurper().parse(metadataUrl.toURL())
+                  def metadata = new XmlSlurper().parse(metadataUrl)
+                  
+                  //def metadata = new XmlSlurper().parse(metadataUrl.toURL())
                   def releaseVersion = metadata.versioning.release?.text()
                   
                   if (!releaseVersion) {
