@@ -71,14 +71,80 @@ pipeline {
                   artifactId ->
                   getLatestVersionByArtifactId(artifactId.trim())
                }
+               
+               // Map to hold artifact -> version
+               def versionsMap = [:]
+               dockerList.each {
+                  artifactId ->
+                  def version = getLatestVersionByArtifactId(artifactId)
+                  versionsMap[artifactId] = version
+               }
+               
+               // Save versionsMap to env for next stage or keep in variable
+               // Here we keep it in current script scope as you update file in next step
+               echo "Versions map: ${versionsMap}"
+               
+               // Save to file or pass around as needed
+               writeFile file: 'versions.json', text: groovy.json.JsonOutput.toJson(versionsMap)
             }
-         }
-      }
-      
-      stage("Use Latest Version") {
-         steps {
-            echo "Ready to use resolved artifact versions for Helm deployment (implementation pending)."
+            
          }
       }
    }
+   stage("checkout") {
+      steps {
+         def projectName = 'cora-deployment-onlyForTest'
+         withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
+            sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$projectName.git $projectNam'
+         }
+      }
+   }
+  // stage('Update values.yaml') {
+  //    steps {
+  //       script {
+  //          def yamlFile = readFile('values.yaml')
+  //          def versionsJson = readFile('versions.json')
+  //          def versionsMap = new groovy.json.JsonSlurper().parseText(versionsJson)
+  //          
+  //          // Parse yaml content
+  //          def yaml = new org.yaml.snakeyaml.Yaml()
+  //          def yamlData = yaml.load(yamlFile)
+  //          
+  //          // Update versions in yamlData.dockers
+  //          versionsMap.each {
+  //             artifactId, version ->
+  //             // Find key by artifactId suffix (e.g. "cora-docker-solr" -> key "solr")
+  //             def key = null
+  //             if (artifactId.contains("solr")) key = "solr"
+  //             else if (artifactId.contains("idplogin")) key = "idplogin"
+  //             else if (artifactId.contains("rabbitmq")) key = "rabbitmq"
+  //             else if (artifactId.contains("fedora")) key = "fedora"
+  //             else {
+  //                // General fallback: use artifact name after last dash
+  //                def parts = artifactId.split('-')
+  //                key = parts[-1]
+  //             }
+  //             
+  //             if (key && yamlData.dockers.containsKey(key)) {
+  //                yamlData.dockers[key] = "${artifactId}:${version}"
+  //             }
+  //          }
+  //          
+  //          // Write back updated yaml
+  //          def newYamlStr = yaml.dump(yamlData)
+  //          writeFile file: 'values.yaml', text: newYamlStr
+  //       }
+  //    }
+  // }
+  // stage("commit updates") {
+  //    steps {
+  //       dir ("$UB_PROJECT_NAME") {
+  //          sh 'git config user.email "jenkins@ub"'
+   //         sh 'git config user.name "Jenkins CI"'
+   //         script {
+    //           CHECKED_IN = sh (script: 'git commit -am="Update helm chart"', returnStatus: true, returnStdout: true)
+    //        }
+    //     }
+     // }
+   //}
 }
