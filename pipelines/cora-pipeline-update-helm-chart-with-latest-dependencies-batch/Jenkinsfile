@@ -11,9 +11,10 @@ def parseYaml(String content) {
 def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
-//   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
+   //   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
    options.setIndent(2)               // Set indentation to 2 spaces
-   options.setIndicatorIndent(2)      // Indent for block indicators like '-' and '?'
+   //  options.setIndicatorIndent(1)      // Indent for block indicators like '-' and '?'
+   options.setDefaultScalarStyle(org.yaml.snakeyaml.DumperOptions.ScalarStyle.PLAIN)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
@@ -195,19 +196,20 @@ pipeline {
                   return "\"${value}\""
                }
                
-//               def bumpAndQuoteAppVersion = {
-//                  version ->
-//                  def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
-//                  def (major, minor, patch) = readVersion(cleanedVersion)
-//                  def bumpedAppVersion = "${major}.${minor + 1}.0"
-//                  return bumpedAppVersion.toString()
-//               }
+               //               def bumpAndQuoteAppVersion = {
+                  //                  version ->
+                  //                  def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
+                  //                  def (major, minor, patch) = readVersion(cleanedVersion)
+                  //                  def bumpedAppVersion = "${major}.${minor + 1}.0"
+                  //                  return bumpedAppVersion.toString()
+                  //
+               }
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpVersion(chartYaml.version)
-//             chartYaml.appVersion = bumpAndQuoteAppVersion(chartYaml.appVersion)
+               //             chartYaml.appVersion = bumpAndQuoteAppVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
