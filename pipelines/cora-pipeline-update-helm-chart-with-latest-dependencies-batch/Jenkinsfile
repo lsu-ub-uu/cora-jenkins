@@ -12,7 +12,6 @@ def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
    options.setIndent(2)
-   options.setDefaultScalarStyle(org.yaml.snakeyaml.DumperOptions.ScalarStyle.PLAIN)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
