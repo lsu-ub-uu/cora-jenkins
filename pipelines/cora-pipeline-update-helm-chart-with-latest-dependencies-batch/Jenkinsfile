@@ -13,7 +13,7 @@ def dumpYaml(Object data) {
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
    options.setIndent(2)
    options.setIndentWithIndicator(true)
-   options.setIndicatorIndent(1)
+   options.setIndicatorIndent(2)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
