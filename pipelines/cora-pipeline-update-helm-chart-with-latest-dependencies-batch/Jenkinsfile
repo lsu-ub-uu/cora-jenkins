@@ -11,7 +11,7 @@ def parseYaml(String content) {
 def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
-   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
+//   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
@@ -108,25 +108,6 @@ pipeline {
             
          }
       }
-      //   stage("checkout") {
-         //      steps {
-            //         script {
-               //            def projectName = 'cora-deployment-onlyForTest'
-               //            withCredentials([
-               //            string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
-               //            string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
-               //            ]) {
-                  //               def repoFolder = 'cora-deployment-onlyForTest'
-                  //               sh "rm -rf ${repoFolder}"
-                  //               sh "git clone https://${TOKEN}@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}"
-                  //
-           //    }
-               //
-            //}
-            //
-         //}
-         //
-      //}
       stage("checkout") {
          steps {
             script {
@@ -217,7 +198,7 @@ pipeline {
                   def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
                   def (major, minor, patch) = readVersion(cleanedVersion)
                   def bumpedAppVersion = "${major}.${minor + 1}.0"
-                  return surroundWithQuotes(bumpedAppVersion).toString()
+                  return bumpedAppVersion.toString()
                }
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
