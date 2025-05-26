@@ -53,7 +53,7 @@ pipeline {
                 expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
             steps {
-            	if(BUILD_TYPE == "docker"){
+            	if (params.BUILD_TYPE == "docker") {
             		sh 'mvn -f $UB_PROJECT_NAME -P docker-build clean deploy'
             	}
             	else{
@@ -93,7 +93,7 @@ pipeline {
                 build job: 'cora-branch-release', parameters: [
                     [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
                     [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${BRANCH_VERSION}" ],
-                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${DEV_BRANCH_VERSION}" ]
+                    [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${DEV_BRANCH_VERSION}" ],
                     [$class: 'StringParameterValue', name: 'BUILD_TYPE', value: "${BUILD_TYPE}" ]
                 ]
             }
