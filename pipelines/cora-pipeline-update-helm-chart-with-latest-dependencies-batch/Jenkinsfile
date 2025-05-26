@@ -40,7 +40,6 @@ pipeline {
                }
                
                // Define Docker image lists
-               //TODO decide what to do with cora-docker-gatekeeper / systemone-docker-gatekeeper
                def coraDockers = [
                "cora-docker-jsclient", "cora-docker-solr", "cora-docker-fedora",
                "cora-docker-rabbitmq", "cora-docker-iipimageserver", "cora-docker-binaryconverter",
@@ -114,7 +113,8 @@ pipeline {
       stage("checkout") {
          steps {
             script {
-               def repoFolder = 'cora-deployment-onlyForTest'
+//               def repoFolder = 'cora-deployment-onlyForTest'
+               def repoFolder = 'cora-deployment'
                withCredentials([
                string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
                string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
