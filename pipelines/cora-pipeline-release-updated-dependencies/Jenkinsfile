@@ -14,6 +14,9 @@ pipeline {
         string( name: 'FORCE_RELEASE', 
             defaultValue: "0", 
             description: 'Wheter the project has to be build even no dependencies chages have been found. Force release = 1, otherwise 0')
+        string( name: 'BUILD_TYPE', 
+            defaultValue: 'maven', 
+            description: 'The type of artifact to build. The possible values are either maven: normal maven artifacts, or docker: maven artifacts that generate dockers')
     }
     tools {
         jdk 'Cora OpenJDK'
@@ -50,8 +53,12 @@ pipeline {
                 expression { CHECKED_IN == 0 || FORCE_RELEASE == "1"}
             }
             steps {
+            	if(BUILD_TYPE == "docker"){
+            		sh 'mvn -f $UB_PROJECT_NAME -P docker-build clean deploy'
+            	}
+            	else{
             	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy'
-//            	sh 'mvn -f $UB_PROJECT_NAME -P sonar-cora clean deploy sonar:sonar'
+            	}
             }
         }
         stage("push update to git"){
@@ -87,6 +94,7 @@ pipeline {
                     [$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${UB_PROJECT_NAME}" ],
                     [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${BRANCH_VERSION}" ],
                     [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${DEV_BRANCH_VERSION}" ]
+                    [$class: 'StringParameterValue', name: 'BUILD_TYPE', value: "${BUILD_TYPE}" ]
                 ]
             }
         }
