@@ -145,7 +145,7 @@ pipeline {
                   return new groovy.json.JsonSlurper().parseText(jsonContent)
                }
                //TODO Set APPLICATION_NAME to path
-               def pathToValuesYaml = 'cora-deployment-onlyForTest/helm/systemone/values.yaml'
+               def pathToValuesYaml = 'cora-deployment/helm/systemone/values.yaml'
                def yamlData = readYamlFile(pathToValuesYaml)
                def versionsMap = readJsonFile('versions.json')
                
@@ -206,7 +206,7 @@ pipeline {
                   //
                
                
-               def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
+               def chartPath = "cora-deployment/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpVersion(chartYaml.version)
@@ -219,7 +219,7 @@ pipeline {
       }
       stage("commit updates") {
          steps {
-            dir ('cora-deployment-onlyForTest') {
+            dir ('cora-deployment') {
                sh 'git config user.email "jenkins@ub"'
                sh 'git config user.name "Jenkins CI"'
                script {
