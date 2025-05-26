@@ -74,7 +74,7 @@ pipeline {
                   if (project) {
                      def projectCopy = project
                      
-                     parallelJobs["Step up ${projectCopy} (${branchCopy})"] = {
+                     parallelJobs["Step up ${projectCopy}"] = {
                         build job: 'cora-pipeline-release-updated-dependencies',
                         parameters: [
                         string(name: 'UB_PROJECT_NAME', value: projectCopy),
