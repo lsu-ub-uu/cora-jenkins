@@ -11,9 +11,7 @@ def parseYaml(String content) {
 def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
-   //   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
-   options.setIndent(2)               // Set indentation to 2 spaces
-   //  options.setIndicatorIndent(1)      // Indent for block indicators like '-' and '?'
+   options.setIndent(2)
    options.setDefaultScalarStyle(org.yaml.snakeyaml.DumperOptions.ScalarStyle.PLAIN)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
@@ -202,8 +200,9 @@ pipeline {
                   //                  def (major, minor, patch) = readVersion(cleanedVersion)
                   //                  def bumpedAppVersion = "${major}.${minor + 1}.0"
                   //                  return bumpedAppVersion.toString()
+                  //}
                   //
-               }
+               
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
