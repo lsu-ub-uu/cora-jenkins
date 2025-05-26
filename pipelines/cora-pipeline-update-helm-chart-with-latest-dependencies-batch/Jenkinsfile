@@ -11,6 +11,7 @@ def parseYaml(String content) {
 def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
+   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
