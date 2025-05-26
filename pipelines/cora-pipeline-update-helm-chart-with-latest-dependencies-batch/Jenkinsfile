@@ -107,6 +107,21 @@ pipeline {
             
          }
       }
+   //   stage("checkout") {
+   //      steps {
+   //         script {
+   //            def projectName = 'cora-deployment-onlyForTest'
+   //            withCredentials([
+   //            string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
+   //            string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
+   //            ]) {
+   //               def repoFolder = 'cora-deployment-onlyForTest'
+   //               sh "rm -rf ${repoFolder}"
+   //               sh "git clone https://${TOKEN}@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}"
+   //            }
+   //         }
+   //      }
+   //   }
       stage("checkout") {
          steps {
             script {
@@ -116,8 +131,14 @@ pipeline {
                string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
                ]) {
                   def repoFolder = 'cora-deployment-onlyForTest'
-                  sh 'rm -rf ${repoFolder}'
-                  sh 'git clone https://${TOKEN}@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}'
+                  
+                  // Remove folder
+                  sh "rm -rf ${repoFolder}"
+                  
+                  // Clone using env var safely
+                  sh """
+                  git clone https://\$TOKEN@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}
+                  """
                }
             }
          }
