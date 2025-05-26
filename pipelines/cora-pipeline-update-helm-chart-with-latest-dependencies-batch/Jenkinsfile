@@ -179,20 +179,24 @@ pipeline {
                def bumpPatchVersion = {
                   version ->
                   def (major, minor, patch) = readVersion(version)
-                  return "${major}.${minor}.${patch + 1}"
+                  return "${major}.${minor}.${patch + 1}".toString()
                }
                
                def bumpMinorVersion = {
                   version ->
                   def (major, minor, patch) = readVersion(version)
-                  return "${major}.${minor + 1}.0"
+                  return "${major}.${minor + 1}.0".toString()
+               }
+               
+               String surroundWithQuote(String value) {
+                  return "\"${value}\""
                }
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpPatchVersion(chartYaml.version)
-               chartYaml.appVersion = bumpMinorVersion(chartYaml.appVersion.toString())
+               chartYaml.appVersion = surroundWithQuote(bumpMinorVersion(chartYaml.appVersion.toString()))
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
