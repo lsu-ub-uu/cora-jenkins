@@ -12,6 +12,8 @@ def dumpYaml(Object data) {
    def options = new org.yaml.snakeyaml.DumperOptions()
    options.setDefaultFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle.BLOCK)
 //   options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED)
+   options.setIndent(2)               // Set indentation to 2 spaces
+   options.setIndicatorIndent(2)      // Indent for block indicators like '-' and '?'
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
