@@ -188,7 +188,8 @@ pipeline {
                   return "${major}.${minor + 1}.0".toString()
                }
                
-               String surroundWithQuote(String value) {
+               def surroundWithQuote = {
+                  value ->
                   return "\"${value}\""
                }
                
