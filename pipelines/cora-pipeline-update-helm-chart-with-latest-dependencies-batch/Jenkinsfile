@@ -183,17 +183,17 @@ pipeline {
                   return "${major}.${minor}.${patch + 1}".toString()
                }
                
+               def surroundWithQuotes = {
+                  value ->
+                  return "\"${value}\""
+               }
+               
                def bumpAndQuoteAppVersion = {
                   version ->
                   def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
                   def (major, minor, patch) = readVersion(cleanedVersion)
                   def bumpedAppVersion = "${major}.${minor + 1}.0"
                   return surroundWithQuotes(bumpedAppVersion).toString()
-               }
-               
-               def surroundWithQuotes = {
-                  value ->
-                  return "\"${value}\""
                }
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
