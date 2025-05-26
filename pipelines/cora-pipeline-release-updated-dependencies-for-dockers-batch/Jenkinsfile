@@ -1,49 +1,60 @@
 /*
- * Docker Snapshot Version Step-Up Pipeline
- *
- * This pipeline is responsible for stepping up (releasing) a set of Docker images
- * if they contain updated dependencies. It is typically triggered after a main release,
- * to ensure downstream Docker images are updated accordingly.
- *
- * Functionality:
- * - Prompts for a comma-separated list of Docker project names (optionally with branch names).
- * - For each Docker project:
- *     - Checks if it has updated dependencies.
- *     - If updates are found, it triggers the 'cora-step-up-snapshot-version-on-dockers' job.
- * - All Docker projects are processed in parallel to speed up execution.
- *
- * Input Format:
- *   - Comma-separated list of Docker names
- *   - Optionally append a branch (default: 'master')
- *
- *   Example:
- *     cora-docker-jsclient, cora-docker-fedora develop, systemone-docker
- *
- * Example Behavior:
- *   - Checks cora-docker-jsclient (branch: master)
- *   - Checks cora-docker-fedora (branch: develop)
- *   - Checks systemone-docker (branch: master)
- *   - All valid jobs are run in parallel.
- *
- * Post Actions:
- *   - Workspace is cleaned after every run.
- */
+* Docker Snapshot Version Step-Up Pipeline
+*
+* This pipeline is responsible for stepping up (releasing) a set of Docker images
+* if they contain updated dependencies. It is typically triggered after a main release,
+* to ensure downstream Docker images are updated accordingly.
+*
+* Functionality:
+* - Prompts for a comma-separated list of Docker project names (optionally with branch names).
+* - For each Docker project:
+*     - Checks if it has updated dependencies.
+*     - If updates are found, it triggers the 'cora-step-up-snapshot-version-on-dockers' job.
+* - All Docker projects are processed in parallel to speed up execution.
+*
+* Input Format:
+*   - Comma-separated list of Docker names
+*   - Optionally append a branch (default: 'master')
+*
+*   Example:
+*     cora-docker-jsclient, cora-docker-fedora develop, systemone-docker
+*
+* Example Behavior:
+*   - Checks cora-docker-jsclient (branch: master)
+*   - Checks cora-docker-fedora (branch: develop)
+*   - Checks systemone-docker (branch: master)
+*   - All valid jobs are run in parallel.
+*
+* Post Actions:
+*   - Workspace is cleaned after every run.
+*/
 
 pipeline {
    agent any
    environment {
       projectsToUpdate = "";
    }
+   parameters {
+      string(name: 'FORCE_RELEASE',
+      defaultValue: "0",
+      description: 'Whether the project has to be built even if no dependency changes were found. Use 1 to force release, otherwise 0.')
+      
+      text(name: 'DOCKERS_TO_RELEASE',
+      defaultValue: '''cora-docker-jsclient,cora-docker-solr,cora-docker-fedora,cora-docker-rabbitmq,
+      cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,
+      diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,
+      systemone-docker-fitnesse,alvin-docker-cora,alvin-docker-gatekeeper,alvin-cora-docker-fitnesse,
+      diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper''',
+      description: 'Comma-separated list of dockers to update after release.')
+   }
    stages {
-      stage("user input") {
+      stage("Print Dockers to Step Up") {
          steps {
             script {
-               dockersToStepUp = input message: 'Enter docker names to step up',
-               parameters: [text(defaultValue: 'cora-docker-jsclient,cora-docker-solr,cora-docker-fedora,cora-docker-rabbitmq,cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,systemone-docker-fitnesse,alvin-docker-cora,alvin-docker-gatekeeper,alvin-cora-docker-fitnesse,diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper',
-               description: 'Dockers to be step up. After releasing top artifacts we need to step up them in the respective dockers. Here it will be a list with all the dockers that might need to be updated after release (comma separated list)',
-               name: 'DOCKERS_TO_RELEASE', trim: true)]
-               
-               echo "Dockers to step up: $dockersToStepUp"
+               def dockersToStepUp = params.DOCKERS_TO_RELEASE.tokenize(',').collect {
+                  it.trim()
+               }
+               echo "Dockers to step up: ${dockersToStepUp.join(', ')}"
             }
          }
       }
@@ -74,7 +85,8 @@ pipeline {
                         parameters: [
                         string(name: 'UB_PROJECT_NAME', value: projectCopy),
                         string(name: 'BRANCH_NAME', value: branchCopy),
-                        string(name: 'FORCE_RELEASE', value: "0")
+                        string(name: 'FORCE_RELEASE', value: "${FORCE_RELEASE}")
+                        string(name: 'TYPE', value: "docker")
                         ]
                      }
                   }

@@ -1,33 +1,47 @@
 pipeline {
-    agent any
-    parameters {
-    	string( name: 'UB_PROJECT_NAME', 
-            defaultValue: 'cora-xx', 
-            description: 'Name of the project to branch and release')
-            
-        string( name: 'UB_BRANCH_VERSION', 
-            defaultValue: 'x.y', 
-            description: 'Version for the branch (usually the one specified as SNAPSHOT in the pom file)')
-            
-        string( name: 'UB_DEV_BRANCH_VERSION', 
-            defaultValue: 'x.y', 
-            description: 'Version to be set as the new SNAPSHOT version on master')
-    }
-    stages {
-        stage('Branch') {
-            steps {
-                build job: 'cora-branch', 
-                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
-        						[$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${params.UB_BRANCH_VERSION}"],
-        						[$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${params.UB_DEV_BRANCH_VERSION}"]]
+   agent any
+   parameters {
+      string( name: 'UB_PROJECT_NAME',
+      defaultValue: 'cora-xx',
+      description: 'Name of the project to branch and release')
+      
+      string( name: 'UB_BRANCH_VERSION',
+      defaultValue: 'x.y',
+      description: 'Version for the branch (usually the one specified as SNAPSHOT in the pom file)')
+      
+      string( name: 'UB_DEV_BRANCH_VERSION',
+      defaultValue: 'x.y',
+      description: 'Version to be set as the new SNAPSHOT version on master')
+      
+      string( name: 'BUILD_TYPE',
+      defaultValue: 'maven',
+      description: 'The type of artifact to build. The possible values are either maven: normal maven artifacts, or docker: maven artifacts that generate dockers')
+   }
+   stages {
+      stage('Branch') {
+         steps {
+            build job: 'cora-branch',
+            parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
+            [$class: 'StringParameterValue', name: 'UB_BRANCH_VERSION', value: "${params.UB_BRANCH_VERSION}"],
+            [$class: 'StringParameterValue', name: 'UB_DEV_BRANCH_VERSION', value: "${params.UB_DEV_BRANCH_VERSION}"]]
+         }
+      }
+      stage('Release') {
+         steps {
+            script {
+               def releaseBranch = "release/${params.UB_BRANCH_VERSION}"
+               def commonParams = [
+               string(name: 'UB_PROJECT_NAME', value: params.UB_PROJECT_NAME),
+               string(name: 'UB_BRANCH', value: releaseBranch)
+               ]
+               
+               if (params.BUILD_TYPE == "docker") {
+                  build job: 'cora-release-for-docker', parameters: commonParams
+               } else {
+                  build job: 'cora-release', parameters: commonParams
+               }
             }
-        }
-         stage('Release') {
-             steps {
-                build job: 'cora-release', 
-                	parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}"],
-          						[$class: 'StringParameterValue', name: 'UB_BRANCH', value: 'release/'+"${params.UB_BRANCH_VERSION}"]]
-             }
-         } 
-    }
-} 
+         }
+      }
+   }
+}
