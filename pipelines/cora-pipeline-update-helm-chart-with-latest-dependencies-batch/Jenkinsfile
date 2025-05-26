@@ -162,7 +162,7 @@ pipeline {
                   else if (artifactId.contains("fitnesse")) key = "fitnesse"
                   else if (artifactId.contains("gatekeeper")) key = "gatekeeper"
                   else if (artifactId.contains("jsclient")) key = "jsclient"
-                  else if (artifactId.contains("rest")) key = "systemone"
+                  else if (artifactId.contains("rest")) key = "systemone-docker"
                   else if (artifactId.contains("login")) key = "login"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
