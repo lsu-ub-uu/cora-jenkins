@@ -31,9 +31,7 @@
 
 pipeline {
    agent any
-   environment {
-      projectsToUpdate = "";
-   }
+   
    parameters {
       string(name: 'FORCE_RELEASE',
       defaultValue: "0",
@@ -47,6 +45,7 @@ pipeline {
       diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper''',
       description: 'Comma-separated list of dockers to update after release.')
    }
+   
    stages {
       stage("Print Dockers to Step Up") {
          steps {
@@ -58,34 +57,29 @@ pipeline {
             }
          }
       }
-      stage("loop step up") {
+      
+      stage("Loop Step Up") {
          steps {
             script {
-               echo "Dockers to step up"
-               def splitteddockersToStepUp = dockersToStepUp.split(',')
+               def dockersToStepUp = params.DOCKERS_TO_RELEASE.tokenize(',').collect {
+                  it.trim()
+               }
                def parallelJobs = [:]
                
-               splitteddockersToStepUp.each {
+               dockersToStepUp.each {
                   dockerItem ->
-                  def trimmed = dockerItem.trim()
-                  def splittedTrimmed = trimmed.split(' ')
-                  def project = splittedTrimmed[0].trim()
-                  def branch = 'master'
-                  if (splittedTrimmed.length > 1) {
-                     branch = splittedTrimmed[1].trim()
-                  }
+                  def splitted = dockerItem.split(' ')
+                  def project = splitted[0].trim()
                   
-                  if (project && project.length() > 0) {
-                     // Use closure binding to avoid lazy-evaluation issues
+                  if (project) {
                      def projectCopy = project
-                     def branchCopy = branch
                      
                      parallelJobs["Step up ${projectCopy} (${branchCopy})"] = {
                         build job: 'cora-pipeline-release-updated-dependencies',
                         parameters: [
                         string(name: 'UB_PROJECT_NAME', value: projectCopy),
-                        string(name: 'BRANCH_NAME', value: branchCopy),
-                        string(name: 'FORCE_RELEASE', value: "${FORCE_RELEASE}"),
+                        string(name: 'BRANCH_NAME', value: "master"),
+                        string(name: 'FORCE_RELEASE', value: "${params.FORCE_RELEASE}"),
                         string(name: 'BUILD_TYPE', value: "docker")
                         ]
                      }
