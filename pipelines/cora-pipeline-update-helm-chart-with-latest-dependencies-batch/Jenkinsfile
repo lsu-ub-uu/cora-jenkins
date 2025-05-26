@@ -116,8 +116,8 @@ pipeline {
                string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
                ]) {
                   def repoFolder = 'cora-deployment-onlyForTest'
-                  sh "rm -rf ${repoFolder}"
-                  sh "git clone https://${TOKEN}@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}"
+                  sh 'rm -rf ${repoFolder}'
+                  sh 'git clone https://${TOKEN}@github.com/lsu-ub-uu/${repoFolder}.git ${repoFolder}'
                }
             }
          }
