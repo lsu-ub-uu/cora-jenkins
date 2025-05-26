@@ -193,19 +193,19 @@ pipeline {
                   return "\"${value}\""
                }
                
-               def bumpAndQuoteAppVersion = {
-                  version ->
-                  def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
-                  def (major, minor, patch) = readVersion(cleanedVersion)
-                  def bumpedAppVersion = "${major}.${minor + 1}.0"
-                  return bumpedAppVersion.toString()
-               }
+//               def bumpAndQuoteAppVersion = {
+//                  version ->
+//                  def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
+//                  def (major, minor, patch) = readVersion(cleanedVersion)
+//                  def bumpedAppVersion = "${major}.${minor + 1}.0"
+//                  return bumpedAppVersion.toString()
+//               }
                
                def chartPath = "cora-deployment-onlyForTest/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpVersion(chartYaml.version)
-               chartYaml.appVersion = bumpAndQuoteAppVersion(chartYaml.appVersion)
+//             chartYaml.appVersion = bumpAndQuoteAppVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
