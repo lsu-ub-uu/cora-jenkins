@@ -85,8 +85,8 @@ pipeline {
                         parameters: [
                         string(name: 'UB_PROJECT_NAME', value: projectCopy),
                         string(name: 'BRANCH_NAME', value: branchCopy),
-                        string(name: 'FORCE_RELEASE', value: "${FORCE_RELEASE}")
-                        string(name: 'TYPE', value: "docker")
+                        string(name: 'FORCE_RELEASE', value: "${FORCE_RELEASE}"),
+                        string(name: 'BUILD_TYPE', value: "docker")
                         ]
                      }
                   }
