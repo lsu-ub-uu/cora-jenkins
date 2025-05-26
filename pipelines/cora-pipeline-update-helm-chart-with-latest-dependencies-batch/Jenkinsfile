@@ -14,7 +14,7 @@ def dumpYaml(Object data) {
    options.setIndent(2)
    options.setIndentWithIndicator(true)
    options.setIndicatorIndent(2)
-   options.isProcessComments(true)
+   options.setProcessComments(true)
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
