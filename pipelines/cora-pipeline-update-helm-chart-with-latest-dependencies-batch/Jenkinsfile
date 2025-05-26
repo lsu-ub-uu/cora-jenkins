@@ -14,6 +14,7 @@ def dumpYaml(Object data) {
    def yaml = new org.yaml.snakeyaml.Yaml(options)
    return yaml.dump(data)
 }
+
 pipeline {
    agent any
    
@@ -188,7 +189,7 @@ pipeline {
                   return "${major}.${minor + 1}.0".toString()
                }
                
-               def surroundWithQuote = {
+               def surroundWithQuotes = {
                   value ->
                   return "\"${value}\"".toString()
                }
@@ -197,7 +198,8 @@ pipeline {
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpPatchVersion(chartYaml.version)
-               chartYaml.appVersion = surroundWithQuote(bumpMinorVersion(chartYaml.appVersion.toString()))
+               def appVersionWithoutQuotes = bumpMinorVersion(chartYaml.appVersion.toString())
+               chartYaml.appVersion = surroundWithQuotes(appVersionWithoutQuotes)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
@@ -216,6 +218,5 @@ pipeline {
             }
          }
       }
-      
    }
 }
