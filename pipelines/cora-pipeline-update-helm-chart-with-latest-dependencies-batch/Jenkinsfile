@@ -22,6 +22,10 @@ def dumpYaml(Object data) {
 pipeline {
    agent any
    
+   environment {
+      HELM_REPO_NAME = "cora-deployment";
+   }
+   
    parameters {
       string(
       name: 'APPLICATION_NAME',
@@ -58,8 +62,6 @@ pipeline {
                   echo "Fetching: ${metadataUrl}"
                   
                   def metadata = new XmlSlurper().parse(metadataUrl)
-                  
-                  //def metadata = new XmlSlurper().parse(metadataUrl.toURL())
                   def releaseVersion = metadata.versioning.release?.text()
                   
                   if (!releaseVersion) {
@@ -110,27 +112,25 @@ pipeline {
             
          }
       }
-      stage("checkout") {
+      stage("clone") {
          steps {
             script {
-//               def repoFolder = 'cora-deployment-onlyForTest'
-               def repoFolder = 'cora-deployment'
                withCredentials([
                string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
                string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
                ]) {
-                  withEnv(["REPO_FOLDER=${repoFolder}"]) {
-                     sh '''
-                     rm -rf "$REPO_FOLDER"
-                     git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$REPO_FOLDER.git "$REPO_FOLDER"
-                     '''
-                  }
+                  sh """
+                  rm -rf "${env.HELM_REPO_NAME}"
+                  git clone https://${USERNAME}:${TOKEN}@github.com/lsu-ub-uu/${env.HELM_REPO_NAME}.git "${env.HELM_REPO_NAME}"
+                  """
+                  
+                  
                }
             }
          }
       }
       
-      stage('Update values.yaml') {
+      stage("Update values and chart for helm") {
          steps {
             script {
                def readYamlFile = {
@@ -145,7 +145,7 @@ pipeline {
                   return new groovy.json.JsonSlurper().parseText(jsonContent)
                }
                //TODO Set APPLICATION_NAME to path
-               def pathToValuesYaml = 'cora-deployment/helm/systemone/values.yaml'
+               def pathToValuesYaml = "${env.HELM_REPO_NAME}/helm/${param.APPLICATION_NAME}/values.yaml"
                def yamlData = readYamlFile(pathToValuesYaml)
                def versionsMap = readJsonFile('versions.json')
                
@@ -196,21 +196,11 @@ pipeline {
                   return "\"${value}\""
                }
                
-               //               def bumpAndQuoteAppVersion = {
-                  //                  version ->
-                  //                  def cleanedVersion = version.toString().replaceAll(/^"(.*)"$/, '$1')
-                  //                  def (major, minor, patch) = readVersion(cleanedVersion)
-                  //                  def bumpedAppVersion = "${major}.${minor + 1}.0"
-                  //                  return bumpedAppVersion.toString()
-                  //}
-                  //
                
-               
-               def chartPath = "cora-deployment/helm/${params.APPLICATION_NAME}/Chart.yaml"
+               def chartPath = "${env.HELM_REPO_NAME}/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpVersion(chartYaml.version)
-               //             chartYaml.appVersion = bumpAndQuoteAppVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
@@ -219,7 +209,7 @@ pipeline {
       }
       stage("commit updates") {
          steps {
-            dir ('cora-deployment') {
+            dir ('$HELM_REPO_NAME') {
                sh 'git config user.email "jenkins@ub"'
                sh 'git config user.name "Jenkins CI"'
                script {
