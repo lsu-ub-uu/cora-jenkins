@@ -1,0 +1,78 @@
+pipeline {
+   agent any
+   environment {
+      projectsToUpdate = "";
+   }
+   parameters {
+      text(name: 'PROJECTS_TO_RELEASE',
+      defaultValue: '''''',
+      description: 'Comma-separated list of projects to release.')
+      
+      text(name: 'PROJECTS_TO_CHECK_AND_RELEASE',
+      defaultValue: '''''',
+      description: 'Comma-separated list of projects which are candidate to be released.')
+      
+      string(name: 'MODE',
+      defaultValue: "serial",
+      description: 'mode: Specifies how tasks are executed — either one after another ("serial") or at the same time ("parallel").')
+   }
+   
+   stages {
+      
+      stage("loop release") {
+         steps {
+            script {
+               echo "Release projects"
+               def projectsToRelease = params.PROJECTS_TO_RELEASE.tokenize(',').collect {
+                  it.trim()
+               }
+               projectsToRelease.each {
+                  pojectItem ->
+                  def splitted = pojectItem.split(' ')
+                  def project = splitted[0].trim()
+                  
+                  if (project) {
+                     
+                     build job: 'cora-pipeline-release-updated-dependencies',
+                     parameters: [
+                     string(name: 'UB_PROJECT_NAME', value: project),
+                     string(name: 'UB_BRANCH_NAME', value: "master"),
+                     string(name: 'FORCE_RELEASE', value: "1")]
+                     
+                  }
+               }
+            }
+         }
+      }
+      stage("loop updates") {
+         steps {
+            script {
+               echo "Release projects"
+               def projectsToRelease = params.PROJECTS_TO_CHECK_AND_RELEASE.tokenize(',').collect {
+                  it.trim()
+               }
+               projectsToRelease.each {
+                  pojectItem ->
+                  def splitted = pojectItem.split(' ')
+                  def project = splitted[0].trim()
+                  
+                  if (project) {
+                     
+                     build job: 'cora-pipeline-release-updated-dependencies',
+                     parameters: [
+                     string(name: 'UB_PROJECT_NAME', value: project),
+                     string(name: 'UB_BRANCH_NAME', value: "master"),
+                     string(name: 'FORCE_RELEASE', value: "0")]
+                     
+                  }
+               }
+            }
+         }
+      }
+   }
+   post {
+      always {
+         cleanWs()
+      }
+   }
+}
