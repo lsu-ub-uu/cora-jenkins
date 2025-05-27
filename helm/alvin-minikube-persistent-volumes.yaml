@@ -1,0 +1,115 @@
+#postgresql
+
+#pvSharedArchive #ReadWriteMany
+#pvcSharedArchiveReadWrite #ReadWriteMany
+#pvcSharedArchiveReadOnly #ReadOnlyMany
+
+#pvConvertedFiles #ReadWriteMany
+#pvcConvertedFilesReadWrite #ReadWriteMany
+#pvcConvertedFilesReadOnly #ReadOnlyMany
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-postgres-volume
+  labels:
+    type: local
+    app: alvin-postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/alvin/postgresql
+  claimRef:
+    namespace: alvin
+    name: alvin-postgres-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-archive-volume
+  labels:
+    type: local
+    app: alvin-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/alvin/archive
+  claimRef:
+    namespace: alvin
+    name: alvin-archive-read-write-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-archive-read-only-volume
+  labels:
+    type: local
+    app: alvin-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/alvin/archive
+  claimRef:
+    namespace: alvin
+    name: alvin-archive-read-only-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-converted-files-volume
+  labels:
+    type: local
+    app: alvin-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/alvin/convertedFiles
+  claimRef:
+    namespace: alvin
+    name: alvin-converted-files-read-write-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-converted-files-read-only-volume
+  labels:
+    type: local
+    app: alvin-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/alvin/convertedFiles
+  claimRef:
+    namespace: alvin
+    name: alvin-converted-files-read-only-volume-claim
+---

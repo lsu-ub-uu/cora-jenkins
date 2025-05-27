@@ -1,0 +1,115 @@
+#postgresql
+
+#pvSharedArchive #ReadWriteMany
+#pvcSharedArchiveReadWrite #ReadWriteMany
+#pvcSharedArchiveReadOnly #ReadOnlyMany
+
+#pvConvertedFiles #ReadWriteMany
+#pvcConvertedFilesReadWrite #ReadWriteMany
+#pvcConvertedFilesReadOnly #ReadOnlyMany
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-postgres-volume
+  labels:
+    type: local
+    app: systemone-build-postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/postgresql
+  claimRef:
+    namespace: systemone-build
+    name: systemone-postgres-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-archive-volume
+  labels:
+    type: local
+    app: systemone-build-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/archive
+  claimRef:
+    namespace: systemone-build
+    name: systemone-archive-read-write-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-archive-read-only-volume
+  labels:
+    type: local
+    app: systemone-build-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/archive
+  claimRef:
+    namespace: systemone-build
+    name: systemone-archive-read-only-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-converted-files-volume
+  labels:
+    type: local
+    app: systemone-build-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/convertedFiles
+  claimRef:
+    namespace: systemone-build
+    name: systemone-converted-files-read-write-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-converted-files-read-only-volume
+  labels:
+    type: local
+    app: systemone-build-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/convertedFiles
+  claimRef:
+    namespace: systemone-build
+    name: systemone-converted-files-read-only-volume-claim
+---

@@ -1,0 +1,115 @@
+#postgresql
+
+#pvSharedArchive #ReadWriteMany
+#pvcSharedArchiveReadWrite #ReadWriteMany
+#pvcSharedArchiveReadOnly #ReadOnlyMany
+
+#pvConvertedFiles #ReadWriteMany
+#pvcConvertedFilesReadWrite #ReadWriteMany
+#pvcConvertedFilesReadOnly #ReadOnlyMany
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-postgres-volume
+  labels:
+    type: local
+    app: diva-postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/diva/postgresql
+  claimRef:
+    namespace: diva
+    name: diva-postgres-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-archive-volume
+  labels:
+    type: local
+    app: diva-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/diva/archive
+  claimRef:
+    namespace: diva
+    name: diva-archive-read-write-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-archive-read-only-volume
+  labels:
+    type: local
+    app: diva-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/diva/archive
+  claimRef:
+    namespace: diva
+    name: diva-archive-read-only-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-converted-files-volume
+  labels:
+    type: local
+    app: diva-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/diva/convertedFiles
+  claimRef:
+    namespace: diva
+    name: diva-converted-files-read-write-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-converted-files-read-only-volume
+  labels:
+    type: local
+    app: diva-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/diva/convertedFiles
+  claimRef:
+    namespace: diva
+    name: diva-converted-files-read-only-volume-claim
+---
