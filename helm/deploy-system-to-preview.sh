@@ -1,6 +1,6 @@
 #!/bin/bash
-
-NAMESPACE="systemone-preview"
+NAME=$1
+NAMESPACE="$NAME-preview"
 
 echo ""
 echo "Uninstalling Helm release '$NAMESPACE' from namespace '$NAMESPACE'..."
@@ -8,7 +8,7 @@ helm uninstall $NAMESPACE -n $NAMESPACE
 
 echo ""
 echo "Deleting secret..."
-kubectl delete secret systemone-secret --namespace=$NAMESPACE
+kubectl delete secret ${NAME}-secret --namespace=$NAMESPACE
 
 echo ""
 echo "Deleting Kubernetes namespace '$NAMESPACE'..."
@@ -23,8 +23,8 @@ kubectl delete pv ${NAMESPACE}-converted-files-volume
 kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
 
 echo ""
-echo "Removing local persistent data from /mnt/minikube/systemone/preview..."
-minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/preview"
+echo "Removing local persistent data from /mnt/minikube/$NAME/preview..."
+minikube ssh -- "sudo rm -rf /mnt/minikube/$NAME/preview"
 
 echo ""
 echo "Creating namespace '$NAMESPACE'..."
@@ -33,16 +33,16 @@ kubectl create namespace $NAMESPACE
 
 echo ""
 echo "Applying secret"
-kubectl apply -f systemone-secret.yaml --namespace=$NAMESPACE
+kubectl apply -f ${NAME}-secret.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "Applying persistent volume definitions"
 kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
-echo "Installing Helm chart 'systemone' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
+echo "Installing Helm chart '$NAME' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
 helm repo update
-helm install $NAMESPACE epc/systemone --namespace $NAMESPACE -f ${NAMESPACE}-values.yaml
+helm install $NAMESPACE epc/$NAME --namespace $NAMESPACE -f ${NAMESPACE}-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
