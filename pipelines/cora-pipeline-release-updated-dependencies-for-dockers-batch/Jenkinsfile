@@ -82,6 +82,17 @@ pipeline {
    }
    
    post {
+      success {
+         echo 'Build succeeded!'
+         build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
+         wait: false,
+         parameters: [
+         string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+         ]
+      }
+      failure {
+         echo 'Build failed.'
+      }
       always {
          cleanWs()
       }
