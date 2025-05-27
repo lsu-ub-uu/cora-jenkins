@@ -5,7 +5,8 @@ pipeline {
    
    environment {
       HELM_REPO_NAME = "cora-deployment";
-      NEXUS_URL = 'https://helm.epc.ub.uu.se/repository/helm/'
+//      NEXUS_URL = 'https://helm.epc.ub.uu.se/repository/helm/'
+      NEXUS_URL = 'https://helm.epc.ub.uu.se/'
       CREDENTIALS_ID = 'nexus-helm'
       CHART_DIR = 'cora-deployment/helm/'
    }
