@@ -7,7 +7,6 @@ pipeline {
    
    environment {
       HELM_REPO_NAME = "cora-deployment";
-      JENKINS_REPO_NAME = "cora-jenkins";
    }
    
    parameters {
@@ -33,24 +32,9 @@ pipeline {
             }
          }
       }
-      stage('clone $JENKINS_REPO_NAME') {
-         steps {
-            script {
-               withCredentials([
-               string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
-               string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
-               ]) {
-                  sh '''
-                  rm -rf "$JENKINS_REPO_NAME"
-                  git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$JENKINS_REPO_NAME.git "$JENKINS_REPO_NAME"
-                  '''
-               }
-            }
-         }
-      }
       stage('Run script deploy-minikube-for-build') {
          steps {
-            sh './$JENKINS_REPO_NAME/helm/deploy-system-to-build.sh $APPLICATION_NAME'
+            sh './helm/deploy-system-to-build.sh $APPLICATION_NAME'
          }
       }
    }
