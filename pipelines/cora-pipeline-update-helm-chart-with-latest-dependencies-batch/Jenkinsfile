@@ -152,16 +152,17 @@ pipeline {
                   // Find key by artifactId suffix
                   def key = null
                   if (artifactId.contains("solr")) key = "solr"
+                  else if (artifactId.contains("cora-docker-rabbitmq")) key = "rabbitmq"
+                  else if (artifactId.contains("cora-docker-fedora")) key = "fedora"
                   else if (artifactId.contains("idplogin")) key = "idplogin"
-                  else if (artifactId.contains("rabbitmq")) key = "rabbitmq"
-                  else if (artifactId.contains("fedora")) key = "fedora"
                   else if (artifactId.contains("iipimageserver")) key = "iip"
                   else if (artifactId.contains("postgresql")) key = "postgresql"
                   else if (artifactId.contains("fitnesse")) key = "fitnesse"
                   else if (artifactId.contains("gatekeeper")) key = "gatekeeper"
                   else if (artifactId.contains("jsclient")) key = "jsclient"
-                  else if (artifactId.contains("rest")) key = "systemone-docker"
+                  else if (artifactId.contains("systemone-docker")) key = "rest"
                   else if (artifactId.contains("login")) key = "login"
+                  else if (artifactId.contains("binaryconverter")) key = "binaryconverter"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
@@ -216,6 +217,20 @@ pipeline {
                }
             }
          }
+      }
+   }
+   post {
+      success {
+         echo 'Build succeeded!'
+         build job: 'systemone-deploy-minikube-for-build', // Replace with your actual job name
+         wait: false,
+         parameters: [
+         string(name: 'APP_NAME', value: params.APPLICATION_NAME),
+         string(name: 'HELM_REPO', value: env.HELM_REPO_NAME)
+         ]
+      }
+      failure {
+         echo 'Build failed.'
       }
    }
 }
