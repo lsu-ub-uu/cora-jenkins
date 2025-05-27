@@ -54,4 +54,14 @@ pipeline {
          }
       }
    }
+      post {
+      success {
+         echo 'Build succeeded!'
+         build job: "${params.APPLICATION_NAME}-deploy-minikube-for-preview",
+         wait: false
+      }
+      failure {
+         echo 'Build failed.'
+      }
+   }
 }
