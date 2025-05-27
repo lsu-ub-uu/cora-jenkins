@@ -44,7 +44,7 @@ pipeline {
                         def chartFile = sh(script: "ls *.tgz", returnStdout: true).trim()
                         sh '''
                             curl -u $NEXUS_USER:$NEXUS_PASS \
-                              --upload-file $chartFile \
+                              --upload-file ${chartFile} \
                               $NEXUS_URL
                         '''
                     }
