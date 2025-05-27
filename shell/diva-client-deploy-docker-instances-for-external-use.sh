@@ -17,7 +17,7 @@ docker run -d --name diva-client \
     -e BASE_PATH=/divaclient \
     -e ENVIRONMENT=preview \
     -p 9876:5173 \
-    diva-client:1.22-SNAPSHOT
+    diva-client:1.23-SNAPSHOT
 
 echo ""
 echo "All dockers started"
