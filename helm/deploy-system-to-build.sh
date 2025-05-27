@@ -38,13 +38,13 @@ kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAME
 echo ""
 echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
 echo "setting upp $NAME chart"
-helm dependency build cora/
-helm dependency update $NAME/
+helm dependency build ../cora-deployment/helm/cora/
+helm dependency update ../cora-deployment/helm/$NAME/
 echo "END TEMPORARY STEP BEFORE RELEASED CHARTS"
 
 echo ""
 echo "Installing Helm chart '$NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
-helm install $NAMESPACE $NAME --namespace $NAMESPACE -f ../jenkins/${NAMESPACE}-values.yaml
+helm install $NAMESPACE ../cora-deployment/helm/$NAME --namespace $NAMESPACE -f ${NAMESPACE}-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
