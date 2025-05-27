@@ -23,7 +23,7 @@ pipeline {
    agent any
    
    environment {
-      HELM_REPO_NAME = "cora-deployment-onlyForTest";
+      HELM_REPO_NAME = "cora-deployment";
    }
    
    parameters {
