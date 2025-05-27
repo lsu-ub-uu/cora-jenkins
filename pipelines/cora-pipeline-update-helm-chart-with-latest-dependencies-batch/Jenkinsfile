@@ -151,19 +151,19 @@ pipeline {
                   artifactId, version ->
                   // Find key by artifactId suffix
                   def key = null
-                  if (artifactId.contains("cora-docker-solr")) key = "solr"
-                  else if (artifactId.contains("cora-docker-rabbitmq")) key = "rabbitmq"
-                  else if (artifactId.contains("cora-docker-fedora")) key = "fedora"
-                  else if (artifactId.contains("cora-docker-idplogin")) key = "idplogin"
-                  else if (artifactId.contains("cora-docker-iipimageserver")) key = "iip"
-                  else if (artifactId.contains("cora-docker-binaryconverter")) key = "binaryconverter"
-                  else if (artifactId.contains("cora-docker-jsclient")) key = "jsclient"
-                  else if (artifactId.contains("cora-docker-login")) key = "login"
+                  if (artifactId == "cora-docker-solr") key = "solr"
+                  else if (artifactId == "cora-docker-rabbitmq") key = "rabbitmq"
+                  else if (artifactId == "cora-docker-fedora") key = "fedora"
+                  else if (artifactId == "cora-docker-idplogin") key = "idplogin"
+                  else if (artifactId == "cora-docker-iipimageserver") key = "iip"
+                  else if (artifactId == "cora-docker-binaryconverter") key = "binaryconverter"
+                  else if (artifactId == "cora-docker-jsclient") key = "jsclient"
+                  else if (artifactId == "cora-docker-login") key = "login"
 
-                  else if (artifactId.contains("systemone-docker")) key = "rest"
-                  else if (artifactId.contains("systemone-docker-postgresql")) key = "postgresql"
-                  else if (artifactId.contains("cora-docker-gatekeeper")) key = "gatekeeper"
-                  else if (artifactId.contains("systemone-docker-fitnesse")) key = "fitnesse"
+                  else if (artifactId == "systemone-docker") key = "rest"
+                  else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
+                  else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
+                  else if (artifactId == "systemone-docker-fitnesse") key = "fitnesse"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
