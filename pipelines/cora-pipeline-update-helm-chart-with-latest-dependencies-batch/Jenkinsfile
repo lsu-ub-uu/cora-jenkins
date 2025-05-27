@@ -23,7 +23,7 @@ pipeline {
    agent any
    
    environment {
-      HELM_REPO_NAME = "cora-deployment";
+      HELM_REPO_NAME = "cora-deployment-onlyForTest";
    }
    
    parameters {
@@ -119,12 +119,10 @@ pipeline {
                string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
                string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
                ]) {
-                  sh """
-                  rm -rf "${env.HELM_REPO_NAME}"
-                  git clone https://${USERNAME}:${TOKEN}@github.com/lsu-ub-uu/${env.HELM_REPO_NAME}.git "${env.HELM_REPO_NAME}"
-                  """
-                  
-                  
+				sh '''
+                     rm -rf "$HELM_REPO_NAME"
+                     git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
+                     '''                 
                }
             }
          }
