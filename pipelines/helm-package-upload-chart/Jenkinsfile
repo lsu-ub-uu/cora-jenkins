@@ -42,11 +42,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     script {
                         def chartFile = sh(script: "ls *.tgz", returnStdout: true).trim()
-                        sh """
-                            curl -u ${NEXUS_USER}:${NEXUS_PASS} \
-                              --upload-file ${chartFile} \
-                              ${NEXUS_URL}
-                        """
+                        sh '''
+                            curl -u $NEXUS_USER:$NEXUS_PASS \
+                              --upload-file $chartFile \
+                              $NEXUS_URL
+                        '''
                     }
                 }
             }
