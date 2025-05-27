@@ -36,7 +36,7 @@ pipeline {
       }
       stage('Dependencies and Package Helm Chart') {
          steps {
-            sh "helm dependency update ${APPLICATION_NAME}/"
+            sh "helm dependency update ${CHART_DIR}${APPLICATION_NAME}/"
             sh "helm package ${CHART_DIR}${APPLICATION_NAME}"
          }
       }
