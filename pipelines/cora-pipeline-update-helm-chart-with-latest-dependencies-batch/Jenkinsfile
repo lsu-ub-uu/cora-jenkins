@@ -223,12 +223,7 @@ pipeline {
    post {
       success {
          echo 'Build succeeded!'
-         build job: 'systemone-deploy-minikube-for-build', // Replace with your actual job name
-         wait: false,
-         parameters: [
-         string(name: 'APP_NAME', value: params.APPLICATION_NAME),
-         string(name: 'HELM_REPO', value: env.HELM_REPO_NAME)
-         ]
+         build job: "${params.APPLICATION_NAME}-deploy-minikube-for-build"
       }
       failure {
          echo 'Build failed.'
