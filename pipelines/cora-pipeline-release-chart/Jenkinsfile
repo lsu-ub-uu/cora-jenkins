@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    environment {
+        HELM_REPO_NAME = "cora-deployment";
+        NEXUS_URL = 'https://helm.epc.ub.uu.se/repository/helm/'
+        CREDENTIALS_ID = 'nexus-helm'
+        CHART_DIR = 'helm/'
+    }
+	parameters {
+      string(
+      name: 'APPLICATION_NAME',
+      defaultValue: 'systemone',
+      description: 'Name of the application that Helm chart will be uploaded'
+      )
+   	}
+   
+    stages {
+        stage("clone") {
+         steps {
+            script {
+               withCredentials([
+               string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
+               string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
+               ]) {
+                  sh '''
+                  rm -rf "$HELM_REPO_NAME"
+                  git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
+                  '''
+               }
+            }
+         }
+      	}
+      	stage('Package Helm Chart') {
+            steps {
+                sh "helm package ${CHART_DIR}${APPLICATION_NAME}"
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                    script {
+                        def chartFile = sh(script: "ls *.tgz", returnStdout: true).trim()
+                        sh """
+                            curl -u ${NEXUS_USER}:${NEXUS_PASS} \
+                              --upload-file ${chartFile} \
+                              ${NEXUS_URL}
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
