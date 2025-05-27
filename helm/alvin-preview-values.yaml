@@ -1,0 +1,5 @@
+deploy:
+  fitnesse: true
+
+externalPath:
+  login: /alvin/login/rest/

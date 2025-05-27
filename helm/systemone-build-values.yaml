@@ -1,0 +1,10 @@
+deploy:
+  fitnesse: true
+  jsclient: false
+
+port:
+  rest: 31080
+  login: 31180
+  jsclient: 31280
+  idplogin: 31380
+  fitnesse: 31580
