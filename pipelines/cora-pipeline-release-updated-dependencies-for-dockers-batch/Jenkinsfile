@@ -87,7 +87,7 @@ pipeline {
          build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
          wait: false,
          parameters: [
-         string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+         string(name: 'APPLICATION_NAME', value: "systemone")
          ]
       }
       failure {
