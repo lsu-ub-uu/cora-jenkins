@@ -13,10 +13,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-postgres-volume
+  name: diva-build-postgres-volume
   labels:
     type: local
-    app: diva-postgres
+    app: diva-build-postgres
 spec:
   storageClassName: manual
   capacity:
@@ -24,9 +24,9 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/minikube/diva/postgresql
+    path: /mnt/minikube/diva/build/postgresql
   claimRef:
-    namespace: diva
+    namespace: diva-build
     name: diva-postgres-volume-claim
 
 ---
@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-archive-volume
+  name: diva-build-archive-volume
   labels:
     type: local
-    app: diva-archive
+    app: diva-build-archive
 spec:
   storageClassName: manual
   capacity:
@@ -45,9 +45,9 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/minikube/diva/archive
+    path: /mnt/minikube/diva/build/archive
   claimRef:
-    namespace: diva
+    namespace: diva-build
     name: diva-archive-read-write-volume-claim
 
 ---
@@ -55,10 +55,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-archive-read-only-volume
+  name: diva-build-archive-read-only-volume
   labels:
     type: local
-    app: diva-archive
+    app: diva-build-archive
 spec:
   storageClassName: manual
   capacity:
@@ -66,9 +66,9 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: /mnt/minikube/diva/archive
+    path: /mnt/minikube/diva/build/archive
   claimRef:
-    namespace: diva
+    namespace: diva-build
     name: diva-archive-read-only-volume-claim
     
 ---
@@ -76,10 +76,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-converted-files-volume
+  name: diva-build-converted-files-volume
   labels:
     type: local
-    app: diva-converted-files
+    app: diva-build-converted-files
 spec:
   storageClassName: manual
   capacity:
@@ -87,9 +87,9 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/minikube/diva/convertedFiles
+    path: /mnt/minikube/diva/build/convertedFiles
   claimRef:
-    namespace: diva
+    namespace: diva-build
     name: diva-converted-files-read-write-volume-claim
     
 ---
@@ -97,10 +97,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-converted-files-read-only-volume
+  name: diva-build-converted-files-read-only-volume
   labels:
     type: local
-    app: diva-converted-files
+    app: diva-build-converted-files
 spec:
   storageClassName: manual
   capacity:
@@ -108,8 +108,8 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: /mnt/minikube/diva/convertedFiles
+    path: /mnt/minikube/diva/build/convertedFiles
   claimRef:
-    namespace: diva
+    namespace: diva-build
     name: diva-converted-files-read-only-volume-claim
 ---
