@@ -40,15 +40,9 @@ echo "Applying persistent volume definitions"
 kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
-echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
-echo "setting upp systemone chart"
-helm dependency build cora/
-helm dependency update systemone/
-echo "END TEMPORARY STEP BEFORE RELEASED CHARTS"
-
-echo ""
 echo "Installing Helm chart 'systemone' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
-helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/${NAMESPACE}-values.yaml
+helm repo update
+helm install $NAMESPACE epc/systemone --namespace $NAMESPACE -f ${NAMESPACE}-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."

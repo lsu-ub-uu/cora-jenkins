@@ -1,0 +1,115 @@
+#postgresql
+
+#pvSharedArchive #ReadWriteMany
+#pvcSharedArchiveReadWrite #ReadWriteMany
+#pvcSharedArchiveReadOnly #ReadOnlyMany
+
+#pvConvertedFiles #ReadWriteMany
+#pvcConvertedFilesReadWrite #ReadWriteMany
+#pvcConvertedFilesReadOnly #ReadOnlyMany
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-preview-postgres-volume
+  labels:
+    type: local
+    app: systemone-preview-postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/preview/postgresql
+  claimRef:
+    namespace: systemone-preview
+    name: systemone-postgres-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-preview-archive-volume
+  labels:
+    type: local
+    app: systemone-preview-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/preview/archive
+  claimRef:
+    namespace: systemone-preview
+    name: systemone-archive-read-write-volume-claim
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-preview-archive-read-only-volume
+  labels:
+    type: local
+    app: systemone-preview-archive
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/preview/archive
+  claimRef:
+    namespace: systemone-preview
+    name: systemone-archive-read-only-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-preview-converted-files-volume
+  labels:
+    type: local
+    app: systemone-preview-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/minikube/systemone/preview/convertedFiles
+  claimRef:
+    namespace: systemone-preview
+    name: systemone-converted-files-read-write-volume-claim
+    
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-preview-converted-files-read-only-volume
+  labels:
+    type: local
+    app: systemone-preview-converted-files
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/preview/convertedFiles
+  claimRef:
+    namespace: systemone-preview
+    name: systemone-converted-files-read-only-volume-claim
+---
