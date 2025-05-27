@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent minikube
 
     environment {
         HELM_REPO_NAME = "cora-deployment";
