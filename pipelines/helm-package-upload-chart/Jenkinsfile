@@ -5,7 +5,7 @@ pipeline {
    
    environment {
       HELM_REPO_NAME = "cora-deployment";
-//      NEXUS_URL = 'https://helm.epc.ub.uu.se/repository/helm/'
+      //      NEXUS_URL = 'https://helm.epc.ub.uu.se/repository/helm/'
       NEXUS_URL = 'https://helm.epc.ub.uu.se/'
       CREDENTIALS_ID = 'nexus-helm'
       CHART_DIR = 'cora-deployment/helm/'
@@ -56,11 +56,16 @@ pipeline {
          }
       }
    }
-      post {
+   post {
       success {
          echo 'Build succeeded!'
-         build job: "${params.APPLICATION_NAME}-deploy-minikube-for-preview",
-         wait: false
+         script {
+            if (params.APPLICATION_NAME == 'systemone' ||
+            params.APPLICATION_NAME == 'alvin' ||
+            params.APPLICATION_NAME == 'diva') {
+               build job: "${params.APPLICATION_NAME}-deploy-minikube-for-preview", wait: false
+            }
+         }
       }
       failure {
          echo 'Build failed.'
