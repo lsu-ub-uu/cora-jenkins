@@ -4,4 +4,4 @@ deploy:
 externalAccess:
   loginPath: /alvin/login/rest/
   systemUrl: https://cora.epc.ub.uu.se
-  logoutUrl: http://cora.epc.ub.uu.se/alvin/login/rest/authToken/
+  logoutUrl: https://cora.epc.ub.uu.se/alvin/login/rest/authToken/
