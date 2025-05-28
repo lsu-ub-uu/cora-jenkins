@@ -1,3 +1,13 @@
+/* This Jenkins pipeline automates the process of updating a Helm chart with the latest Docker image versions for a specified application (systemone, alvin, or diva). It performs the following steps:
+*    1. Validate Input: Ensures the APPLICATION_NAME is one of the allowed applications.
+*    2. Determine Docker Versions: Queries a Maven repository to fetch the latest versions of the relevant Docker artifacts.
+*    3. Clone Repository: Clones the Helm chart repository (cora-deployment) from GitHub.
+*    4. Update Helm Values: Edits the values.yaml file to reference the latest Docker image versions.
+*    5. Bump Chart Version: Increments the version number in the Helm Chart.yaml file.
+*    6. Commit Changes: Commits and pushes the updated Helm chart files to the GitHub repository.
+*    Trigger Deployment: On successful build, triggers a separate deployment job for the specified application.
+* Temporary files are cleaned up after the build, and outcomes (success or failure) are logged accordingly.
+*/
 // YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.DumperOptions
@@ -159,7 +169,7 @@ pipeline {
                   else if (artifactId == "cora-docker-binaryconverter") key = "binaryconverter"
                   else if (artifactId == "cora-docker-jsclient") key = "jsclient"
                   else if (artifactId == "cora-docker-login") key = "login"
-
+                  
                   else if (artifactId == "systemone-docker") key = "rest"
                   else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
                   else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
