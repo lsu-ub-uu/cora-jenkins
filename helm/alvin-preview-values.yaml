@@ -1,5 +1,7 @@
 deploy:
   fitnesse: true
 
-externalPath:
-  login: /alvin/login/rest/
+externalAccess:
+  loginPath: /alvin/login/rest/
+  systemUrl: https://cora.epc.ub.uu.se
+  logoutUrl: http://cora.epc.ub.uu.se/alvin/login/rest/authToken/
