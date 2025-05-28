@@ -21,11 +21,8 @@ pipeline {
                "alvin-metadata"
                ]
                if (!allowedProjects.contains(params.PROJECT_NAME)) {
-                  echo "Invalid PROJECT_NAME: '${params.PROJECT_NAME}'. Allowed values: ${allowedProjects.join(', ')}"
-                  currentBuild.result = 'UNSTABLE'
-                  return
+                  error "Invalid PROJECT_NAME: '${params.PROJECT_NAME}'. Allowed values: ${allowedProjects.join(', ')}"
                }
-               
             }
          }
       }
@@ -50,9 +47,7 @@ pipeline {
                dir("${params.PROJECT_NAME}") {
                   def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                   if (commitMessage.contains("[maven-release-plugin]")) {
-                     echo "Release commit detected. Aborting."
-                     currentBuild.result = 'ABORTED'
-                     return
+                     error("Release commit detected. Aborting.")
                   }
                }
             }
