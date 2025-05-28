@@ -82,7 +82,8 @@ pipeline {
    }
    post {
       success {
-         build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch'
+         build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
+         wait: false
       }
       always {
          cleanWs()
