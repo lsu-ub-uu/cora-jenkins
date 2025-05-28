@@ -64,21 +64,6 @@ pipeline {
             ]
          }
       }
-      stage("Call release cora-docker-postgresql") {
-         when {
-            expression {
-               return params.PROJECT_NAME == "cora-metadata"
-            }
-         }
-         steps {
-            build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
-            wait: true,
-            parameters: [
-            string(name: 'DOCKERS_TO_RELEASE', value: "cora-docker-postgresql"),
-            string(name: 'FORCE_RELEASE', value: "0")
-            ]
-         }
-      }
    }
    post {
       success {
