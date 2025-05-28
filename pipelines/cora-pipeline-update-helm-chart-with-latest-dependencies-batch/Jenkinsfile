@@ -169,11 +169,22 @@ pipeline {
                   else if (artifactId == "cora-docker-binaryconverter") key = "binaryconverter"
                   else if (artifactId == "cora-docker-jsclient") key = "jsclient"
                   else if (artifactId == "cora-docker-login") key = "login"
+                  else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
                   
                   else if (artifactId == "systemone-docker") key = "rest"
                   else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
                   else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "systemone-docker-fitnesse") key = "fitnesse"
+
+                  else if (artifactId == "alvin-docker-cora") key = "rest"
+                  else if (artifactId == "alvin-docker-postgresql") key = "postgresql"
+                  else if (artifactId == "alvin-docker-gatekeeper") key = "gatekeeper"
+                  else if (artifactId == "alvin-cora-docker-fitnesse") key = "fitnesse"
+
+                  else if (artifactId == "diva-docker-cora") key = "rest"
+                  else if (artifactId == "diva-docker-postgresql") key = "postgresql"
+                  else if (artifactId == "diva-docker-gatekeeper") key = "gatekeeper"
+                  else if (artifactId == "diva-cora-docker-fitnesse") key = "fitnesse"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
