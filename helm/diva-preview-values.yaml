@@ -1,5 +1,7 @@
 deploy:
   fitnesse: true
 
-externalPath:
-  login: /diva/login/rest/
+externalAccess:
+  loginPath: /diva/login/rest/
+  systemUrl: https://cora.epc.ub.uu.se
+  logoutUrl: http://cora.epc.ub.uu.se/diva/login/rest/authToken/
