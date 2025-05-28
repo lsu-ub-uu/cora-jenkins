@@ -244,8 +244,11 @@ pipeline {
    post {
       success {
          echo 'Build succeeded!'
-         build job: "${params.APPLICATION_NAME}-deploy-minikube-for-build",
-         wait: false
+         build job: "deploy-minikube-for-build",
+         	wait: false,
+         	parameters: [
+	        	string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+	        ]
       }
       failure {
          echo 'Build failed.'
