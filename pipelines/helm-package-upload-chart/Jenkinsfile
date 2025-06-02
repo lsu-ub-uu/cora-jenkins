@@ -74,7 +74,13 @@ pipeline {
             if (params.APPLICATION_NAME == 'systemone' ||
             params.APPLICATION_NAME == 'alvin' ||
             params.APPLICATION_NAME == 'diva') {
-               build job: "${params.APPLICATION_NAME}-deploy-minikube-for-preview", wait: false
+               build job: "deploy-minikube-for-preview",
+               parameters: [
+               string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+               ],
+               wait: false
+            }else{
+            	 echo 'Application name not equals to [systemone, alvin, diva]'
             }
          }
       }
