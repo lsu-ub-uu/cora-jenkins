@@ -81,13 +81,15 @@ pipeline {
    
    post {
       success {
-         def apps = ['systemone', 'alvin', 'diva']
-         apps.each {
-            appName ->
-            echo "Building for ${appName} succeeded!"
-            build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
-            wait: false,
-            parameters: [string(name: 'APPLICATION_NAME', value: appName)]
+         script {
+            def apps = ['systemone', 'alvin', 'diva']
+            apps.each {
+               appName ->
+               echo "Building for ${appName} succeeded!"
+               build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
+               wait: false,
+               parameters: [string(name: 'APPLICATION_NAME', value: appName)]
+            }
          }
       }
       failure {
