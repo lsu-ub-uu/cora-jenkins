@@ -284,15 +284,17 @@ pipeline {
    }
    post {
       success {
-         if (hasChanges) {
-            echo 'Build succeeded!'
-            build job: "deploy-minikube-for-build",
-            wait: false,
-            parameters: [
-            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
-            ]
-         } else {
-            echo 'No dependencies bumped — skipping deployment.'
+         script {
+            if (hasChanges) {
+               echo 'Build succeeded!'
+               build job: "deploy-minikube-for-build",
+               wait: false,
+               parameters: [
+               string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+               ]
+            } else {
+               echo 'No dependencies bumped — skipping deployment.'
+            }
          }
       }
       failure {
