@@ -1,18 +1,16 @@
 /*
-* This pipeline is responsible for stepping up (releasing) a set of Docker images
-* if they contain updated dependencies. It is typically triggered after a main release,
-* to ensure downstream Docker images are updated accordingly.
-*
-* Functionality:
-* - Prompts for a comma-separated list of Docker project names (optionally with branch names).
-* - For each Docker project:
-*     - Checks if it has updated dependencies.
-*     - If updates are found, it triggers the 'cora-step-up-snapshot-version-on-dockers' job.
-* - All Docker projects are processed in parallel to speed up execution.
-*
-* Input Format:
-*   - Comma-separated list of Docker names
+This pipeline manages parallel releases of multiple Docker projects.
+
+Stages:
+1. Print Dockers to Step Up – logs the list of Docker projects to process.
+2. Loop Step Up – triggers parallel builds of 'cora-pipeline-release-updated-dependencies' for each Docker project with FORCE_RELEASE and build type 'docker'.
+
+Post actions:
+- On success: triggers Helm chart update asynchronously.
+- On failure: logs build failure.
+- Always: cleans workspace.
 */
+
 
 pipeline {
    agent any
@@ -83,12 +81,14 @@ pipeline {
    
    post {
       success {
-         echo 'Build succeeded!'
-         build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
-         wait: false,
-         parameters: [
-         string(name: 'APPLICATION_NAME', value: "systemone")
-         ]
+         def apps = ['systemone', 'alvin', 'diva']
+         apps.each {
+            appName ->
+            echo "Building for ${appName} succeeded!"
+            build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
+            wait: false,
+            parameters: [string(name: 'APPLICATION_NAME', value: appName)]
+         }
       }
       failure {
          echo 'Build failed.'

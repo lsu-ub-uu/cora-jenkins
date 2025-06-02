@@ -1,3 +1,18 @@
+/*
+This pipeline requests user input for projects to update dependencies for on the master branch.
+It then iterates over each project and triggers the 'cora-pipeline-update-dependencies' job for each.
+
+Stages:
+1. user input:
+   - Prompts the user to enter a comma-separated list of project names.
+2. loop updates:
+   - Splits the list and iterates each project.
+   - Defaults branch to 'master' but supports specifying a branch after the project name separated by space.
+   - Triggers the update dependencies job with parameters for each project and branch.
+
+Post:
+- Always cleans the workspace.
+*/
 pipeline {
     agent any
     environment {

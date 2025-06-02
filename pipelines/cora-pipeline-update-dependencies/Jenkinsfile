@@ -1,3 +1,18 @@
+/*
+This pipeline automates dependency updates and builds for a specified project and branch.
+
+Stages:
+  1. Checkout: clones the project from GitHub using secure credentials.
+  2. Update dependencies: updates Maven parent and properties based on external version rules.
+  3. Commit updates: commits any dependency updates if found.
+  4. Build new version: builds and deploys the project if changes were committed or forced.
+  5. Push update to git: pushes committed changes back to the repository.
+  6. Nothing to update: logs if no dependency changes were detected and no release is triggered.
+
+Post:
+  - Cleans workspace after every run.
+*/
+
 pipeline {
    	agent any
    	environment {

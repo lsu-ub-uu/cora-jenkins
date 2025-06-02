@@ -1,3 +1,17 @@
+/*
+This pipeline facilitates manual input-driven releases and dependency updates for multiple projects.
+
+Stages:
+  1. User input – prompts for two comma-separated lists: projects to force release and projects to update dependencies.
+  2. Loop release – iterates over projects to force release, triggering downstream jobs with FORCE_RELEASE=1.
+  3. Loop updates – iterates over projects to update dependencies, triggering downstream jobs with FORCE_RELEASE=0.
+
+Supports specifying branch names after project names (default is 'master').
+
+Post:
+  - Cleans workspace after completion.
+*/
+
 pipeline {
     agent any
     environment {

@@ -1,3 +1,21 @@
+/*
+This pipeline automates dependency updates and conditional releases for a CORA project.
+
+Stages:
+  1. Initialize – sets build metadata in Jenkins.
+  2. Checkout – clones the GitHub repository using credentials.
+  3. Update dependencies – updates parent and property versions using Maven rules.
+  4. Commit updates – commits changes if any dependency updates occurred.
+  5. Build new version – builds and deploys if changes were committed or forced.
+  6. Push update to git – pushes committed changes.
+  7. Getting version numbers and call branch release – calculates version numbers and triggers 'cora-branch-release'.
+  8. Nothing to release – logs that no release was needed if no changes and not forced.
+
+Post:
+  - Always cleans up the workspace.
+*/
+
+
 pipeline {
    agent any
    environment {

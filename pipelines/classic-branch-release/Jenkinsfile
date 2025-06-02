@@ -1,3 +1,12 @@
+/*
+This pipeline automates the branching and releasing process for a classic Maven project.
+It takes the GitLab project URL, a release version, and a new development version as input.
+It triggers three downstream jobs:
+  1. 'classic-branch' – creates a release branch and updates master to the next SNAPSHOT version.
+  2. 'classic-release' – performs the Maven release on the created branch.
+  3. 'classic-build-from-tag' – builds the project from the generated release tag.
+*/
+
 pipeline {
     agent any
     parameters {

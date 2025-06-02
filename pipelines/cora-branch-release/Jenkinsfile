@@ -1,3 +1,11 @@
+/*
+This pipeline manages the branching and releasing of a CORA project.
+It accepts the project name, branch version, new development version, and build type as parameters.
+Stages:
+  1. 'Initialize' – sets the build name and description in the Jenkins GUI.
+  2. 'Branch' – triggers 'cora-branch' to create a release branch and update master with the next SNAPSHOT version.
+  3. 'Release' – runs either 'cora-release' or 'cora-release-for-docker' depending on the selected build type.
+*/
 pipeline {
    agent any
    parameters {
