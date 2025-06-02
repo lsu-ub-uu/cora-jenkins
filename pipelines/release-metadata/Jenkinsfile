@@ -11,6 +11,14 @@ pipeline {
    }
    
    stages {
+      stage('Initialize') {
+         steps {
+            script {
+               // Set display name and description in Jenkins GUI
+               currentBuild.displayName = "#${env.BUILD_NUMBER} - ${params.PROJECT_NAME}"
+            }
+         }
+      }
       stage("Validate project name") {
          steps {
             script {

@@ -18,7 +18,16 @@ pipeline {
       description: 'The type of artifact to build. The possible values are either maven: normal maven artifacts, or docker: maven artifacts that generate dockers')
    }
    stages {
-      stage('Branch') {
+      stage('Initialize') {
+         steps {
+            script {
+               // Set display name and description in Jenkins GUI
+               currentBuild.displayName = "#${env.BUILD_NUMBER} - ${params.UB_PROJECT_NAME}"
+               currentBuild.description = "Version: ${params.UB_BRANCH_VERSION}"
+            }
+         }
+      }
+	  stage('Branch') {
          steps {
             build job: 'cora-branch',
             parameters: [[$class: 'StringParameterValue', name: 'UB_PROJECT_NAME', value: "${params.UB_PROJECT_NAME}" ],
