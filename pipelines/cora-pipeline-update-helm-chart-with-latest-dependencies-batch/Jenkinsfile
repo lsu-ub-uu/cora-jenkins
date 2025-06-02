@@ -29,6 +29,8 @@ def dumpYaml(Object data) {
    return yaml.dump(data)
 }
 
+def hasChanges = false
+
 pipeline {
    agent any
    
@@ -187,12 +189,12 @@ pipeline {
                   else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
                   else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "systemone-docker-fitnesse") key = "fitnesse"
-
+                  
                   else if (artifactId == "alvin-docker-cora") key = "rest"
                   else if (artifactId == "alvin-docker-postgresql") key = "postgresql"
                   else if (artifactId == "alvin-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "alvin-cora-docker-fitnesse") key = "fitnesse"
-
+                  
                   else if (artifactId == "diva-docker-cora") key = "rest"
                   else if (artifactId == "diva-docker-postgresql") key = "postgresql"
                   else if (artifactId == "diva-docker-gatekeeper") key = "gatekeeper"
@@ -208,7 +210,29 @@ pipeline {
             }
          }
       }
+      stage("Check for Changes") {
+         steps {
+            dir("${env.HELM_REPO_NAME}") {
+               script {
+                  def changes = sh(script: 'git status --porcelain', returnStdout: true).trim()
+                  if (changes) {
+                     echo "Changes detected:\n${changes}"
+                     hasChanges = true
+                  } else {
+                     echo "No changes detected. Skipping remaining stages."
+                     hasChanges = false
+                  }
+               }
+            }
+         }
+      }
+      
       stage("Bump Chart.yaml Version") {
+         when {
+            expression {
+               return hasChanges
+            }
+         }
          steps {
             script {
                def readVersion = {
@@ -241,6 +265,11 @@ pipeline {
          }
       }
       stage("commit updates") {
+         when {
+            expression {
+               return hasChanges
+            }
+         }
          steps {
             dir ("${env.HELM_REPO_NAME}") {
                sh 'git config user.email "jenkins@ub"'
@@ -255,12 +284,16 @@ pipeline {
    }
    post {
       success {
-         echo 'Build succeeded!'
-         build job: "deploy-minikube-for-build",
-         	wait: false,
-         	parameters: [
-	        	string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
-	        ]
+         if (hasChanges) {
+            echo 'Build succeeded!'
+            build job: "deploy-minikube-for-build",
+            wait: false,
+            parameters: [
+            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+            ]
+         } else {
+            echo 'No dependencies bumped — skipping deployment.'
+         }
       }
       failure {
          echo 'Build failed.'
