@@ -19,6 +19,17 @@ pipeline {
    }
    
    stages {
+      stage('Initialize') {
+         steps {
+            script {
+               // Set display name and description in Jenkins GUI
+               currentBuild.displayName = "#${env.BUILD_NUMBER} - ${params.APPLICATION_NAME}"
+               
+               // Also log it in the console output
+               echo ">>> APPLICATION_NAME: ${params.APPLICATION_NAME}"
+            }
+         }
+      }
       stage("clone") {
          steps {
             script {
