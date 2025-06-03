@@ -25,7 +25,7 @@ pipeline {
       cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,
       diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,
       systemone-docker-fitnesse,alvin-docker-cora,alvin-docker-gatekeeper,alvin-cora-docker-fitnesse,
-      diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper,diva-client-docker''',
+      diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient''',
       description: 'Comma-separated list of dockers to update after release.')
    }
    
