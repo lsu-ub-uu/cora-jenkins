@@ -76,7 +76,7 @@ pipeline {
                def dockerMap = [
                "systemone": coraDockers + ["systemone-docker-postgresql", "systemone-docker", "systemone-docker-fitnesse", "cora-docker-gatekeeper"],
                "alvin"    : coraDockers + ["alvin-docker-postgresql", "alvin-docker-cora", "alvin-docker-gatekeeper", "alvin-cora-docker-fitnesse"],
-               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper"]
+               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper", "diva-docker-divaclient"]
                ]
                
                def getLatestVersion = {
