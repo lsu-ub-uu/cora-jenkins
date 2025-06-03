@@ -199,6 +199,7 @@ pipeline {
                   else if (artifactId == "diva-docker-postgresql") key = "postgresql"
                   else if (artifactId == "diva-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "diva-cora-docker-fitnesse") key = "fitnesse"
+                  else if (artifactId == "diva-docker-divaclient") key = "divaclient"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
