@@ -1,5 +1,6 @@
 deploy:
   fitnesse: true
+  divaclient: true
 
 externalAccess:
   loginPath: /diva/login/rest/
