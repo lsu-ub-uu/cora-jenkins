@@ -71,7 +71,7 @@ pipeline {
                def coraDockers = [
                "cora-docker-jsclient", "cora-docker-solr", "cora-docker-fedora",
                "cora-docker-rabbitmq", "cora-docker-iipimageserver", "cora-docker-binaryconverter",
-               "cora-docker-idplogin", "cora-docker-login"
+               "cora-docker-idplogin", "cora-docker-login", "cora-docker-console"
                ]
                def dockerMap = [
                "systemone": coraDockers + ["systemone-docker-postgresql", "systemone-docker", "systemone-docker-fitnesse", "cora-docker-gatekeeper"],
@@ -184,6 +184,7 @@ pipeline {
                   else if (artifactId == "cora-docker-jsclient") key = "jsclient"
                   else if (artifactId == "cora-docker-login") key = "login"
                   else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
+                  else if (artifactId == "cora-docker-console") key = "console"
                   
                   else if (artifactId == "systemone-docker") key = "rest"
                   else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
