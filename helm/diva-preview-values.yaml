@@ -5,6 +5,4 @@ externalAccess:
   loginPath: /diva/login/rest/
   systemUrl: https://cora.epc.ub.uu.se
   logoutUrl: https://cora.epc.ub.uu.se/diva/login/rest/authToken/
-  restUrl: http://cora.epc.ub.uu.se/diva/rest
-  loginRestUrl: http://cora.epc.ub.uu.se/diva/login/rest
   divaClientBasePath: /divaclient
