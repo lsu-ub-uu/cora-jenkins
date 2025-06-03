@@ -1,3 +1,5 @@
+def releaseMetadata = true
+
 pipeline {
    agent any
    environment {
@@ -55,13 +57,19 @@ pipeline {
                dir("${params.PROJECT_NAME}") {
                   def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                   if (commitMessage.contains("[maven-release-plugin]")) {
-                     error("Release commit detected. Aborting.")
+                     echo("Release commit detected. Aborting.")
+                     releaseMetadata = false
                   }
                }
             }
          }
       }
       stage("Release metadata") {
+         when {
+            expression {
+               return releaseMetadata
+            }
+         }
          steps {
             build job: 'cora-pipeline-release-updated-dependencies',
             wait: true,
@@ -75,8 +83,12 @@ pipeline {
    }
    post {
       success {
-         build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
-         wait: false
+         script {
+            if (releaseMetadata) {
+               build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
+               wait: false
+            }
+         }
       }
       always {
          cleanWs()
