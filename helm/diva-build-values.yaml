@@ -10,3 +10,6 @@ port:
   idplogin: 31382
   fitnesse: 31582
   divaclient: 31682
+
+security:
+  divaClientSecureSessionCookie: false
