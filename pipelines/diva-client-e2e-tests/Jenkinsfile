@@ -1,5 +1,8 @@
 pipeline {
-   agent { docker { image 'mcr.microsoft.com/playwright:v1.52.0-noble' } }
+   agent {
+      docker { image 'mcr.microsoft.com/playwright:v1.52.0-noble' }
+      label 'minikube'
+   }
    parameters {
       string(name: 'TARGET_URL', defaultValue: 'https://cora.epc.ub.uu.se/divaclient' , description: 'DiVA Client test target URL')
       string(name: 'CORA_API_URL', defaultValue: 'https://cora.epc.ub.uu.se/diva/rest', description: 'Cora REST API URL')
@@ -32,6 +35,6 @@ pipeline {
             keepAll: true,
             reportTitles: ''
          ])
-      }
+      }v
    }
 }
