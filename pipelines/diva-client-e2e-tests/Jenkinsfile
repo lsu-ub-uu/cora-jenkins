@@ -29,8 +29,10 @@ pipeline {
             git url: 'https://github.com/lsu-ub-uu/diva-client-e2e', branch: 'master', credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b'
          }
       }
-
       stage('Install dependencies') {
+         tools {
+            nodejs 'node24'
+         }
          steps {
             sh 'npm ci'
             sh 'npx playwright install --with-deps'
