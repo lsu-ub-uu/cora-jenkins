@@ -6,11 +6,11 @@ pipeline {
       }
    }
    parameters {
-      string(name: 'TARGET_URL', defaultValue: 'https://cora.epc.ub.uu.se/divaclient' , description: 'DiVA Client test target URL')
-      string(name: 'CORA_API_URL', defaultValue: 'https://cora.epc.ub.uu.se/diva/rest', description: 'Cora REST API URL')
-      string(name: 'CORA_LOGIN_URL', defaultValue: 'https://cora.epc.ub.uu.se/diva/login/rest', description: 'Cora login REST API URL')
+      string(name: 'TARGET_URL', defaultValue: 'http://172.18.0.15:31682/divaclient' , description: 'DiVA Client test target URL')
+      string(name: 'CORA_API_URL', defaultValue: 'http://172.18.0.15:31082/diva/rest', description: 'Cora REST API URL')
+      string(name: 'CORA_LOGIN_URL', defaultValue: 'http://172.18.0.15:31182/login/rest', description: 'Cora login REST API URL')
       string(name: 'CORA_USER', defaultValue: 'divaAdmin@cora.epc.ub.uu.se', description: 'Cora token username')
-      string(name: 'CORA_APPTOKEN',  description: 'Cora apptoken')
+      string(name: 'CORA_APPTOKEN', defaultValue: '49ce00fb-68b5-4089-a5f7-1c225d3cf156', description: 'Cora apptoken')
    }
    stages {
       stage('Checkout') {
