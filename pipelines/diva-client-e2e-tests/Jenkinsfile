@@ -13,6 +13,20 @@ pipeline {
       string(name: 'CORA_APPTOKEN', defaultValue: '49ce00fb-68b5-4089-a5f7-1c225d3cf156', description: 'Cora apptoken')
    }
    stages {
+      stage('Ping urls') {
+         steps {
+            script {
+               def urls = [
+                  params.TARGET_URL,
+                  params.CORA_API_URL,
+                  params.CORA_LOGIN_URL
+               ]
+               for (url in urls) {
+                  sh "curl -s -o /dev/null -w '%{http_code}' ${url}"
+               }
+            }
+         }
+      }
       stage('Checkout') {
          steps {
             git url: 'https://github.com/lsu-ub-uu/diva-client-e2e', branch: 'master'
