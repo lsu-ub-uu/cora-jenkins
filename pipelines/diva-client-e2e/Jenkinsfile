@@ -1,0 +1,37 @@
+pipeline {
+   agent { docker { image 'mcr.microsoft.com/playwright:v1.52.0-noble' } }
+   parameters {
+      string(name: 'TARGET_URL', defaultValue: 'https://cora.epc.ub.uu.se/divaclient' , description: 'DiVA Client test target URL')
+      string(name: 'CORA_API_URL', defaultValue: 'https://cora.epc.ub.uu.se/diva/rest', description: 'Cora REST API URL')
+      string(name: 'CORA_LOGIN_URL', defaultValue: 'https://cora.epc.ub.uu.se/diva/login/rest', description: 'Cora login REST API URL')
+      string(name: 'CORA_USER', defaultValue: 'divaAdmin@cora.epc.ub.uu.se', description: 'Cora token username')
+      string(name: 'CORA_APPTOKEN',  description: 'Cora apptoken')
+   }
+   stages {
+      stage('Checkout') {
+         steps {
+            git url: 'https://github.com/lsu-ub-uu/diva-client-e2e', branch: 'master'
+         }
+      }
+      stage('Run tests') {
+         steps {
+            sh 'npm ci'
+            sh 'npm run test:ci'
+         }
+      }
+   }
+   post {
+      always {
+         junit('junit-report.xml')
+         publishHTML([
+            reportName: 'Playwright Report',
+            reportDir: 'playwright-report',
+            reportFiles: 'index.html',
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportTitles: ''
+         ])
+      }
+   }
+}
