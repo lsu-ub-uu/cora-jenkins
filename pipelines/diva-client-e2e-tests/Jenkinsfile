@@ -53,5 +53,14 @@ pipeline {
             reportTitles: ''
          ])
       }
+      success {
+         echo 'DiVA Client E2E tests passed!'
+         build job: 'helm-package-upload-chart', wait: false, parameters: [
+            string(name: 'APPLICATION_NAME', value: 'diva')
+         ]
+      }
+      failure {
+         echo 'DiVA Client E2E tests failed!'
+      }
    }
 }
