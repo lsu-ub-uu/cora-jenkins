@@ -3,12 +3,15 @@ pipeline {
    environment {
       NAMESPACE = 'diva-build'
    }
+   parameters {
+      string(name: 'NAMESPACE', defaultValue: 'diva-build', description: 'Kubernetes namespace to run tests in')
+   }
    stages {
        stage('Get Pod Name') {
          steps {
                script {
                   def podName = sh(
-                     script: "kubectl -n ${env.NAMESPACE} get pods -l app=diva-playwright -o jsonpath='{.items[0].metadata.name}'",
+                     script: "kubectl -n ${params.NAMESPACE} get pods -l app=diva-playwright -o jsonpath='{.items[0].metadata.name}'",
                      returnStdout: true
                   ).trim()
                   env.POD_NAME = podName
@@ -19,23 +22,19 @@ pipeline {
       stage('Run tests') {
          steps {
                sh """
-                  kubectl -n ${env.NAMESPACE} exec ${env.POD_NAME} -- npm run test:ci
-               """
-         }
-      }
-      stage('Copy Results from Pod') {
-         steps {
-               sh """
-                  rm -rf playwright-report
-                  rm junit-report.xml
-                  kubectl -n ${env.NAMESPACE} cp ${env.POD_NAME}:playwright-report/ playwright-report
-                  kubectl -n ${env.NAMESPACE} cp ${env.POD_NAME}:junit-report.xml junit-report.xml
+                  kubectl -n ${params.NAMESPACE} exec ${env.POD_NAME} -- npm run test:ci
                """
          }
       }
    }
    post {
       always {
+         sh("""
+               rm -rf playwright-report
+               rm junit-report.xml
+               kubectl -n ${params.NAMESPACE} cp ${env.POD_NAME}:playwright-report/ playwright-report
+               kubectl -n ${params.NAMESPACE} cp ${env.POD_NAME}:junit-report.xml junit-report.xml
+            """)
          junit('junit-report.xml')
          publishHTML([
             reportName: 'Playwright Report',
