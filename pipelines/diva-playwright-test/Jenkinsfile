@@ -31,7 +31,7 @@ pipeline {
       always {
          sh("""
                rm -rf playwright-report
-               rm junit-report.xml
+               rm -f junit-report.xml
                kubectl -n ${params.NAMESPACE} cp ${env.POD_NAME}:playwright-report/ playwright-report
                kubectl -n ${params.NAMESPACE} cp ${env.POD_NAME}:junit-report.xml junit-report.xml
             """)
