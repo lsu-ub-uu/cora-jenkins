@@ -2,6 +2,7 @@ deploy:
   fitnesse: true
   jsclient: false
   divaclient: true
+  playwright: true
 
 port:
   rest: 31082
