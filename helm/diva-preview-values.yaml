@@ -1,6 +1,7 @@
 deploy:
   fitnesse: true
   divaclient: true
+  playwright: true
 
 externalAccess:
   loginPath: /diva/login/rest/
