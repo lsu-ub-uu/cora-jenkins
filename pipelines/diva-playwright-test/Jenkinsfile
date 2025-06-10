@@ -1,11 +1,14 @@
 pipeline {
    agent {  label 'minikube' }
+   environment {
+      NAMESPACE = 'diva-build'
+   }
    stages {
        stage('Get Pod Name') {
          steps {
                script {
                   def podName = sh(
-                     script: "kubectl -n diva get pods -l app=diva-playwright -o jsonpath='{.items[0].metadata.name}'",
+                     script: "kubectl -n ${env.NAMESPACE} get pods -l app=diva-playwright -o jsonpath='{.items[0].metadata.name}'",
                      returnStdout: true
                   ).trim()
                   env.POD_NAME = podName
@@ -16,7 +19,7 @@ pipeline {
       stage('Run tests') {
          steps {
                sh """
-                  kubectl -n diva exec ${env.POD_NAME} -- npm run test:ci
+                  kubectl -n ${env.NAMESPACE} exec ${env.POD_NAME} -- npm run test:ci
                """
          }
       }
@@ -25,8 +28,8 @@ pipeline {
                sh """
                   rm -rf playwright-report
                   rm junit-report.xml
-                  kubectl -n diva cp ${env.POD_NAME}:playwright-report/ playwright-report
-                  kubectl -n diva cp ${env.POD_NAME}:junit-report.xml junit-report.xml
+                  kubectl -n ${env.NAMESPACE} cp ${env.POD_NAME}:playwright-report/ playwright-report
+                  kubectl -n ${env.NAMESPACE} cp ${env.POD_NAME}:junit-report.xml junit-report.xml
                """
          }
       }
