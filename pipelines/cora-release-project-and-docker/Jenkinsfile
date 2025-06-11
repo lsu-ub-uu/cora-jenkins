@@ -1,0 +1,103 @@
+/*
+This pipeline facilitates manual input-driven releases and dependency updates for multiple projects.
+
+Stages:
+  1. User input – prompts for two comma-separated lists: projects to force release and projects to update dependencies.
+  2. Loop release – iterates over projects to force release, triggering downstream jobs with FORCE_RELEASE=1.
+  3. Loop updates – iterates over projects to update dependencies, triggering downstream jobs with FORCE_RELEASE=0.
+
+Supports specifying branch names after project names (default is 'master').
+
+Post:
+  - Cleans workspace after completion.
+*/
+def releaseMetadata = true
+
+pipeline {
+   agent any
+   environment {
+      projectsToUpdate = "";
+   }
+   parameters {
+      text(name: 'PROJECT_NAME',
+      defaultValue: '''''',
+      description: 'Name of the project to release')
+      
+      text(name: 'DOCKER_PROJECT_NAME',
+      defaultValue: '''''',
+      description: 'Name of the docker project to release')
+      
+   }
+   
+   stages {
+      stage('Initialize') {
+         steps {
+            script {
+               // Set display name and description in Jenkins GUI
+               currentBuild.displayName = "#${env.BUILD_NUMBER} - ${params.PROJECT_NAME} | ${params.DOCKER_PROJECT_NAME}"
+            }
+         }
+      }
+      stage("clone") {
+         steps {
+            script {
+               withCredentials([
+               string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
+               string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
+               ]) {
+                  sh '''
+                  rm -rf "$PROJECT_NAME"
+                  git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$PROJECT_NAME.git "$PROJECT_NAME"
+                  '''
+               }
+            }
+         }
+      }
+      stage("Make sure it is not a release commit") {
+         steps {
+            script {
+               dir("${params.PROJECT_NAME}") {
+                  def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
+                  if (commitMessage.contains("[maven-release-plugin]")) {
+                     echo("Release commit detected. Aborting.")
+                     releaseMetadata = false
+                  }
+               }
+            }
+         }
+      }
+      stage("Release metadata") {
+         when {
+            expression {
+               return releaseMetadata
+            }
+         }
+         steps {
+            build job: 'cora-pipeline-release-updated-dependencies',
+            wait: true,
+            parameters: [
+            string(name: 'UB_PROJECT_NAME', value: "${params.PROJECT_NAME}"),
+            string(name: 'UB_BRANCH_NAME', value: "master"),
+            string(name: 'FORCE_RELEASE', value: "1")
+            ]
+         }
+      }
+   }
+   post {
+      success {
+         script {
+            if (releaseMetadata) {
+               build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
+               wait: false,
+               parameters: [
+               string(name: 'UB_PROJECT_NAME', value: "${params.DOCKER_PROJECT_NAME}"),
+               string(name: 'FORCE_RELEASE', value: "0")
+               ]
+            }
+         }
+      }
+      always {
+         cleanWs()
+      }
+   }
+}
