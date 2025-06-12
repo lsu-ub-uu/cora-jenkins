@@ -1,22 +1,28 @@
-// YAML parsing must be wrapped in @NonCPS to be compatible with Jenkins
+def getRecipients() {
+   def recipients = "${env.CORA_MAIL_LIST}"
+   if (params.APPLICATION_NAME == 'diva') {
+      recipients += ",${env.DIVA_MAIL_LIST}"
+   }
+   return recipients
+}
 
 pipeline {
    agent {
       label 'minikube'
    }
-
+   
    environment {
       HELM_REPO_NAME = "cora-deployment"
    }
-
+   
    parameters {
       string(
-         name: 'APPLICATION_NAME',
-         defaultValue: 'systemone',
-         description: 'Name of the application that Helm chart will be updated'
+      name: 'APPLICATION_NAME',
+      defaultValue: 'systemone',
+      description: 'Name of the application that Helm chart will be updated'
       )
    }
-
+   
    stages {
       stage('Initialize') {
          steps {
@@ -30,13 +36,13 @@ pipeline {
             }
          }
       }
-
-      stage('clone $HELM_REPO_NAME') {
+      
+      stage('clone cora-deployment') {
          steps {
             script {
                withCredentials([
-                  string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
-                  string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
+               string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),
+               string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')
                ]) {
                   sh '''
                   rm -rf "$HELM_REPO_NAME"
@@ -46,28 +52,94 @@ pipeline {
             }
          }
       }
-
+      
       stage('Run Script deploy-minikube-for-build') {
          steps {
             sh './helm/deploy-system-to-build.sh $APPLICATION_NAME'
          }
       }
-   }
-
-   post {
-      success {
-         echo 'Build succeeded!'
-         build job: "${params.APPLICATION_NAME}-minikube-fitnesse-test",
-         	wait: false,
-         	parameters: [
-	        	string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
-	        ]
+      
+      stage('Run Fitnesse tests') {
+         steps {
+            build job: "${params.APPLICATION_NAME}-minikube-fitnesse-test",
+            wait: true,
+            parameters: [
+            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+            ]
+         }
+      }
+      stage('Run Playwright test') {
+         when {
+            expression {
+               return params.APPLICATION_NAME == 'diva'
+            }
+         }
+         steps {
+            build job: "diva-playwright-test",
+            wait: true
+         }
+      }
+      
+      stage('Push helm') {
+         steps {
+            build job: "helm-package-upload-chart",
+            wait: true,
+            parameters: [
+            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+            ]
+         }
+      }
+      post {
+         success {
+            echo 'Acceptance test: OK, helm version ready for deployment!'
+         }
+      }
+      fixed {
+         script {
+            boolean wasPreviousBuildUnsuccessful() {
+               def previous = currentBuild.previousBuild
+               return previous != null && previous.result != 'SUCCESS'
+            }
+            
+            if (wasPreviousBuildUnsuccessful()) {
+               def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+               def body = "Good news! The Jenkins build is back to normal:\n\n${env.BUILD_URL}"
+               
+               mail to: getRecipients(),
+               subject: subject,
+               body: body
+            }
+            
+            echo 'Acceptance test: OK, helm version ready for deployment!'
+         }
+      }
+      
+      unstable {
+         script {
+            def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            def body = "Check Jenkins for details: ${env.BUILD_URL}"
+            
+            mail to: getRecipients(),
+            subject: subject,
+            body: body
+         }
+         echo 'Acceptance test: UNSTABLE, helm version not accepted for deployment! Please check the failures.'
       }
       failure {
-         echo 'Build failed.'
+         script {
+            def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            def body = "Check Jenkins for details: ${env.BUILD_URL}"
+            
+            mail to: getRecipients(),
+            subject: subject,
+            body: body
+         }
+         echo 'Acceptance test: FAILED, helm version not accepted for deployment! Please check the failures.'
       }
+      
       always {
          cleanWs()
       }
    }
+   
 }
