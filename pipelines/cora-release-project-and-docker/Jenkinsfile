@@ -64,7 +64,7 @@ pipeline {
             }
          }
          steps {
-            build job: 'cora-pipeline-release-updated-dependencies',
+            build job: 'cora-prepare-and-release',
             wait: true,
             parameters: [
             string(name: 'UB_PROJECT_NAME', value: "${params.PROJECT_NAME}"),
