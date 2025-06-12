@@ -74,7 +74,7 @@ pipeline {
             if (params.APPLICATION_NAME == 'systemone' ||
             params.APPLICATION_NAME == 'alvin' ||
             params.APPLICATION_NAME == 'diva') {
-               build job: "deploy-minikube-for-preview",
+               build job: "cora-deploy-preview",
                parameters: [
                string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
                ],
