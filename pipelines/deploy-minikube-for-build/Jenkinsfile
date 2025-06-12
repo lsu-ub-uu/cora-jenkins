@@ -96,7 +96,7 @@ pipeline {
       }
       fixed {
          script {
-            boolean wasPreviousBuildUnsuccessful() {
+            def wasPreviousBuildUnsuccessful = {
                def previous = currentBuild.previousBuild
                return previous != null && previous.result != 'SUCCESS'
             }
