@@ -1,6 +1,7 @@
 deploy:
   fitnesse: true
   jsclient: false
+  alvinclient: false
 
 port:
   rest: 31081
@@ -8,3 +9,4 @@ port:
   jsclient: 31281
   idplogin: 31381
   fitnesse: 31581
+  alvinclient: 31681
