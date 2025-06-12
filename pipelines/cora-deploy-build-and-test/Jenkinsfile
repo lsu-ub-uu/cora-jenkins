@@ -61,7 +61,7 @@ pipeline {
       
       stage('Run Fitnesse tests') {
          steps {
-            build job: "${params.APPLICATION_NAME}-minikube-fitnesse-test",
+            build job: "${params.APPLICATION_NAME}-fitnesse-test",
             wait: true,
             parameters: [
             string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
