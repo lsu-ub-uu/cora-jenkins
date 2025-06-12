@@ -94,51 +94,52 @@ pipeline {
       success {
          echo 'Acceptance test: OK, helm version ready for deployment!'
       }
-   }
-   fixed {
-      script {
-         def wasPreviousBuildUnsuccessful = {
-            def previous = currentBuild.previousBuild
-            return previous != null && previous.result != 'SUCCESS'
+      
+      fixed {
+         script {
+            def wasPreviousBuildUnsuccessful = {
+               def previous = currentBuild.previousBuild
+               return previous != null && previous.result != 'SUCCESS'
+            }
+            
+            if (wasPreviousBuildUnsuccessful()) {
+               def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+               def body = "Good news! The Jenkins build is back to normal:\n\n${env.BUILD_URL}"
+               
+               mail to: getRecipients(),
+               subject: subject,
+               body: body
+            }
+            
+            echo 'Acceptance test: OK, helm version ready for deployment!'
          }
-         
-         if (wasPreviousBuildUnsuccessful()) {
-            def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-            def body = "Good news! The Jenkins build is back to normal:\n\n${env.BUILD_URL}"
+      }
+      
+      unstable {
+         script {
+            def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            def body = "Check Jenkins for details: ${env.BUILD_URL}"
             
             mail to: getRecipients(),
             subject: subject,
             body: body
          }
-         
-         echo 'Acceptance test: OK, helm version ready for deployment!'
+         echo 'Acceptance test: UNSTABLE, helm version not accepted for deployment! Please check the failures.'
       }
-   }
-   
-   unstable {
-      script {
-         def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-         def body = "Check Jenkins for details: ${env.BUILD_URL}"
-         
-         mail to: getRecipients(),
-         subject: subject,
-         body: body
+      failure {
+         script {
+            def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            def body = "Check Jenkins for details: ${env.BUILD_URL}"
+            
+            mail to: getRecipients(),
+            subject: subject,
+            body: body
+         }
+         echo 'Acceptance test: FAILED, helm version not accepted for deployment! Please check the failures.'
       }
-      echo 'Acceptance test: UNSTABLE, helm version not accepted for deployment! Please check the failures.'
-   }
-   failure {
-      script {
-         def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-         def body = "Check Jenkins for details: ${env.BUILD_URL}"
-         
-         mail to: getRecipients(),
-         subject: subject,
-         body: body
+      
+      always {
+         cleanWs()
       }
-      echo 'Acceptance test: FAILED, helm version not accepted for deployment! Please check the failures.'
-   }
-   
-   always {
-      cleanWs()
    }
 }
