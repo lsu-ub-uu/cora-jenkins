@@ -3,6 +3,6 @@ deploy:
 
 externalAccess:
   loginPath: /alvin/login/rest/
-  systemHost: ora.epc.ub.uu.se
+  systemHost: cora.epc.ub.uu.se
   systemUrl: https://cora.epc.ub.uu.se
   logoutUrl: https://cora.epc.ub.uu.se/alvin/login/rest/authToken/
