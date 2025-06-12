@@ -53,7 +53,7 @@ pipeline {
          }
       }
       
-      stage('Run Script deploy-minikube-for-build') {
+      stage('Deploy to build') {
          steps {
             sh './helm/deploy-system-to-build.sh $APPLICATION_NAME'
          }
@@ -64,11 +64,13 @@ pipeline {
             build job: "${params.APPLICATION_NAME}-minikube-fitnesse-test",
             wait: true,
             parameters: [
-            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
+            string(name: 'UPSTREAM_JOB_NAME', value: env.JOB_NAME),
+            string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString())
             ]
          }
       }
-      stage('Run Playwright test') {
+      stage('Run Playwright tests') {
          when {
             expression {
                return params.APPLICATION_NAME == 'diva'
@@ -76,16 +78,22 @@ pipeline {
          }
          steps {
             build job: "diva-playwright-test",
-            wait: true
+            wait: true,
+            parameters: [
+            string(name: 'UPSTREAM_JOB_NAME', value: env.JOB_NAME),
+            string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString())
+            ]
          }
       }
       
-      stage('Push helm') {
+      stage('Push helm to nexus repository') {
          steps {
             build job: "helm-package-upload-chart",
             wait: true,
             parameters: [
-            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
+            string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
+            string(name: 'UPSTREAM_JOB_NAME', value: env.JOB_NAME),
+            string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString())
             ]
          }
       }
