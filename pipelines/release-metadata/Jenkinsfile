@@ -85,7 +85,7 @@ pipeline {
       success {
          script {
             if (releaseMetadata) {
-               build job: 'cora-pipeline-release-updated-dependencies-for-dockers-batch',
+               build job: 'cora-release-dockers-batch',
                wait: false
             }
          }
