@@ -86,7 +86,7 @@ pipeline {
             apps.each {
                appName ->
                echo "Building for ${appName} succeeded!"
-               build job: 'cora-pipeline-update-helm-chart-with-latest-dependencies-batch',
+               build job: 'cora-update-helm-chart',
                wait: false,
                parameters: [string(name: 'APPLICATION_NAME', value: appName)]
             }
