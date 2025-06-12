@@ -88,7 +88,7 @@ pipeline {
       
       stage('Push helm to nexus repository') {
          steps {
-            build job: "helm-package-upload-chart",
+            build job: "cora-helm-chart-push",
             wait: true,
             parameters: [
             string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
