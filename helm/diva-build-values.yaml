@@ -11,6 +11,7 @@ port:
   idplogin: 31382
   fitnesse: 31582
   divaclient: 31682
+  playwright: 31782
 
 security:
   divaClientSecureSessionCookie: false
