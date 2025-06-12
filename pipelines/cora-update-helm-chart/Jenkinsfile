@@ -290,7 +290,7 @@ pipeline {
          script {
             if (hasChanges) {
                echo 'Build succeeded!'
-               build job: "deploy-minikube-for-build",
+               build job: "cora-deploy-build-and-test",
                wait: false,
                parameters: [
                string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}")
