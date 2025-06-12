@@ -33,7 +33,7 @@ pipeline {
                   
                   if (project) {
                      
-                     build job: 'cora-pipeline-release-updated-dependencies',
+                     build job: 'cora-prepare-and-release',
                      parameters: [
                      string(name: 'UB_PROJECT_NAME', value: project),
                      string(name: 'UB_BRANCH_NAME', value: "master"),
@@ -58,7 +58,7 @@ pipeline {
                   
                   if (project) {
                      
-                     build job: 'cora-pipeline-release-updated-dependencies',
+                     build job: 'cora-prepare-and-release',
                      parameters: [
                      string(name: 'UB_PROJECT_NAME', value: project),
                      string(name: 'UB_BRANCH_NAME', value: "master"),

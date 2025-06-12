@@ -3,7 +3,7 @@ This pipeline manages parallel releases of multiple Docker projects.
 
 Stages:
 1. Print Dockers to Step Up – logs the list of Docker projects to process.
-2. Loop Step Up – triggers parallel builds of 'cora-pipeline-release-updated-dependencies' for each Docker project with FORCE_RELEASE and build type 'docker'.
+2. Loop Step Up – triggers parallel builds of 'cora-prepare-and-release' for each Docker project with FORCE_RELEASE and build type 'docker'.
 
 Post actions:
 - On success: triggers Helm chart update asynchronously.
@@ -58,7 +58,7 @@ pipeline {
                      def projectCopy = project
                      
                      parallelJobs["Step up ${projectCopy}"] = {
-                        build job: 'cora-pipeline-release-updated-dependencies',
+                        build job: 'cora-prepare-and-release',
                         parameters: [
                         string(name: 'UB_PROJECT_NAME', value: projectCopy),
                         string(name: 'BRANCH_NAME', value: "master"),
