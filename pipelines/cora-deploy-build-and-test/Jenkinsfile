@@ -6,6 +6,17 @@ def getRecipients() {
    return recipients
 }
 
+def setStatus(status) {
+   if (params.APPLICATION_NAME == 'systemone') {
+      env.SYSTEMONE_BUILD_STATUS = status
+   } else if (params.APPLICATION_NAME == 'alvin') {
+      env.ALVIN_BUILD_STATUS = status
+   } else if (params.APPLICATION_NAME == 'diva') {
+      env.DIVA_BUILD_STATUS = status
+   }
+}
+
+
 pipeline {
    agent {
       label 'minikube'
@@ -100,16 +111,20 @@ pipeline {
    }
    post {
       success {
+         
          echo 'Acceptance test: OK, helm version ready for deployment!'
-      }
-      
-      fixed {
          script {
             def wasPreviousBuildUnsuccessful = {
-               def previous = currentBuild.previousBuild
-               return previous != null && previous.result != 'SUCCESS'
+               
+               if (params.APPLICATION_NAME == 'systemone' &&  env.SYSTEMONE_BUILD_STATUS != 'ok') {
+                  return true
+               } else if (params.APPLICATION_NAME == 'alvin' &&  env.ALVIN_BUILD_STATUS != 'ok') {
+                  return true
+               } else if (params.APPLICATION_NAME == 'diva' &&  env.DIVA_BUILD_STATUS != 'ok') {
+                  return true
+               }
+               return false
             }
-            
             if (wasPreviousBuildUnsuccessful()) {
                def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
                def body = "Good news! The Jenkins build is back to normal:\n\n${env.BUILD_URL}"
@@ -118,24 +133,28 @@ pipeline {
                subject: subject,
                body: body
             }
-            
+            setStaus("ok")
             echo 'Acceptance test: OK, helm version ready for deployment!'
          }
       }
-      
       unstable {
          script {
+            setStaus("unstable")
+            
             def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
             def body = "Check Jenkins for details: ${env.BUILD_URL}"
             
             mail to: getRecipients(),
             subject: subject,
             body: body
+            
          }
          echo 'Acceptance test: UNSTABLE, helm version not accepted for deployment! Please check the failures.'
       }
       failure {
          script {
+            setStatus("failed")
+            
             def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
             def body = "Check Jenkins for details: ${env.BUILD_URL}"
             
