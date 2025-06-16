@@ -51,9 +51,6 @@ pipeline {
       }
       failure {
          echo 'DiVA Playwright tests failed!'
-         mail to: 'leo.danielsson@ub.uu.se,egil.swenning-leyser@ub.uu.se,olov.mckie@ub.uu.se,pere.bartroli@ub.uu.se,marcus.viden@ub.uu.se,sara.tobiasson@ub.uu.se',
-              subject: "DiVA Playwright tests FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-              body: "Check Jenkins for details: ${env.BUILD_URL}"
       }
    }
 }
