@@ -133,13 +133,13 @@ pipeline {
                subject: subject,
                body: body
             }
-            setStaus("ok")
+            setStatus("ok")
             echo 'Acceptance test: OK, helm version ready for deployment!'
          }
       }
       unstable {
          script {
-            setStaus("unstable")
+            setStatus("unstable")
             
             def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
             def body = "Check Jenkins for details: ${env.BUILD_URL}"
