@@ -1,7 +1,14 @@
 def getRecipients() {
    def recipients = "${env.CORA_MAIL_LIST}"
+   if (params.APPLICATION_NAME == 'systemone') {
+      recipients += ",${env.DIVA_MAIL_LIST}"
+      recipients += ",${env.ALVIN_MAIL_LIST}"
+   }
    if (params.APPLICATION_NAME == 'diva') {
       recipients += ",${env.DIVA_MAIL_LIST}"
+   }
+   if (params.APPLICATION_NAME == 'alvin') {
+      recipients += ",${env.ALVIN_MAIL_LIST}"
    }
    return recipients
 }
