@@ -48,6 +48,9 @@ helm install $NAMESPACE ../cora-deployment/helm/$NAME --namespace $NAMESPACE -f 
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
-kubectl wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s
+if ! kubectl wait --for=condition=Ready pod --all --namespace="$NAMESPACE" --timeout=300s; then
+    echo "Timeout waiting for pods to become ready"
+    exit 1
+fi
 
 echo "Deployment of $NAMESPACE completed successfully."
