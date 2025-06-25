@@ -57,7 +57,7 @@ pipeline {
             }
          }
       }
-      stage("Release metadata") {
+      stage("Release project") {
          when {
             expression {
                return releaseMetadata
