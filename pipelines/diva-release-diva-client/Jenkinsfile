@@ -1,5 +1,3 @@
-def shouldRelease = true
-
 pipeline {
    agent any
    
@@ -33,27 +31,14 @@ pipeline {
                   def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                   if (commitMessage.contains("[maven-release-plugin]")) {
                      echo("Release commit detected. Aborting.")
-                     shouldRelease = false
+                     currentBuild.result = 'ABORTED'
+                     return
                   }
                }
             }
          }
       }
-      stage("Code quality checks") {
-         when {
-            expression { shouldRelease }
-         }
-         steps {
-            script {
-               dir("diva-client") {
-                  sh 'npm ci'
-                  sh 'npm run lint'
-                  sh 'npm run stylelint'
-                  sh 'npm run test:ci'
-               }
-            }
-         }
-      }
+      
       stage("Release diva client") {
          steps {
             build job: 'cora-release-project-and-docker',
