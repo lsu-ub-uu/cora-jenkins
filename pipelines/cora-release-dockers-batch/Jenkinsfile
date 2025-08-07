@@ -24,8 +24,9 @@ pipeline {
       defaultValue: '''cora-docker-jsclient,cora-docker-solr,cora-docker-fedora,cora-docker-rabbitmq,
       cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,
       diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,
-      systemone-docker-fitnesse,alvin-docker-cora,alvin-docker-gatekeeper,alvin-cora-docker-fitnesse,alvin-docker-alvinclient,
-      diva-cora-docker-fitnesse,diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright''',
+      systemone-docker-fitnesse,systemone-docker-apache,alvin-docker-cora,alvin-docker-gatekeeper,
+      alvin-cora-docker-fitnesse,alvin-docker-alvinclient,alvin-docker-apache,diva-cora-docker-fitnesse,
+      diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright,diva-docker-apache''',
       description: 'Comma-separated list of dockers to update after release.')
    }
    
