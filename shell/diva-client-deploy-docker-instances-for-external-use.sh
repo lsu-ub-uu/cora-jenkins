@@ -1,4 +1,8 @@
-
+#
+# DEPRECATED: This script is no longer maintained or used.
+# Kubernetes and Helm are now used to handle the build and preview environments.
+# For more information, please refer to the 'cora-deployment' project.
+#
 
 echo "Kill dockers"
 docker kill diva-client && echo nothingToSeeMoveOnToNextCommand
