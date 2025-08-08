@@ -1,3 +1,9 @@
+#
+# DEPRECATED: This script is no longer maintained or used.
+# Kubernetes and Helm are now used to handle the build and preview environments.
+# For more information, please refer to the 'cora-deployment' project.
+#
+
 #! /bin/bash
 
 INDEX_URL='https://cora.epc.ub.uu.se/diva/rest/record/index'
