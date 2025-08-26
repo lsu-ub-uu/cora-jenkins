@@ -22,7 +22,7 @@ pipeline {
       
       text(name: 'DOCKERS_TO_RELEASE',
       defaultValue: '''cora-docker-jsclient,cora-docker-solr,cora-docker-fedora,cora-docker-rabbitmq,
-      cora-docker-iipimageserver,cora-docker-binaryconverter,systemone-docker-postgresql,alvin-docker-postgresql,
+      cora-docker-iipimageserver,cora-docker-binaryconverter,cora-docker-apache,systemone-docker-postgresql,alvin-docker-postgresql,
       diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,
       systemone-docker-fitnesse,systemone-docker-apache,alvin-docker-cora,alvin-docker-gatekeeper,
       alvin-cora-docker-fitnesse,alvin-docker-alvinclient,alvin-docker-apache,diva-cora-docker-fitnesse,
