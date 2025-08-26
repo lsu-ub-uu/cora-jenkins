@@ -113,3 +113,22 @@ spec:
     namespace: systemone-build
     name: systemone-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-credentials-read-only-volume
+  labels:
+    type: local
+    app: systemone-build-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/build/certificates/shibboleth
+  claimRef:
+    namespace: systemone
+    name: systemone-build-credentials-read-only-volume-claim

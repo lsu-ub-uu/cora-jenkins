@@ -113,3 +113,22 @@ spec:
     namespace: systemone-preview
     name: systemone-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-previewepc-credentials-read-only-volume
+  labels:
+    type: local
+    app: systemone-previewepc-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/systemone/previewepc/certificates/shibboleth
+  claimRef:
+    namespace: systemone
+    name: systemone-previewepc-credentials-read-only-volume-claim

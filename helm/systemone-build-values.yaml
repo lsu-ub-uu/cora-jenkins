@@ -2,9 +2,10 @@ deploy:
   fitnesse: true
   jsclient: false
 
+externalAccess:
+  systemUrl: http://192.168.49.2:31980
+shibboleth:
+  entityId: build-entityId
+  domain: build
 port:
-  rest: 31080
-  login: 31180
-  jsclient: 31280
-  idplogin: 31380
-  fitnesse: 31580
+  apache: 31980

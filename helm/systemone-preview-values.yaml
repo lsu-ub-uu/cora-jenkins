@@ -2,6 +2,9 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  loginPath: /systemone/login/rest/
   systemUrl: https://cora.epc.ub.uu.se
-  logoutUrl: https://cora.epc.ub.uu.se/systemone/login/rest/authToken/
+shibboleth:
+  entityId: https://cora.epc.ub.uu.se/shibboleth
+  domain: previewepc
+port:
+  apache: 30980
