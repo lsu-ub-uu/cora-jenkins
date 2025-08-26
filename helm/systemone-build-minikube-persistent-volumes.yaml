@@ -130,5 +130,5 @@ spec:
   hostPath:
     path: /mnt/minikube/systemone/build/certificates/shibboleth
   claimRef:
-    namespace: systemone
+    namespace: systemone-build
     name: systemone-build-credentials-read-only-volume-claim

@@ -130,5 +130,5 @@ spec:
   hostPath:
     path: /mnt/minikube/systemone/previewepc/certificates/shibboleth
   claimRef:
-    namespace: systemone
+    namespace: systemone-preview
     name: systemone-previewepc-credentials-read-only-volume-claim
