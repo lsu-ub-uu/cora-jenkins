@@ -3,7 +3,7 @@ deploy:
   jsclient: false
 
 externalAccess:
-  systemUrl: http://192.168.49.2:31980
+  systemUrl:  http://172.18.0.15:31980
 shibboleth:
   entityId: build-entityId
   domain: build
