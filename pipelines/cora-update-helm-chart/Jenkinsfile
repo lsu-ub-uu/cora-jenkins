@@ -74,9 +74,9 @@ pipeline {
                "cora-docker-idplogin", "cora-docker-login", "cora-docker-console"
                ]
                def dockerMap = [
-               "systemone": coraDockers + ["systemone-docker-postgresql", "systemone-docker", "systemone-docker-fitnesse", "cora-docker-gatekeeper"],
-               "alvin"    : coraDockers + ["alvin-docker-postgresql", "alvin-docker-cora", "alvin-docker-gatekeeper", "alvin-cora-docker-fitnesse", "alvin-docker-alvinclient"],
-               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper", "diva-docker-divaclient", "diva-docker-playwright"]
+               "systemone": coraDockers + ["systemone-docker-postgresql", "systemone-docker", "systemone-docker-fitnesse", "cora-docker-gatekeeper", "systemone-docker-apache"],
+               "alvin"    : coraDockers + ["alvin-docker-postgresql", "alvin-docker-cora", "alvin-docker-gatekeeper", "alvin-cora-docker-fitnesse", "alvin-docker-alvinclient", "alvin-docker-apache"],
+               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper", "diva-docker-divaclient", "diva-docker-playwright", "diva-docker-apache"]
                ]
                
                def getLatestVersion = {
@@ -190,12 +190,14 @@ pipeline {
                   else if (artifactId == "systemone-docker-postgresql") key = "postgresql"
                   else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "systemone-docker-fitnesse") key = "fitnesse"
+                  else if (artifactId == "systemone-docker-apache") key = "apache"
                   
                   else if (artifactId == "alvin-docker-cora") key = "rest"
                   else if (artifactId == "alvin-docker-postgresql") key = "postgresql"
                   else if (artifactId == "alvin-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "alvin-cora-docker-fitnesse") key = "fitnesse"
                   else if (artifactId == "alvin-docker-alvinclient") key = "alvinclient"
+                  else if (artifactId == "alvin-docker-apache") key = "apache"
                   
                   else if (artifactId == "diva-docker-cora") key = "rest"
                   else if (artifactId == "diva-docker-postgresql") key = "postgresql"
@@ -203,6 +205,7 @@ pipeline {
                   else if (artifactId == "diva-cora-docker-fitnesse") key = "fitnesse"
                   else if (artifactId == "diva-docker-divaclient") key = "divaclient"
                   else if (artifactId == "diva-docker-playwright") key = "playwright"
+                  else if (artifactId == "diva-docker-apache") key = "apache"
                   
                   if (key && yamlData?.docker?.containsKey(key)) {
                      yamlData.docker[key] = "${artifactId}:${version}".toString()
