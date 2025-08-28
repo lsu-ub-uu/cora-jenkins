@@ -4,6 +4,8 @@ deploy:
 
 externalAccess:
   systemUrl:  http://172.18.0.15:31980
+  restToPathSystem: /rest
+  iiifToPathSystem: /iiif
 shibboleth:
   entityId: build-entityId
   domain: build
