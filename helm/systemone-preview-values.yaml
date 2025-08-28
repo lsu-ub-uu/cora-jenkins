@@ -2,7 +2,7 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  systemUrl: https://cora.epc.ub.uu.se
+  systemUrl: https://cora.epc.ub.uu.se/systemone
 shibboleth:
   entityId: https://cora.epc.ub.uu.se/shibboleth
   domain: previewepc
