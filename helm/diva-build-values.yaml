@@ -4,14 +4,13 @@ deploy:
   divaclient: true
   playwright: true
 
+externalAccess:
+  systemUrl:  http://172.18.0.15:31982
+shibboleth:
+  entityId: build-entityId
+  domain: build
 port:
-  rest: 31082
-  login: 31182
-  jsclient: 31282
-  idplogin: 31382
-  fitnesse: 31582
-  divaclient: 31682
-  playwright: 31782
+  apache: 31982
 
 security:
   divaClientSecureSessionCookie: false

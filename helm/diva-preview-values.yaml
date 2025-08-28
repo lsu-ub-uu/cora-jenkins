@@ -4,7 +4,11 @@ deploy:
   playwright: true
 
 externalAccess:
-  loginPath: /diva/login/rest/
-  systemUrl: https://cora.epc.ub.uu.se
-  logoutUrl: https://cora.epc.ub.uu.se/diva/login/rest/authToken/
-  divaClientBasePath: /divaclient
+  systemUrl: https://cora.epc.ub.uu.se/diva
+  restToPathSystem: /diva/rest/
+  iiifToPathSystem: /diva/iiif/
+shibboleth:
+  entityId: https://cora.epc.ub.uu.se/shibboleth
+  domain: previewepc
+port:
+  apache: 30982

@@ -113,3 +113,22 @@ spec:
     namespace: diva-build
     name: diva-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-build-credentials-read-only-volume
+  labels:
+    type: local
+    app: diva-build-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/diva/build/certificates/shibboleth
+  claimRef:
+    namespace: diva-build
+    name: diva-build-credentials-read-only-volume-claim
