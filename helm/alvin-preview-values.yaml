@@ -3,6 +3,8 @@ deploy:
 
 externalAccess:
   systemUrl: https://cora.epc.ub.uu.se/alvin
+  restToPathSystem: /alvin/rest/
+  iiifToPathSystem: /alvin/iiif/
 shibboleth:
   entityId: https://cora.epc.ub.uu.se/shibboleth
   domain: previewepc
