@@ -21,6 +21,7 @@ kubectl delete pv ${NAMESPACE}-archive-volume
 kubectl delete pv ${NAMESPACE}-archive-read-only-volume
 kubectl delete pv ${NAMESPACE}-converted-files-volume
 kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
+kubectl delete pv ${NAMESPACE}-previewepc-credentials-read-only-volume
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/$NAME/preview..."
