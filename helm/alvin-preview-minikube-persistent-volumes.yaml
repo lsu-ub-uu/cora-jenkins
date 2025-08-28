@@ -113,3 +113,22 @@ spec:
     namespace: alvin-preview
     name: alvin-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-previewepc-credentials-read-only-volume
+  labels:
+    type: local
+    app: alvin-previewepc-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/alvin/previewepc/certificates/shibboleth
+  claimRef:
+    namespace: alvin-preview
+    name: alvin-previewepc-credentials-read-only-volume-claim

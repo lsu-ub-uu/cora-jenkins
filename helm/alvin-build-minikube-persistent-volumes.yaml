@@ -113,3 +113,22 @@ spec:
     namespace: alvin-build
     name: alvin-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-build-credentials-read-only-volume
+  labels:
+    type: local
+    app: alvin-build-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/alvin/build/certificates/shibboleth
+  claimRef:
+    namespace: alvin-build
+    name: alvin-build-credentials-read-only-volume-claim

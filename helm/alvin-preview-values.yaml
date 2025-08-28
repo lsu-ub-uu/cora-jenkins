@@ -2,7 +2,9 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  loginPath: /alvin/login/rest/
-  systemHost: cora.epc.ub.uu.se
-  systemUrl: https://cora.epc.ub.uu.se
-  logoutUrl: https://cora.epc.ub.uu.se/alvin/login/rest/authToken/
+  systemUrl: https://cora.epc.ub.uu.se/alvin
+shibboleth:
+  entityId: https://cora.epc.ub.uu.se/shibboleth
+  domain: previewepc
+port:
+  apache: 30980

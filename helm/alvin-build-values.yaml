@@ -3,10 +3,10 @@ deploy:
   jsclient: false
   alvinclient: false
 
+externalAccess:
+  systemUrl:  http://172.18.0.15:31981
+shibboleth:
+  entityId: build-entityId
+  domain: build
 port:
-  rest: 31081
-  login: 31181
-  jsclient: 31281
-  idplogin: 31381
-  fitnesse: 31581
-  alvinclient: 31681
+  apache: 31981
