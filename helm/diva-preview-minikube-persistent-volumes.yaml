@@ -113,3 +113,22 @@ spec:
     namespace: diva-preview
     name: diva-converted-files-read-only-volume-claim
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-previewepc-credentials-read-only-volume
+  labels:
+    type: local
+    app: diva-previewepc-credentials
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /mnt/minikube/diva/previewepc/certificates/shibboleth
+  claimRef:
+    namespace: diva-preview
+    name: diva-previewepc-credentials-read-only-volume-claim
