@@ -4,6 +4,7 @@ deploy:
   alvinclient: false
 
 externalAccess:
+  systemHost: 172.18.0.15
   systemUrl:  http://172.18.0.15:31981
 shibboleth:
   entityId: build-entityId
