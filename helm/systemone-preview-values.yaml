@@ -6,7 +6,6 @@ externalAccess:
   restToPathSystem: /systemone/rest/
   iiifToPathSystem: /systemone/iiif/
 shibboleth:
-  entityId: https://cora.epc.ub.uu.se/shibboleth
   domain: previewepc
 port:
   apache: 30980

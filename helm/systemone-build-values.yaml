@@ -5,7 +5,6 @@ deploy:
 externalAccess:
   systemUrl:  http://172.18.0.15:31980
 shibboleth:
-  entityId: build-entityId
   domain: build
 port:
   apache: 31980
