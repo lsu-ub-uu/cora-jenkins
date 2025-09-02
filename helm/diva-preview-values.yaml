@@ -11,3 +11,7 @@ shibboleth:
   domain: previewepc
 port:
   apache: 30982
+fitnesse:
+  contextRoot: diva/fitnesse
+  baseUrl: https://cora.epc.ub.uu.se/diva/
+  loginUrl: https://cora.epc.ub.uu.se/diva/login/

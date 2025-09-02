@@ -9,3 +9,7 @@ shibboleth:
   domain: previewepc
 port:
   apache: 30980
+fitnesse:
+  contextRoot: systemone/fitnesse
+  baseUrl: https://cora.epc.ub.uu.se/systemone/
+  loginUrl: https://cora.epc.ub.uu.se/systemone/login/
