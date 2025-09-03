@@ -5,6 +5,7 @@ externalAccess:
   systemUrl: https://cora.epc.ub.uu.se/systemone
   restToPathSystem: /systemone/rest/
   iiifToPathSystem: /systemone/iiif/
+  loginPathSystem: /systemone/login/rest/
 shibboleth:
   domain: previewepc
 port:
