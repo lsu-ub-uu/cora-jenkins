@@ -6,6 +6,7 @@ externalAccess:
   systemUrl: https://cora.epc.ub.uu.se/alvin
   restToPathSystem: /alvin/rest/
   iiifToPathSystem: /alvin/iiif/
+  loginPathSystem: /alvin/login/rest/
 shibboleth:
   domain: previewepc
 port:
