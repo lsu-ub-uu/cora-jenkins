@@ -2,12 +2,13 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  systemHost: cora.epc.ub.uu.se
   systemUrl: https://cora.epc.ub.uu.se/alvin
   restToPathSystem: /alvin/rest/
   iiifToPathSystem: /alvin/iiif/
   loginPathSystem: /alvin/login/rest/
   alvinClientPath: alvin/alvinclient
+django:
+  allowedHosts: "*"
 shibboleth:
   domain: previewepc
 port:
