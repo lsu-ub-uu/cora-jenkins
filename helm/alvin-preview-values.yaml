@@ -16,10 +16,13 @@ apache:
 
 django:
   allowedHosts: "*"
+  
 shibboleth:
   domain: previewepc
+
 port:
   apache: 30981
+
 fitnesse:
   contextRoot: alvin/fitnesse
   baseUrl: https://cora.epc.ub.uu.se/alvin/
