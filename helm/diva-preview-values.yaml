@@ -9,6 +9,11 @@ externalAccess:
   iiifToPathSystem: /diva/iiif/
   loginPathSystem: /diva/login/rest/
   divaClientBasePath: /diva/divaclient
+apache:
+  useExtraEnvs: true
+  extraEnvs: 
+    - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
+      value: diva/divaclient
 shibboleth:
   domain: previewepc
 port:
