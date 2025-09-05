@@ -7,6 +7,13 @@ externalAccess:
   iiifToPathSystem: /alvin/iiif/
   loginPathSystem: /alvin/login/rest/
   alvinClientPath: alvin/alvinclient
+
+apache:
+  useExtraEnvs: true
+  extraEnvs: 
+    - name: ALVIN_CLIENT_CONTEXT_ROOT_ARG
+      value: alvin/alvinclient
+
 django:
   allowedHosts: "*"
 shibboleth:
