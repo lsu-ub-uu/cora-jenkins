@@ -8,7 +8,7 @@ externalAccess:
   restToPathSystem: /diva/rest/
   iiifToPathSystem: /diva/iiif/
   loginPathSystem: /diva/login/rest/
-  divaClientBasePath: divaclient
+  divaClientBasePath: /diva/divaclient
 shibboleth:
   domain: previewepc
 port:
