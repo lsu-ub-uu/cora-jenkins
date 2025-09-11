@@ -128,7 +128,7 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: /mnt/minikube/systemone/previewepc/certificates/shibboleth
+    path: /mnt/minikube/systemone/previewepc/shibboleth
   claimRef:
     namespace: systemone-preview
     name: systemone-previewepc-credentials-read-only-volume-claim
