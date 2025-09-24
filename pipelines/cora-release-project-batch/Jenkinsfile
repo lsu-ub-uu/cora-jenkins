@@ -12,9 +12,9 @@ pipeline {
       defaultValue: '''''',
       description: 'Comma-separated list of projects which are candidate to be released.')
       
-      string(name: 'MODE',
-      defaultValue: "serial",
-      description: 'mode: Specifies how tasks are executed — either one after another ("serial") or at the same time ("parallel").')
+//      string(name: 'MODE',
+//      defaultValue: "serial",
+//      description: 'mode: Specifies how tasks are executed — either one after another ("serial") or at the same time ("parallel").')
    }
    
    stages {

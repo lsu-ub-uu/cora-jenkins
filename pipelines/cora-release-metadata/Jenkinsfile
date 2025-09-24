@@ -6,8 +6,9 @@ pipeline {
       projectsToUpdate = "";
    }
    parameters {
-      text(name: 'PROJECT_NAME',
-      defaultValue: '''''',
+      choice(
+      name: 'PROJECT_NAME',
+      choices: ['cora-metadata', 'systemone-metadata', 'diva-metadata', 'alvin-metadata'],
       description: 'Name of the metadata project to release [cora-metadata, systemone-metadata, diva-metadata, alvin-metadata]')
       
    }
@@ -18,21 +19,6 @@ pipeline {
             script {
                // Set display name and description in Jenkins GUI
                currentBuild.displayName = "#${env.BUILD_NUMBER} - ${params.PROJECT_NAME}"
-            }
-         }
-      }
-      stage("Validate project name") {
-         steps {
-            script {
-               def allowedProjects = [
-               "cora-metadata",
-               "systemone-metadata",
-               "diva-metadata",
-               "alvin-metadata"
-               ]
-               if (!allowedProjects.contains(params.PROJECT_NAME)) {
-                  error "Invalid PROJECT_NAME: '${params.PROJECT_NAME}'. Allowed values: ${allowedProjects.join(', ')}"
-               }
             }
          }
       }
