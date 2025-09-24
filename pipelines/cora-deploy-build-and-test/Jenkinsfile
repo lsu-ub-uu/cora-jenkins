@@ -34,9 +34,9 @@ pipeline {
    }
    
    parameters {
-      string(
+      choice(
       name: 'APPLICATION_NAME',
-      defaultValue: 'systemone',
+      choices: ['systemone', 'alvin', 'diva'],
       description: 'Name of the application that Helm chart will be updated'
       )
    }
