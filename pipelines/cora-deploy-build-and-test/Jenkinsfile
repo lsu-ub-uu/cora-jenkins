@@ -139,7 +139,6 @@ pipeline {
              }
             
             writeStatus(params.APPLICATION_NAME, "ok")
-            setStatus("ok")
             echo 'Acceptance test: OK, helm version ready for deployment!'
          }
       }
