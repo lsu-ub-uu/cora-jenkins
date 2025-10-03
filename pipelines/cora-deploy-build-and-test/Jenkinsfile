@@ -13,14 +13,20 @@ def getRecipients() {
    return recipients
 }
 
-def setStatus(status) {
-   if (params.APPLICATION_NAME == 'systemone') {
-      env.SYSTEMONE_BUILD_STATUS = status
-   } else if (params.APPLICATION_NAME == 'alvin') {
-      env.ALVIN_BUILD_STATUS = status
-   } else if (params.APPLICATION_NAME == 'diva') {
-      env.DIVA_BUILD_STATUS = status
-   }
+def writeStatus(String applicationName, String status) {
+    def statusFile = "${env.BASE_PATH_STATUS}/${applicationName}.status"
+    sh """
+        mkdir -p \$(dirname ${statusFile})
+        echo "${status}" > ${statusFile}
+    """
+}
+
+def readStatus(String applicationName) {
+    def statusFile = "${env.BASE_PATH_STATUS}/${applicationName}.status"
+    return sh(
+        script: "[ -f ${statusFile} ] && cat ${statusFile} || echo 'unknown'",
+        returnStdout: true
+    ).trim()
 }
 
 
@@ -31,6 +37,7 @@ pipeline {
    
    environment {
       HELM_REPO_NAME = "cora-deployment"
+      BASE_PATH_STATUS = "/home/jenkins/custom/status"
    }
    
    parameters {
@@ -118,35 +125,27 @@ pipeline {
    }
    post {
       success {
-         
          echo 'Acceptance test: OK, helm version ready for deployment!'
          script {
-            def wasPreviousBuildUnsuccessful = {
-               
-               if (params.APPLICATION_NAME == 'systemone' &&  env.SYSTEMONE_BUILD_STATUS != 'ok') {
-                  return true
-               } else if (params.APPLICATION_NAME == 'alvin' &&  env.ALVIN_BUILD_STATUS != 'ok') {
-                  return true
-               } else if (params.APPLICATION_NAME == 'diva' &&  env.DIVA_BUILD_STATUS != 'ok') {
-                  return true
-               }
-               return false
-            }
-            if (wasPreviousBuildUnsuccessful()) {
-               def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-               def body = "Good news! The Jenkins build is back to normal:\n\n${env.BUILD_URL}"
-               
-               mail to: getRecipients(),
-               subject: subject,
-               body: body
-            }
+             def previousStatus = readStatus(params.APPLICATION_NAME)
+             echo "Previous status for ${params.APPLICATION_NAME}: ${previousStatus}"
+             if (previousStatus != "ok") {
+                 def subject = "${params.APPLICATION_NAME} is BACK TO NORMAL: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                 def body = "${params.APPLICATION_NAME} build to preview is back to normal:\n\n${env.BUILD_URL}"
+
+                 mail to: getRecipients(),
+                 subject: subject,
+                 body: body
+             }
+            
+            writeStatus(params.APPLICATION_NAME, "ok")
             setStatus("ok")
             echo 'Acceptance test: OK, helm version ready for deployment!'
          }
       }
       unstable {
          script {
-            setStatus("unstable")
+            writeStatus(params.APPLICATION_NAME, "unstable")
             
             def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
             def body = "Check Jenkins for details: ${env.BUILD_URL}"
@@ -160,7 +159,7 @@ pipeline {
       }
       failure {
          script {
-            setStatus("failed")
+            writeStatus(params.APPLICATION_NAME, "failed")
             
             def subject = "${params.APPLICATION_NAME} acceptance tests FAILED!: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
             def body = "Check Jenkins for details: ${env.BUILD_URL}"
