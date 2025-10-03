@@ -16,7 +16,6 @@ def getRecipients() {
 def writeStatus(String applicationName, String status) {
     def statusFile = "${env.BASE_PATH_STATUS}/${applicationName}.status"
     sh """
-        mkdir -p \$(dirname ${statusFile})
         echo "${status}" > ${statusFile}
     """
 }
