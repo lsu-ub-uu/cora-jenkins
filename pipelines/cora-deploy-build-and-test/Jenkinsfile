@@ -37,7 +37,7 @@ pipeline {
    
    environment {
       HELM_REPO_NAME = "cora-deployment"
-      BASE_PATH_STATUS = "${env.WORKSPACE}/status"
+      BASE_PATH_STATUS = "/home/minikube/jenkins/custom/status"
    }
    
    parameters {
