@@ -14,7 +14,7 @@ apache:
   useExtraEnvs: true
   extraEnvs: 
     - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
-      value: diva/divaclient
+      value: divaclient
 
 shibboleth:
   domain: previewepc
