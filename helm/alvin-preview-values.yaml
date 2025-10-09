@@ -2,17 +2,17 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  systemUrl: https://cora.epc.ub.uu.se/alvin
-  restToPathSystem: /alvin/rest/
-  iiifToPathSystem: /alvin/iiif/
-  loginPathSystem: /alvin/login/rest/
-  alvinClientPath: alvin/alvinclient
+  systemUrl: https://preview.alvin.cora.epc.ub.uu.se
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
+  alvinClientPath: alvinclient
 
 apache:
   useExtraEnvs: true
   extraEnvs: 
     - name: ALVIN_CLIENT_CONTEXT_ROOT_ARG
-      value: alvin/alvinclient
+      value: alvinclient
 
 django:
   allowedHosts: "*"
@@ -24,6 +24,6 @@ port:
   apache: 30981
 
 fitnesse:
-  contextRoot: alvin/fitnesse
-  baseUrl: https://cora.epc.ub.uu.se/alvin/
-  loginUrl: https://cora.epc.ub.uu.se/alvin/login/
+  contextRoot: fitnesse
+  baseUrl: https://preview.alvin.cora.epc.ub.uu.se/
+  loginUrl: https://preview.alvin.cora.epc.ub.uu.se/login/

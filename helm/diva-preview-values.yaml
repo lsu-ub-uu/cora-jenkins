@@ -4,11 +4,11 @@ deploy:
   playwright: true
 
 externalAccess:
-  systemUrl: https://cora.epc.ub.uu.se/diva
-  restToPathSystem: /diva/rest/
-  iiifToPathSystem: /diva/iiif/
-  loginPathSystem: /diva/login/rest/
-  divaClientBasePath: /diva/divaclient
+  systemUrl: https://preview.diva.cora.epc.ub.uu.se
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
+  divaClientBasePath: /divaclient
   
 apache:
   useExtraEnvs: true
@@ -23,6 +23,6 @@ port:
   apache: 30982
 
 fitnesse:
-  contextRoot: diva/fitnesse
-  baseUrl: https://cora.epc.ub.uu.se/diva/
-  loginUrl: https://cora.epc.ub.uu.se/diva/login/
+  contextRoot: fitnesse
+  baseUrl: https://preview.diva.cora.epc.ub.uu.se/
+  loginUrl: https://preview.diva.cora.epc.ub.uu.se/login/
