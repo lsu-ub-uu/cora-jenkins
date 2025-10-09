@@ -2,10 +2,10 @@ deploy:
   fitnesse: true
 
 externalAccess:
-  systemUrl: https://cora.epc.ub.uu.se/systemone
-  restToPathSystem: /systemone/rest/
-  iiifToPathSystem: /systemone/iiif/
-  loginPathSystem: /systemone/login/rest/
+  systemUrl: https://preview.systemone.cora.epc.ub.uu.se
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
 
 shibboleth:
   domain: previewepc
@@ -14,6 +14,6 @@ port:
   apache: 30980
 
 fitnesse:
-  contextRoot: systemone/fitnesse
-  baseUrl: https://cora.epc.ub.uu.se/systemone/
-  loginUrl: https://cora.epc.ub.uu.se/systemone/login/
+  contextRoot: fitnesse
+  baseUrl: https://preview.systemone.cora.epc.ub.uu.se/
+  loginUrl: https://preview.systemone.cora.epc.ub.uu.se/login/
