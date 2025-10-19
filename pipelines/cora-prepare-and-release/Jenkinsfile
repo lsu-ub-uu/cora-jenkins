@@ -61,6 +61,7 @@ pipeline {
       }
       stage("update dependencies") {
          steps {
+            sh 'mvn --version'
             sh 'mvn -f $UB_PROJECT_NAME versions:update-parent versions:update-properties -DgenerateBackupPoms=false -Dmaven.version.rules="https://raw.githubusercontent.com/lsu-ub-uu/cora-jenkins/master/maven/maven-version-rules.xml"'
          }
       }
