@@ -16,7 +16,11 @@ pipeline {
             }
          }
       }
-      stage("loop step up") {
+      tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven latest'
+    }
+    stage("loop step up") {
          steps {
             script {
                echo "Dockers to step up"
