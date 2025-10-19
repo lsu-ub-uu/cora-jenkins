@@ -29,7 +29,11 @@ pipeline {
       diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright,diva-docker-apache''',
       description: 'Comma-separated list of dockers to update after release.')
    }
-   
+   tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven latest'
+    }
+    
    stages {
       stage("Print Dockers to Step Up") {
          steps {

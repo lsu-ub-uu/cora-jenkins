@@ -25,7 +25,11 @@ pipeline {
       defaultValue: 'maven',
       description: 'The type of artifact to build. The possible values are either maven: normal maven artifacts, or docker: maven artifacts that generate dockers')
    }
-   stages {
+   tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven latest'
+    }
+    stages {
       stage('Initialize') {
          steps {
             script {

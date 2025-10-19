@@ -16,7 +16,11 @@ pipeline {
 //      defaultValue: "serial",
 //      description: 'mode: Specifies how tasks are executed — either one after another ("serial") or at the same time ("parallel").')
    }
-   
+   tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven latest'
+    }
+    
    stages {
       
       stage("loop release") {

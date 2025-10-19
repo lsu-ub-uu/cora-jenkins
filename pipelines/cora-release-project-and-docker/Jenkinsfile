@@ -19,7 +19,11 @@ pipeline {
       description: 'Name of the docker project to release')
       
    }
-   
+   tools {
+        jdk 'Cora OpenJDK'
+        maven 'Maven latest'
+    }
+    
    stages {
       stage('Initialize') {
          steps {
