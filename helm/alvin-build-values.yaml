@@ -3,6 +3,9 @@ deploy:
   jsclient: false
   alvinclient: false
 
+data:
+  dataDividers: "cora jsClient alvin alvinPreview alvinTestSystem alvinProduction alvinData"
+
 externalAccess:
   systemUrl:  http://172.18.0.15:31981
 shibboleth:
