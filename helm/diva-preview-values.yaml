@@ -3,6 +3,9 @@ deploy:
   divaclient: true
   playwright: true
 
+data:
+  dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"
+
 security:
   divaClientAppTokenUsers: [{"displayName":"Diva Admin","loginId":"divaAdmin@cora.epc.ub.uu.se","appToken":"49ce00fb-68b5-4089-a5f7-1c225d3cf156"}]
 

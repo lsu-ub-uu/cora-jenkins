@@ -2,6 +2,9 @@ deploy:
   fitnesse: true
   jsclient: false
 
+data:
+  dataDividers: "cora jsClient systemOne testSystem"
+
 externalAccess:
   systemUrl:  http://172.18.0.15:31980
 shibboleth:

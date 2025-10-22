@@ -4,6 +4,9 @@ deploy:
   divaclient: true
   playwright: true
 
+data:
+  dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"
+
 externalAccess:
   systemUrl:  http://172.18.0.15:31982
 shibboleth:

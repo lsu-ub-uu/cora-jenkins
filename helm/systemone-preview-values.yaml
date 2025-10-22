@@ -1,6 +1,9 @@
 deploy:
   fitnesse: true
 
+data:
+  dataDividers: "cora jsClient systemOne testSystem"
+
 externalAccess:
   systemUrl: https://preview.systemone.cora.epc.ub.uu.se
   restToPathSystem: /rest/

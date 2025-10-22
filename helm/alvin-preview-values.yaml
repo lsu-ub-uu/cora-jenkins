@@ -1,6 +1,9 @@
 deploy:
   fitnesse: true
 
+data:
+  dataDividers: "cora jsClient alvin alvinPreview alvinTestSystem alvinProduction alvinData"
+
 externalAccess:
   systemUrl: https://preview.alvin.cora.epc.ub.uu.se
   restToPathSystem: /rest/
