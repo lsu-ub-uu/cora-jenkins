@@ -1,16 +1,16 @@
 #!/bin/bash
 NAME=$1
 CLUSTER_NAME=$2
-NAMESPACE="$NAME-$CLUSTER_NAME"
+NAMESPACE="$NAME"
 
 #Cleaning cluster before each re-deployment
-echo ""
-echo "Uninstalling helm kubeconfig release '$NAMESPACE' from namespace '$NAMESPACE'..."
-helm --kubeconfig kubeconfig uninstall $NAMESPACE -n $NAMESPACE
+#echo ""
+#echo "Uninstalling helm kubeconfig release '$NAMESPACE' from namespace '$NAMESPACE'..."
+#helm --kubeconfig kubeconfig uninstall $NAMESPACE -n $NAMESPACE
 
-echo ""
-echo "Deleting secret..."
-kubectl --kubeconfig kubeconfig delete secret ${NAME}-secret --namespace=$NAMESPACE
+#echo ""
+#echo "Deleting secret..."
+#kubectl --kubeconfig kubeconfig delete secret ${NAME}-secret --namespace=$NAMESPACE
 #
 #echo ""
 #echo "Deleting Kubernetes namespace '$NAMESPACE'..."
