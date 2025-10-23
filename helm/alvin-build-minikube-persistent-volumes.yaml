@@ -1,12 +1,65 @@
-#postgresql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-postgres-volume-claim
+  labels:
+    app: alvin-postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
 
-#pvSharedArchive #ReadWriteMany
-#pvcSharedArchiveReadWrite #ReadWriteMany
-#pvcSharedArchiveReadOnly #ReadOnlyMany
+---
 
-#pvConvertedFiles #ReadWriteMany
-#pvcConvertedFilesReadWrite #ReadWriteMany
-#pvcConvertedFilesReadOnly #ReadOnlyMany
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-archive-read-write-volume-claim
+  labels:
+    app: alvin-archive
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-converted-files-read-write-volume-claim
+  labels:
+    app: alvin-converted-files
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-build-credentials-read-write-volume-claim
+  labels:
+    app: alvin-build-credentials-read-write-volume
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
 
 ---
 
@@ -55,27 +108,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-build-archive-read-only-volume
-  labels:
-    type: local
-    app: alvin-build-archive
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadOnlyMany
-  hostPath:
-    path: /mnt/minikube/alvin/build/archive
-  claimRef:
-    namespace: alvin-build
-    name: alvin-archive-read-only-volume-claim
-    
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
   name: alvin-build-converted-files-volume
   labels:
     type: local
@@ -97,27 +129,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-build-converted-files-read-only-volume
-  labels:
-    type: local
-    app: alvin-build-converted-files
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadOnlyMany
-  hostPath:
-    path: /mnt/minikube/alvin/build/convertedFiles
-  claimRef:
-    namespace: alvin-build
-    name: alvin-converted-files-read-only-volume-claim
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: alvin-build-credentials-read-only-volume
+  name: alvin-build-credentials-read-write-volume
   labels:
     type: local
     app: alvin-build-credentials
@@ -126,9 +138,9 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   hostPath:
-    path: /mnt/minikube/alvin/build/certificates/shibboleth
+    path: /mnt/minikube/alvin/build/shibboleth
   claimRef:
     namespace: alvin-build
-    name: alvin-build-credentials-read-only-volume-claim
+    name: alvin-build-credentials-read-write-volume-claim
