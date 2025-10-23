@@ -102,6 +102,8 @@ spec:
     namespace: diva-preview
     name: diva-archive-read-write-volume-claim
 
+---
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
