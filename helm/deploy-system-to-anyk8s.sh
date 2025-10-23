@@ -33,9 +33,9 @@ NAMESPACE="$NAME"
 cd helm
 curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME >kubeconfig
 
-echo ""
-echo "Creating namespace '$NAMESPACE'..."
-kubectl --kubeconfig kubeconfig create namespace $NAMESPACE 
+#echo ""
+#echo "Creating namespace '$NAMESPACE'..."
+#kubectl --kubeconfig kubeconfig create namespace $NAMESPACE 
 
 echo ""
 echo "Applying secret"
@@ -48,7 +48,7 @@ kubectl --kubeconfig kubeconfig apply -f ${NAME}-secret.yaml --namespace=$NAMESP
 echo ""
 echo "Installing helm chart '$NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 helm --kubeconfig kubeconfig repo update
-helm --kubeconfig kubeconfig install $NAMESPACE epc/$NAME --namespace $NAMESPACE -f ${NAMESPACE}-values.yaml
+helm --kubeconfig kubeconfig install $NAMESPACE epc/$NAME --namespace $NAMESPACE -f ${NAME}-${CLUSTER_NAME}-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
