@@ -18,10 +18,10 @@ echo ""
 echo "Deleting persistent volumes for '$NAMESPACE'..."
 kubectl delete pv ${NAMESPACE}-postgres-volume
 kubectl delete pv ${NAMESPACE}-archive-volume
-kubectl delete pv ${NAMESPACE}-archive-read-only-volume
+#kubectl delete pv ${NAMESPACE}-archive-read-write-volume
 kubectl delete pv ${NAMESPACE}-converted-files-volume
-kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
-kubectl delete pv ${NAME}-previewepc-credentials-read-only-volume
+#kubectl delete pv ${NAMESPACE}-converted-files-read-write-volume
+kubectl delete pv ${NAME}-previewepc-credentials-read-write-volume
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/$NAME/preview..."
