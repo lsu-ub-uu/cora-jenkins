@@ -50,9 +50,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: alvin-previewepc-credentials-read-write-volume-claim
+  name: alvin-credentials-read-write-volume-claim
   labels:
-    app: alvin-previewepc-credentials-read-write-volume
+    app: alvin-credentials
 spec:
   storageClassName: manual
   accessModes:
@@ -143,4 +143,4 @@ spec:
     path: /mnt/minikube/alvin/previewepc/shibboleth
   claimRef:
     namespace: alvin-preview
-    name: alvin-previewepc-credentials-read-write-volume-claim
+    name: alvin-credentials-read-write-volume-claim

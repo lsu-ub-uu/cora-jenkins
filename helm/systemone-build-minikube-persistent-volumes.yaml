@@ -52,7 +52,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: systemone-credentials-read-write-volume-claim
   labels:
-    app: systemone-build-credentials-read-write-volume
+    app: systemone-credentials
 spec:
   storageClassName: manual
   accessModes:
@@ -143,4 +143,4 @@ spec:
     path: /mnt/minikube/systemone/build/shibboleth
   claimRef:
     namespace: systemone-build
-    name: systemone-build-credentials-read-write-volume-claim
+    name: systemone-credentials-read-write-volume-claim
