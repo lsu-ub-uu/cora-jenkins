@@ -6,7 +6,7 @@ NAMESPACE="$NAME-$CLUSTER_NAME"
 #Cleaning cluster before each re-deployment
 echo ""
 echo "Uninstalling helm kubeconfig release '$NAMESPACE' from namespace '$NAMESPACE'..."
-helm kubeconfig uninstall $NAMESPACE -n $NAMESPACE
+helm --kubeconfig kubeconfig uninstall $NAMESPACE -n $NAMESPACE
 
 echo ""
 echo "Deleting secret..."

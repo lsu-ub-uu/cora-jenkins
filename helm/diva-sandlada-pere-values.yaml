@@ -1,0 +1,34 @@
+deploy:
+  fitnesse: true
+  divaclient: true
+  playwright: false
+
+data:
+  dataDividers: "cora jsClient diva divaPre divaClient"
+
+security:
+  divaClientAppTokenUsers: []
+
+externalAccess:
+  systemUrl: https://diva.pre.test.ub.uu.se
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
+  divaClientBasePath: /divaclient
+  
+apache:
+  useExtraEnvs: true
+  extraEnvs: 
+    - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
+      value: divaclient
+
+shibboleth:
+  domain: pre
+
+port:
+  apache: 30982
+
+fitnesse:
+  contextRoot: fitnesse
+  baseUrl: https://diva.pre.test.ub.uu.se/
+  loginUrl: https://diva.pre.test.ub.uu.se/login/
