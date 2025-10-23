@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-build-credentials-read-write-volume-claim
+  name: systemone-converted-files-read-write-volume-claim
   labels:
     app: systemone-converted-files
 spec:
