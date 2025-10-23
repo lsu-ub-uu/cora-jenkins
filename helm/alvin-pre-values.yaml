@@ -1,0 +1,32 @@
+deploy:
+  fitnesse: false
+
+data:
+  dataDividers: "cora jsClient alvin alvinTestSystem"
+
+externalAccess:
+  systemUrl: https://alvin.pre.test.ub.uu.se
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
+  alvinClientPath: alvinclient
+
+apache:
+  useExtraEnvs: true
+  extraEnvs: 
+    - name: ALVIN_CLIENT_CONTEXT_ROOT_ARG
+      value: alvinclient
+
+django:
+  allowedHosts: "*"
+  
+shibboleth:
+  domain: pre
+
+port:
+  apache: 30981
+
+fitnesse:
+  contextRoot: fitnesse
+  baseUrl: https://alvin.pre.test.ub.uu.se/
+  loginUrl: https://alvin.pre.test.ub.uu.se/login/
