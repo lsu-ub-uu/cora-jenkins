@@ -50,9 +50,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-previewepc-credentials-read-write-volume-claim
+  name: systemone-credentials-read-write-volume-claim
   labels:
-    app: systemone-previewepc-credentials-read-write-volume
+    app: systemone-credentials
 spec:
   storageClassName: manual
   accessModes:
@@ -143,4 +143,4 @@ spec:
     path: /mnt/minikube/systemone/previewepc/shibboleth
   claimRef:
     namespace: systemone-preview
-    name: systemone-previewepc-credentials-read-write-volume-claim
+    name: systemone-credentials-read-write-volume-claim

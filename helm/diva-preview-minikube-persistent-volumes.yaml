@@ -49,9 +49,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: diva-previewepc-credentials-read-write-volume-claim
+  name: diva-credentials-read-write-volume-claim
   labels:
-    app: diva-previewepc-credentials-read-write-volume
+    app: diva-credentials
 spec:
   storageClassName: manual
   accessModes:
@@ -140,4 +140,4 @@ spec:
     path: /mnt/minikube/diva/previewepc/shibboleth
   claimRef:
     namespace: diva-preview
-    name: diva-previewepc-credentials-read-write-volume-claim
+    name: diva-credentials-read-write-volume-claim

@@ -50,9 +50,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: diva-build-credentials-read-write-volume-claim
+  name: diva-credentials-read-write-volume-claim
   labels:
-    app: diva-build-credentials-read-write-volume
+    app: diva-credentials
 spec:
   storageClassName: manual
   accessModes:
@@ -104,7 +104,7 @@ spec:
     name: diva-archive-read-write-volume-claim
 
 ---
-	
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -143,4 +143,4 @@ spec:
     path: /mnt/minikube/diva/build/shibboleth
   claimRef:
     namespace: diva-build
-    name: diva-build-credentials-read-write-volume-claim
+    name: diva-credentials-read-write-volume-claim
