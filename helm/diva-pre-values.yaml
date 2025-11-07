@@ -10,7 +10,7 @@ security:
   divaClientAppTokenUsers: []
 
 externalAccess:
-  systemUrl: https://diva.pre.test.ub.uu.se
+  systemUrl: https://pre.diva-portal.org
   restToPathSystem: /rest/
   iiifToPathSystem: /iiif/
   loginPathSystem: /login/rest/
@@ -30,5 +30,5 @@ port:
 
 fitnesse:
   contextRoot: fitnesse
-  baseUrl: https://diva.pre.test.ub.uu.se/
-  loginUrl: https://diva.pre.test.ub.uu.se/login/
+  baseUrl: https://pre.diva-portal.org/
+  loginUrl: https://pre.diva-portal.org/login/

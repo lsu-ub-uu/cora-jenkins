@@ -5,7 +5,7 @@ data:
   dataDividers: "cora jsClient alvin alvinTestSystem"
 
 externalAccess:
-  systemUrl: https://alvin.pre.test.ub.uu.se
+  systemUrl: https://cora.alvin-portal.org
   restToPathSystem: /rest/
   iiifToPathSystem: /iiif/
   loginPathSystem: /login/rest/
@@ -28,5 +28,5 @@ port:
 
 fitnesse:
   contextRoot: fitnesse
-  baseUrl: https://alvin.pre.test.ub.uu.se/
-  loginUrl: https://alvin.pre.test.ub.uu.se/login/
+  baseUrl: https://cora.alvin-portal.org/
+  loginUrl: https://cora.alvin-portal.org/login/
