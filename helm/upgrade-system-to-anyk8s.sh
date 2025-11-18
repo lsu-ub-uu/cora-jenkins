@@ -5,7 +5,7 @@ APPPLICATION_NAME=$3
 #NAMESPACE="$APPPLICATION_NAME"
 
 cd helm
-curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME >kubeconfig
+curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME > kubeconfig
 #
 #echo ""
 #echo "Applying secret"
@@ -18,7 +18,8 @@ curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME >kubeconfig
 echo ""
 echo "Updating helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 helm --kubeconfig kubeconfig repo update
-helm --kubeconfig kubeconfig upgrade $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f ${APPPLICATION_NAME}-${CLUSTER_NAME}-values.yaml
+helm --kubeconfig kubeconfig uninstall $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE
+helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f ${APPPLICATION_NAME}-${CLUSTER_NAME}-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
