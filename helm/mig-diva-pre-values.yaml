@@ -1,0 +1,29 @@
+deploy:
+  fitnesse: false
+  divaclient: true
+  playwright: false
+
+data:
+  dataDividers: "cora jsClient diva divaPre divaClient"
+
+security:
+  divaClientAppTokenUsers: []
+
+externalAccess:
+  systemUrl: https://mig.diva-portal.org
+  restToPathSystem: /rest/
+  iiifToPathSystem: /iiif/
+  loginPathSystem: /login/rest/
+  divaClientBasePath: /divaclient
+  
+apache:
+  useExtraEnvs: true
+  extraEnvs: 
+    - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
+      value: divaclient
+
+shibboleth:
+  domain: pre
+
+port:
+  apache: 31982
