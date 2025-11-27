@@ -91,8 +91,32 @@ pipeline {
             }
          }
       }
+      unstable {
+         script {
+            def subject = "${params.DOCKER_PROJECT_NAME} docker could NOT be released!"
+            def body = "${params.DOCKER_PROJECT_NAME} docker could NOT be released, job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} url: ${env.BUILD_URL}"
+            
+            mail to: getRecipients(),
+            subject: subject,
+            body: body
+            
+         }
+      }
+      failure {
+         script {
+            def subject = "${params.DOCKER_PROJECT_NAME} docker could NOT be released!"
+            def body = "${params.DOCKER_PROJECT_NAME} docker could NOT be released, job: ${env.JOB_NAME} build: ${env.BUILD_NUMBER} url: ${env.BUILD_URL}"
+            
+            mail to: getRecipients(),
+            subject: subject,
+            body: body
+         }
+      }
       always {
          cleanWs()
       }
    }
+   
+   
+   
 }
