@@ -4,6 +4,10 @@ This pipeline creates a release of a project and starts a release of a docker.
 */
 def releaseMetadata = true
 
+def getRecipients() {
+   return "${env.CORA_MAIL_LIST},${env.DIVA_MAIL_LIST}"
+}
+
 pipeline {
    agent any
    environment {
