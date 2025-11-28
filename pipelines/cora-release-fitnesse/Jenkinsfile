@@ -1,0 +1,42 @@
+def releaseMetadata = true
+
+pipeline {
+   agent any
+   environment {
+      projectsToUpdate = "";
+   }
+   parameters {
+      choice(
+      name: 'PROJECT_NAME',
+      choices: ['cora-fitnesse', 'diva-cora-fitnesse', 'alvin-cora-fitnesse'],
+      description: 'Name of the fitnesse project to release.')
+      
+   }
+   
+   stages {
+      stage("Release fitnesse") {
+         steps {
+            build job: 'cora-prepare-and-release',
+            wait: true,
+            parameters: [
+            string(name: 'UB_PROJECT_NAME', value: "${params.PROJECT_NAME}"),
+            string(name: 'UB_BRANCH_NAME', value: "master"),
+            string(name: 'FORCE_RELEASE', value: "1")
+            ]
+         }
+      }
+   }
+   post {
+      success {
+         script {
+            if (releaseMetadata) {
+               build job: 'cora-release-dockers-batch',
+               wait: false
+            }
+         }
+      }
+      always {
+         cleanWs()
+      }
+   }
+}
