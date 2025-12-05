@@ -18,7 +18,15 @@ curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME > kubeconfig
 echo ""
 echo "Updating helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 helm --kubeconfig kubeconfig repo update
-helm --kubeconfig kubeconfig uninstall $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE
+helm --kubeconfig kubeconfig uninstall $NAMESPACE --namespace $NAMESPACE
+
+kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-postgres-volume-claim -n $NAMESPACE
+kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-archive-read-write-volume-claim -n $NAMESPACE
+kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-credentials-read-write-volume-claim -n $NAMESPACE
+kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-postgres-volume-claim -n $NAMESPACE
+
+kubectl --kubeconfig kubeconfig apply -f ${NAMESPACE}-$NAMESPACE-persistent-volume-claims.yaml -n $NAMESPACE
+
 helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f ${NAMESPACE}-${CLUSTER_NAME}-values.yaml
 
 echo ""
