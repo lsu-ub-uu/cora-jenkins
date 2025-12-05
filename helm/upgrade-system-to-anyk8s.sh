@@ -2,18 +2,9 @@
 CLUSTER_NAME=$1
 NAMESPACE=$2
 APPPLICATION_NAME=$3
-#NAMESPACE="$APPPLICATION_NAME"
 
 cd helm
 curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME > kubeconfig
-#
-#echo ""
-#echo "Applying secret"
-#kubectl --kubeconfig kubeconfig apply -f ${APPPLICATION_NAME}-secret.yaml --namespace=$NAMESPACE
-#
-#echo ""
-#echo "Applying persistent volume definitions"
-#kubectl --kubeconfig kubeconfig apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "Updating helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
