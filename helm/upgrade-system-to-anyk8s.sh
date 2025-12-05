@@ -24,8 +24,9 @@ kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-postgres-volume-
 kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-archive-read-write-volume-claim -n $NAMESPACE
 kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-credentials-read-write-volume-claim -n $NAMESPACE
 kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-postgres-volume-claim -n $NAMESPACE
+kubectl  --kubeconfig kubeconfig  delete pvc $APPPLICATION_NAME-converted-files-read-write-volume-claim -n $NAMESPACE
 
-kubectl --kubeconfig kubeconfig apply -f ${NAMESPACE}-$NAMESPACE-persistent-volume-claims.yaml -n $NAMESPACE
+kubectl --kubeconfig kubeconfig apply -f ${NAMESPACE}-$CLUSTER_NAME-persistent-volume-claims.yaml -n $NAMESPACE
 
 helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f ${NAMESPACE}-${CLUSTER_NAME}-values.yaml
 
