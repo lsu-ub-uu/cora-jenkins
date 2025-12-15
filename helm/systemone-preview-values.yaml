@@ -6,8 +6,8 @@ data:
 
 externalAccess:
   systemUrl: https://preview.systemone.cora.epc.ub.uu.se
-  restToPathSystem: /rest/
-  iiifToPathSystem: /iiif/
+  deploymentName: SystemOne - preview 👀
+  loginRestUrl: https://preview.systemone.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
 
 shibboleth:

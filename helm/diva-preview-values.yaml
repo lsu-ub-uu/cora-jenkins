@@ -11,8 +11,8 @@ security:
 
 externalAccess:
   systemUrl: https://preview.diva.cora.epc.ub.uu.se
-  restToPathSystem: /rest/
-  iiifToPathSystem: /iiif/
+  deploymentName: DiVA - preview 👀
+  loginRestUrl: https://preview.diva.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
   divaClientBasePath: /divaclient
   
