@@ -6,8 +6,8 @@ data:
 
 externalAccess:
   systemUrl: https://preview.alvin.cora.epc.ub.uu.se
-  restToPathSystem: /rest/
-  iiifToPathSystem: /iiif/
+  deploymentName: Alvin - preview 👀
+  loginRestUrl: https://preview.alvin.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
   alvinClientPath: alvinclient
 
