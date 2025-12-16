@@ -3,7 +3,9 @@ deploy:
 
 data:
   dataDividers: "cora jsClient systemOne testSystem"
-
+  exampleUsers: 
+    - "141414"
+  
 externalAccess:
   systemUrl: https://preview.systemone.cora.epc.ub.uu.se
   deploymentName: SystemOne - preview 👀
