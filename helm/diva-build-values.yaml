@@ -9,6 +9,7 @@ data:
 
 externalAccess:
   systemUrl:  http://172.18.0.15:31982
+  systemRestUrl:  http://172.18.0.15:31982/rest/
   loginRestUrl: http://172.18.0.15:31982/login/rest/
 shibboleth:
   domain: build

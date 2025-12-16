@@ -18,6 +18,7 @@ security:
 
 externalAccess:
   systemUrl: https://preview.diva.cora.epc.ub.uu.se
+  systemRestUrl: https://preview.diva.cora.epc.ub.uu.se/rest/
   deploymentName: DiVA - preview 👀
   loginRestUrl: https://preview.diva.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/

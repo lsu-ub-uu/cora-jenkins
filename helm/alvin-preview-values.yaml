@@ -10,6 +10,7 @@ data:
   
 externalAccess:
   systemUrl: https://preview.alvin.cora.epc.ub.uu.se
+  systemRestUrl: https://preview.alvin.cora.epc.ub.uu.se/rest/
   deploymentName: Alvin - preview 👀
   loginRestUrl: https://preview.alvin.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/

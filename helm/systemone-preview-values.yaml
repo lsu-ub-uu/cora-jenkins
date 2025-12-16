@@ -8,6 +8,7 @@ data:
   
 externalAccess:
   systemUrl: https://preview.systemone.cora.epc.ub.uu.se
+  systemRestUrl: https://preview.systemone.cora.epc.ub.uu.se/rest/
   deploymentName: SystemOne - preview 👀
   loginRestUrl: https://preview.systemone.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
