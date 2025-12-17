@@ -6,6 +6,14 @@ deploy:
 
 data:
   dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"
+  exampleUsers: 
+    - "141414"
+    - "161616"
+    - "coraUser:491144693381458"
+    - "user:182924359788077"
+    - "user:8985188367779791"
+    - "coraUser:491201365536105"
+    - "playwrightTester"
 
 externalAccess:
   systemUrl:  http://172.18.0.15:31982
