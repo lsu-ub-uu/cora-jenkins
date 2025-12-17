@@ -26,7 +26,7 @@ pipeline {
       diva-docker-postgresql,cora-docker-idplogin,cora-docker-login,cora-docker-gatekeeper,systemone-docker,
       systemone-docker-fitnesse,systemone-docker-apache,alvin-docker-cora,alvin-docker-gatekeeper,
       alvin-cora-docker-fitnesse,alvin-docker-client,alvin-docker-apache,diva-cora-docker-fitnesse,
-      diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright,diva-docker-apache''',
+      diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright,diva-docker-apache,cora-docker-console''',
       description: 'Comma-separated list of dockers to update after release.')
    }
    tools {
