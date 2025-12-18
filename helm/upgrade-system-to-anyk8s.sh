@@ -43,7 +43,7 @@ applySecretsAndPersistentClaims(){
 installApplication(){
 	echo ""
 	echo "Installing helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
-	kubectl --kubeconfig create namespace $NAMESPACE
+	kubectl --kubeconfig kubeconfig create namespace $NAMESPACE
 	helm --kubeconfig kubeconfig repo update
 	helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f helm/${APPPLICATION_NAME}-${ENVIRONMENT}-values.yaml
 }
