@@ -47,7 +47,7 @@ installApplication(){
 	helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f helm/${APPPLICATION_NAME}-${ENVIRONMENT}-values.yaml
 }
 
-waitUntilAllPodsAreRunning()
+waitUntilAllPodsAreRunning(){
 	echo ""
 	echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
 	if ! kubectl --kubeconfig kubeconfig wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s; then
