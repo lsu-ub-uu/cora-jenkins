@@ -1,6 +1,6 @@
 #!/bin/bash
 start(){
-	setEnvironmentVariables
+	setEnvironmentVariables "$@"
 	readKubeconfig
 	unistallPreviousVersion
 	applySecretsAndPersistentClaims
@@ -9,14 +9,14 @@ start(){
 }
 
 setEnvironmentVariables(){
-	export CLUSTER_NAME=$1
-	export ENVIRONMENT=$2
-	export APPPLICATION_NAME=$3
-	export NAMESPACE=${APPPLICATION_NAME}-${ENVIRONMENT}
+	export CLUSTER_NAME="$1"
+	export ENVIRONMENT="$2"
+	export APPPLICATION_NAME="$3"
+	export NAMESPACE="${APPPLICATION_NAME}-${ENVIRONMENT}"
 }
 
 readKubeconfig(){
-	curl http://test.ub.uu.se:8000/v1/config/$CLUSTER_NAME >kubeconfig
+	curl http://test.ub.uu.se:8000/v1/config/${CLUSTER_NAME} >kubeconfig
 }
 
 unistallPreviousVersion(){
@@ -58,4 +58,4 @@ waitUntilAllPodsAreRunning(){
 	echo "Deployment of $NAMESPACE completed successfully on cluster $CLUSTER_NAME."
 }
 
-start
+start "$@"
