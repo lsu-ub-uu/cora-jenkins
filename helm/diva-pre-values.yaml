@@ -13,9 +13,9 @@ security:
 
 externalAccess:
   systemUrl: https://pre.diva-portal.org
-  systemRestUrl: https://preview.diva.cora.epc.ub.uu.se/rest/
+  systemRestUrl: https://pre.diva-portal.org/rest/
   deploymentName: DiVA - PRE
-  loginRestUrl: https://preview.diva.cora.epc.ub.uu.se/login/rest/
+  loginRestUrl: https://pre.diva-portal.org/login/rest/
   loginPathSystem: /login/rest/
   divaClientBasePath: /divaclient
   
