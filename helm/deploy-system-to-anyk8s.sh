@@ -28,6 +28,7 @@ applySecrets(){
 installApplication(){
 	echo ""
 	echo "Installing helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
+	
 	helm --kubeconfig kubeconfig repo update
 	helm --kubeconfig kubeconfig install $NAMESPACE epc/$APPPLICATION_NAME --namespace $NAMESPACE -f helm/${APPPLICATION_NAME}-${ENVIRONMENT}-values.yaml
 }
