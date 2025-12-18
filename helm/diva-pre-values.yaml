@@ -1,18 +1,20 @@
 deploy:
-  fitnesse: true
+  fitnesse: false
   divaclient: true
   playwright: false
 
 data:
   dataDividers: "cora jsClient diva divaPre divaClient"
-
+  exampleUsers: 
+    - "161616"
+  
 security:
   divaClientAppTokenUsers: []
 
 externalAccess:
   systemUrl: https://pre.diva-portal.org
-  restToPathSystem: /rest/
-  iiifToPathSystem: /iiif/
+  systemRestUrl: https://preview.diva.cora.epc.ub.uu.se/rest/
+  loginRestUrl: https://preview.diva.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
   divaClientBasePath: /divaclient
   
@@ -27,8 +29,3 @@ shibboleth:
 
 port:
   apache: 30982
-
-fitnesse:
-  contextRoot: fitnesse
-  baseUrl: https://pre.diva-portal.org/
-  loginUrl: https://pre.diva-portal.org/login/
