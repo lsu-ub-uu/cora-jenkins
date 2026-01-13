@@ -6,7 +6,7 @@ metadata:
   labels:
     app: diva-postgres
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: fast
   accessModes:
     - ReadWriteMany
   resources:
@@ -22,7 +22,7 @@ metadata:
   labels:
     app: diva-archive
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: fast
   accessModes:
     - ReadWriteMany
   resources:
@@ -38,7 +38,7 @@ metadata:
   labels:
     app: diva-converted-files
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: fast
   accessModes:
     - ReadWriteMany
   resources:

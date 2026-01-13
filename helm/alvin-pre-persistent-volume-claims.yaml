@@ -6,7 +6,7 @@ metadata:
   labels:
     app: alvin-postgres
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: fast
   accessModes:
     - ReadWriteMany
   resources:
@@ -22,7 +22,7 @@ metadata:
   labels:
     app: alvin-archive
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: slow
   accessModes:
     - ReadWriteMany
   resources:
@@ -38,7 +38,7 @@ metadata:
   labels:
     app: alvin-converted-files
 spec:
-  storageClassName: rook-cephfs
+  storageClassName: fast
   accessModes:
     - ReadWriteMany
   resources:
