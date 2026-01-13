@@ -26,7 +26,7 @@ unistallPreviousVersion(){
 	
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-postgres-volume-claim -n $NAMESPACE
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-archive-read-write-volume-claim -n $NAMESPACE
-	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-credentials-read-write-volume-claim -n $NAMESPACE
+	#kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-credentials-read-write-volume-claim -n $NAMESPACE
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-converted-files-read-write-volume-claim -n $NAMESPACE
 }
 
