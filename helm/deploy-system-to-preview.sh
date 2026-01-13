@@ -18,9 +18,7 @@ echo ""
 echo "Deleting persistent volumes for '$NAMESPACE'..."
 kubectl delete pv ${NAMESPACE}-postgres-volume
 kubectl delete pv ${NAMESPACE}-archive-volume
-#kubectl delete pv ${NAMESPACE}-archive-read-write-volume
 kubectl delete pv ${NAMESPACE}-converted-files-volume
-#kubectl delete pv ${NAMESPACE}-converted-files-read-write-volume
 kubectl delete pv ${NAME}-previewepc-credentials-read-write-volume
 
 echo ""
@@ -39,6 +37,10 @@ kubectl apply -f ${NAME}-secret.yaml --namespace=$NAMESPACE
 echo ""
 echo "Applying persistent volume definitions"
 kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
+
+echo ""
+echo "Applying configmap definitions"
+kubectl apply -f ${NAMESPACE}-config-map.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "Installing Helm chart '$NAME' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
