@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shibd-config
+data:
+  testConfigFile.txt: |
+    "diva test from config map"

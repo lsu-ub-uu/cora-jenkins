@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shibd-config
+data:
+  testConfigFile.txt: |
+    "alvin test from config map"

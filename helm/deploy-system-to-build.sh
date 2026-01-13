@@ -36,6 +36,10 @@ echo "Applying persistent volume definitions"
 kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
+echo "Applying configmap definitions"
+kubectl apply -f ${NAMESPACE}-config-map.yaml --namespace=$NAMESPACE
+
+echo ""
 echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
 echo "setting upp $NAME chart"
 helm dependency build ../cora-deployment/helm/cora/

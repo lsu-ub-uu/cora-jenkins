@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shibd-config
+data:
+  testConfigFile.txt: |
+    "systemOne test from config map"
