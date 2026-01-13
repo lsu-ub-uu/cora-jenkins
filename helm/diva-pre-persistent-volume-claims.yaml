@@ -46,16 +46,3 @@ spec:
       storage: 20Gi
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: diva-credentials-read-write-volume-claim
-  labels:
-    app: diva-credentials
-spec:
-  storageClassName: rook-cephfs
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 20Gi

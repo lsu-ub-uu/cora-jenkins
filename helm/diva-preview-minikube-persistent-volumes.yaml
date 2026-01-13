@@ -46,21 +46,6 @@ spec:
       storage: 20Gi
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: diva-credentials-read-write-volume-claim
-  labels:
-    app: diva-credentials
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 20Gi
-
----
 
 apiVersion: v1
 kind: PersistentVolume
@@ -125,22 +110,3 @@ spec:
     
 ---
 
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: diva-previewepc-credentials-read-write-volume
-  labels:
-    type: local
-    app: diva-previewepc-credentials
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: /mnt/minikube/diva/previewepc/shibboleth
-  claimRef:
-    namespace: diva-preview
-    name: diva-credentials-read-write-volume-claim
----
