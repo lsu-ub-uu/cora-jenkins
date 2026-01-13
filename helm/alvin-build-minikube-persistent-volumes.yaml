@@ -48,22 +48,6 @@ spec:
 ---
 
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: alvin-credentials-read-write-volume-claim
-  labels:
-    app: alvin-credentials
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 20Gi
-
----
-
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: alvin-build-postgres-volume
@@ -126,21 +110,3 @@ spec:
     
 ---
 
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: alvin-build-credentials-read-write-volume
-  labels:
-    type: local
-    app: alvin-build-credentials
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: /mnt/minikube/alvin/build/shibboleth
-  claimRef:
-    namespace: alvin-build
-    name: alvin-credentials-read-write-volume-claim

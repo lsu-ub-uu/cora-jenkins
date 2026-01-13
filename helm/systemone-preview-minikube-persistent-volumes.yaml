@@ -47,21 +47,6 @@ spec:
 
 ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: systemone-credentials-read-write-volume-claim
-  labels:
-    app: systemone-credentials
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 20Gi
-
----
 
 apiVersion: v1
 kind: PersistentVolume
@@ -126,21 +111,3 @@ spec:
     
 ---
 
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: systemone-previewepc-credentials-read-write-volume
-  labels:
-    type: local
-    app: systemone-previewepc-credentials
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: /mnt/minikube/systemone/previewepc/shibboleth
-  claimRef:
-    namespace: systemone-preview
-    name: systemone-credentials-read-write-volume-claim

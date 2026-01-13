@@ -47,16 +47,3 @@ spec:
 
 ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: alvin-credentials-read-write-volume-claim
-  labels:
-    app: alvin-credentials
-spec:
-  storageClassName: rook-cephfs
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 20Gi
