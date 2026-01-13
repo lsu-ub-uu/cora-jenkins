@@ -37,7 +37,7 @@ kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAME
 
 echo ""
 echo "Applying configmap definitions"
-kubectl apply -f ${NAMESPACE}-config-map.yaml --namespace=$NAMESPACE
+kubectl apply -f ${NAME}-config-map.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
