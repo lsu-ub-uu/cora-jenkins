@@ -6,7 +6,7 @@ deploy:
 
 data:
   dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"
-  exampleUsers: 
+  exampleUsers:
     - "141414"
     - "161616"
     - "coraUser:491144693381458"
@@ -16,8 +16,8 @@ data:
     - "playwrightTester"
 
 externalAccess:
-  systemUrl:  http://172.18.0.15:31982
-  systemRestUrl:  http://172.18.0.15:31982/rest/
+  systemUrl: http://172.18.0.15:31982
+  systemRestUrl: http://172.18.0.15:31982/rest/
   loginRestUrl: http://172.18.0.15:31982/login/rest/
 shibboleth:
   domain: build
@@ -26,4 +26,3 @@ port:
 
 security:
   divaClientSecureSessionCookie: false
-  divaClientAppTokenUsers: [{"displayName":"Diva Admin","loginId":"divaAdmin@cora.epc.ub.uu.se","appToken":"49ce00fb-68b5-4089-a5f7-1c225d3cf156"}]
