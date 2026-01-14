@@ -6,6 +6,9 @@ data:
 
 externalAccess:
   systemUrl: https://cora.alvin-portal.org
+  systemRestUrl: https://cora.diva-portal.org/rest/
+  deploymentName: Alvin - Cora
+  loginRestUrl: https://cora.diva-portal.org/login/rest/
   restToPathSystem: /rest/
   iiifToPathSystem: /iiif/
   loginPathSystem: /login/rest/
