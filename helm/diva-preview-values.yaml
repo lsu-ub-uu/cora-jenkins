@@ -5,7 +5,7 @@ deploy:
 
 data:
   dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"
-  exampleUsers: 
+  exampleUsers:
     - "141414"
     - "161616"
     - "coraUser:491144693381458"
@@ -13,9 +13,6 @@ data:
     - "user:8985188367779791"
     - "coraUser:491201365536105"
     - "playwrightTester"
-  
-security:
-  divaClientAppTokenUsers: []
 
 externalAccess:
   systemUrl: https://preview.diva.cora.epc.ub.uu.se
@@ -24,10 +21,10 @@ externalAccess:
   loginRestUrl: https://preview.diva.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
   divaClientBasePath: /divaclient
-  
+
 apache:
   useExtraEnvs: true
-  extraEnvs: 
+  extraEnvs:
     - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
       value: divaclient
 

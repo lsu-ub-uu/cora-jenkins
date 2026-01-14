@@ -6,19 +6,16 @@ deploy:
 data:
   dataDividers: "cora jsClient diva divaPre divaClient"
 
-security:
-  divaClientAppTokenUsers: []
-
 externalAccess:
   systemUrl: https://mig.diva-portal.org
   restToPathSystem: /rest/
   iiifToPathSystem: /iiif/
   loginPathSystem: /login/rest/
   divaClientBasePath: /divaclient
-  
+
 apache:
   useExtraEnvs: true
-  extraEnvs: 
+  extraEnvs:
     - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
       value: divaclient
 
