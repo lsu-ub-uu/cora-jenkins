@@ -2,7 +2,7 @@ deploy:
   fitnesse: false
 
 data:
-  dataDividers: "cora jsClient alvin"
+  dataDividers: "cora jsClient alvin alvinTestSystem"
 
 externalAccess:
   systemUrl: https://cora.alvin-portal.org
