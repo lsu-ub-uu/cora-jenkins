@@ -23,10 +23,10 @@ unistallPreviousVersion(){
 	echo "Updating helm chart '$APPPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 	helm --kubeconfig kubeconfig repo update
 	helm --kubeconfig kubeconfig uninstall $NAMESPACE --namespace $NAMESPACE
+	kubectl --kubeconfig kubeconfig delete secret binaryconverter-secret --namespace=$NAMESPACE
 	
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-postgres-volume-claim -n $NAMESPACE
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-archive-read-write-volume-claim -n $NAMESPACE
-	#kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-credentials-read-write-volume-claim -n $NAMESPACE
 	kubectl --kubeconfig kubeconfig delete pvc $APPPLICATION_NAME-converted-files-read-write-volume-claim -n $NAMESPACE
 }
 
