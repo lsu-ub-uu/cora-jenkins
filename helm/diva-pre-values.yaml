@@ -6,7 +6,6 @@ deploy:
 data:
   dataDividers: "cora jsClient diva divaPre divaClient"
   exampleUsers:
-    - "161616"
 
 externalAccess:
   systemUrl: https://pre.diva-portal.org
