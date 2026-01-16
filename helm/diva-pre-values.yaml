@@ -21,8 +21,5 @@ apache:
     - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
       value: divaclient
 
-shibboleth:
-  domain: pre
-
 port:
   apache: 30982

@@ -8,7 +8,6 @@ data:
 externalAccess:
   systemUrl:  http://172.18.0.15:31980
   loginRestUrl: http://172.18.0.15:31980/login/rest/
-shibboleth:
-  domain: build
+
 port:
   apache: 31980
