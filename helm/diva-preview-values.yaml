@@ -28,9 +28,6 @@ apache:
     - name: DIVA_CLIENT_CONTEXT_ROOT_ARG
       value: divaclient
 
-shibboleth:
-  domain: previewepc
-
 port:
   apache: 30982
 

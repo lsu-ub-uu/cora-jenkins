@@ -13,9 +13,6 @@ externalAccess:
   loginRestUrl: https://preview.systemone.cora.epc.ub.uu.se/login/rest/
   loginPathSystem: /login/rest/
 
-shibboleth:
-  domain: previewepc
-
 port:
   apache: 30980
 

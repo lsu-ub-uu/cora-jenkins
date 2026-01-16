@@ -24,9 +24,6 @@ apache:
 
 django:
   allowedHosts: "*"
-  
-shibboleth:
-  domain: previewepc
 
 port:
   apache: 30981
