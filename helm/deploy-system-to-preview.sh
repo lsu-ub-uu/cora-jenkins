@@ -7,8 +7,9 @@ echo "Uninstalling Helm release '$NAMESPACE' from namespace '$NAMESPACE'..."
 helm uninstall $NAMESPACE -n $NAMESPACE
 
 echo ""
-echo "Deleting secret..."
+echo "Deleting secrets..."
 kubectl delete secret ${NAME}-secret --namespace=$NAMESPACE
+kubectl delete secret binaryconverter-secret --namespace=$NAMESPACE
 
 echo ""
 echo "Deleting Kubernetes namespace '$NAMESPACE'..."
