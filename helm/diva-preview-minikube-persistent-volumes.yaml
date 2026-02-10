@@ -48,6 +48,21 @@ spec:
 ---
 
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: diva-index-read-write-volume-claim
+  labels:
+    app: diva-index
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: diva-preview-postgres-volume
