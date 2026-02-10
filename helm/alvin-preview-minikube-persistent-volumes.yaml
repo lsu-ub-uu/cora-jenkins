@@ -48,6 +48,21 @@ spec:
 ---
 
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-index-read-write-volume-claim
+  labels:
+    app: alvin-index
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: alvin-preview-postgres-volume
