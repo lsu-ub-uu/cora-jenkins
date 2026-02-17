@@ -34,6 +34,22 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: alvin-index-read-write-volume-claim
+  labels:
+    app: alvin-index
+spec:
+  storageClassName: fast
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: alvin-converted-files-read-write-volume-claim
   labels:
     app: alvin-converted-files
