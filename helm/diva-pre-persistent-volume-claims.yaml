@@ -34,6 +34,22 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: diva-index-read-write-volume-claim
+  labels:
+    app: diva-index
+spec:
+  storageClassName: fast
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: diva-converted-files-read-write-volume-claim
   labels:
     app: diva-converted-files
