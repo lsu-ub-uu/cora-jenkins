@@ -44,6 +44,11 @@ pipeline {
       choices: ['systemone', 'alvin', 'diva'],
       description: 'Name of the application that Helm chart will be updated'
       )
+      choice(
+      name: 'VERSION_BUMP_TYPE',
+      choices: ['minor', 'patch'],
+      description: 'Type of version bump: minor for feature releases, patch for bug fix releases'
+      )
    }
    stages {
       stage('Initialize') {
@@ -263,8 +268,10 @@ pipeline {
                def chartPath = "${env.HELM_REPO_NAME}/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
-               chartYaml.version = bumpMinorVersion(chartYaml.version)
-               chartYaml.appVersion = bumpMinorVersion(chartYaml.appVersion)
+               def bumpVersion = params.VERSION_BUMP_TYPE == 'patch' ? bumpPatchVersion : bumpMinorVersion
+               
+               chartYaml.version = bumpVersion(chartYaml.version)
+               chartYaml.appVersion = bumpVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
