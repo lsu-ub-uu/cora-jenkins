@@ -28,6 +28,10 @@ pipeline {
       alvin-cora-docker-fitnesse,alvin-docker-client,alvin-docker-apache,diva-cora-docker-fitnesse,
       diva-docker-cora,diva-docker-gatekeeper,diva-docker-divaclient,diva-docker-playwright,diva-docker-apache,cora-docker-console''',
       description: 'Comma-separated list of dockers to update after release.')
+      
+      choice(name: 'VERSION_BUMP_TYPE',
+      choices: ['minor', 'patch'],
+      description: 'Type of version bump for Helm chart: minor for feature releases, patch for bug fix releases')
    }
    tools {
         jdk 'Cora OpenJDK'
@@ -93,7 +97,10 @@ pipeline {
                echo "Building for ${appName} succeeded!"
                build job: 'cora-update-helm-chart',
                wait: false,
-               parameters: [string(name: 'APPLICATION_NAME', value: appName)]
+               parameters: [
+               string(name: 'APPLICATION_NAME', value: appName),
+               string(name: 'VERSION_BUMP_TYPE', value: "${params.VERSION_BUMP_TYPE}")
+               ]
             }
          }
       }
