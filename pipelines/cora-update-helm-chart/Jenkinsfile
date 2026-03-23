@@ -109,13 +109,7 @@ pipeline {
                def dockerList = dockerMap.get(params.APPLICATION_NAME, coraDockers)
                echo "Updating Helm chart for ${params.APPLICATION_NAME}"
                echo "Dockers to step up: ${dockerList.join(', ')}"
-               
-               // Iterate and resolve versions
-               dockerList.each {
-                  artifactId ->
-                  getLatestVersionByArtifactId(artifactId.trim())
-               }
-               
+                             
                // Map to hold artifact -> version
                def versionsMap = [:]
                dockerList.each {
@@ -183,7 +177,6 @@ pipeline {
                   else if (artifactId == "cora-docker-binaryconverter") key = "binaryconverter"
                   else if (artifactId == "cora-docker-jsclient") key = "jsclient"
                   else if (artifactId == "cora-docker-login") key = "login"
-                  else if (artifactId == "cora-docker-gatekeeper") key = "gatekeeper"
                   else if (artifactId == "cora-docker-console") key = "console"
                   
                   else if (artifactId == "systemone-docker") key = "rest"
@@ -249,10 +242,16 @@ pipeline {
                   }
                }
                
-               def bumpVersion = {
+               def bumpPatchVersion = {
                   version ->
                   def (major, minor, patch) = readVersion(version)
                   return "${major}.${minor}.${patch + 1}".toString()
+               }
+               
+               def bumpMinorVersion = {
+                  version ->
+                  def (major, minor, patch) = readVersion(version)
+                  return "${major}.${minor + 1}.0".toString()
                }
                
                def surroundWithQuotes = {
@@ -264,7 +263,8 @@ pipeline {
                def chartPath = "${env.HELM_REPO_NAME}/helm/${params.APPLICATION_NAME}/Chart.yaml"
                def chartYaml = parseYaml(readFile(chartPath))
                
-               chartYaml.version = bumpVersion(chartYaml.version)
+               chartYaml.version = bumpMinorVersion(chartYaml.version)
+               chartYaml.appVersion = bumpMinorVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
@@ -282,7 +282,7 @@ pipeline {
                sh 'git config user.email "jenkins@ub"'
                sh 'git config user.name "Jenkins CI"'
                script {
-                  sh (script: 'git commit -am="Commit form jenkins"', returnStatus: true, returnStdout: true)
+                  sh (script: 'git commit -am "Commit from jenkins"', returnStatus: true, returnStdout: true)
                   sh 'git push'
                }
             }
