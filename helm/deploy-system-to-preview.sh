@@ -49,7 +49,9 @@ helm install $NAMESPACE epc/$NAME --namespace $NAMESPACE -f ${NAMESPACE}-values.
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
-if ! kubectl wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s; then
+if ! kubectl wait -n "$NAMESPACE" --for=condition=Available deploy --all --timeout=300s \
+		&& kubectl wait -n "$NAMESPACE" --for=jsonpath='{.status.readyReplicas}'=1 statefulset --all --timeout=300s \
+		&& kubectl wait -n "$NAMESPACE" --for=condition=complete job --all --timeout=300s; then
     echo "Timeout waiting for pods to become ready"
     exit 1
 fi
