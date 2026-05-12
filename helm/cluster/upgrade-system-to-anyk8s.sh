@@ -75,7 +75,7 @@ validateChartVersionExists(){
 #	kubectl_cmd delete pvc "$APPLICATION_NAME-postgres-volume-claim" -n "$NAMESPACE" || true
 #	kubectl_cmd delete pvc "$APPLICATION_NAME-archive-read-write-volume-claim" -n "$NAMESPACE" || true
 #	kubectl_cmd delete pvc "$APPLICATION_NAME-converted-files-read-write-volume-claim" -n "$NAMESPACE" || true
-}
+#}
 
 #ifNamespaceExistsDeleteNamespaceAndStorage(){
 #  if kubectl get namespace "$namespace" >/dev/null 2>&1; then
