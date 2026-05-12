@@ -15,10 +15,11 @@ setEnvironmentVariables(){
 	APPLICATION_NAME="$2"
 	HELM_CHART_VERSION="$3"
 
-	NAMESPACE="${APPLICATION_NAME}-${ENVIRONMENT}"
+	NAMESPACE="${NAMESPACE}"
 	HELM_REPO_NAME="epc"
 	HELM_REPO_URL="https://helm.epc.ub.uu.se/"
 	KUBECONFIG_PATH="${KUBECONFIG:-kubeconfig}"
+	SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 }
 
 
@@ -76,24 +77,59 @@ uninstallPreviousVersion(){
 #	kubectl_cmd delete pvc "$APPLICATION_NAME-converted-files-read-write-volume-claim" -n "$NAMESPACE" || true
 }
 
+#ifNamespaceExistsDeleteNamespaceAndStorage(){
+#  if kubectl get namespace "$namespace" >/dev/null 2>&1; then
+#    deleteNamespace
+#    deleteStorage
+#  else
+#    echo "-> Namespace does not exist: $namespace (nothing to delete)"
+#  fi
+#}
+#
+#deleteNamespace(){
+#  echo "-> Deleting existing namespace: $namespace"
+#  kubectl delete namespace "$namespace"
+#}
+#
+#deleteStorage(){
+#  echo "-> Deleting existing for $namespace"
+#  "${SCRIPT_DIR}/manageRBD.sh" del "$namespacePROD" "$namespace"
+#}
+#
+#cloneNamespaceFromProd(){
+#  echo "-> Cloning from $namespacePROD to $namespace..."
+#  "${SCRIPT_DIR}/manageRBD.sh" clone "$namespacePROD" "$namespace"
+#}
+
+
 installApplication(){
 	echo "Installing helm chart '$APPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 
 	kubectl_cmd create namespace "$NAMESPACE" || true
-	applySecretsAndPersistentClaims
+	applyingManifests
 
 	helm_cmd install "$NAMESPACE" "$HELM_REPO_NAME/$APPLICATION_NAME" \
 		--namespace "$NAMESPACE" \
 		--version "$HELM_CHART_VERSION" \
-		-f "helm/${APPLICATION_NAME}-${ENVIRONMENT}-values.yaml"
+		-f "helm/${NAMESPACE}-values.yaml"
 }
 
-applySecretsAndPersistentClaims(){
-	echo "Applying secret..."
-	kubectl_cmd apply -f "helm/${APPLICATION_NAME}-secret.yaml" --namespace="$NAMESPACE"
+applyingManifests(){
+	local folder="${SCRIPT_DIR}/${NAMESPACE}"
 
-	echo "Applying PVCs..."
-	kubectl_cmd apply -f "helm/${APPLICATION_NAME}-${ENVIRONMENT}-persistent-volume-claims.yaml" -n "$NAMESPACE"
+	if [ ! -d "$folder" ]; then
+		echo "Error: folder '$folder' does not exist." >&2
+		exit 1
+	fi
+
+	echo "Applying all YAML files in '$folder'..."
+
+	for file in "$folder"/*.yaml "$folder"/*.yml; do
+		[ -f "$file" ] || continue
+		echo "Applying $file..."
+		kubectl_cmd apply -f "$file" --namespace="$NAMESPACE"
+	done
+	
 }
 
 waitUntilAllPodsAreRunning(){
