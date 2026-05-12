@@ -53,18 +53,22 @@ helm_cmd(){
 	helm --kubeconfig "$KUBECONFIG_PATH" "$@"
 }
 
-validateChartVersionExists(){
-	echo "Validating chart '$APPLICATION_NAME' version '$HELM_CHART_VERSION' exists..."
+validateChartVersionExists() {
+	echo "Validating chart '$HELM_REPO_NAME/$APPLICATION_NAME' version '$HELM_CHART_VERSION' exists..."
 
 	ensureHelmRepoExists
-	helm_cmd repo update
+	helm_cmd repo update >/dev/null
 
-	if ! helm_cmd search repo "$HELM_REPO_NAME/$APPLICATION_NAME" --version "$HELM_CHART_VERSION" | grep -q "$HELM_CHART_VERSION"; then
-		echo "Error: chart '$HELM_REPO_NAME/$APPLICATION_NAME' version '$HELM_CHART_VERSION' not found. Aborting — current deployment is untouched." >&2
-		exit 1
+	# helm search output columns: NAME  CHART VERSION  APP VERSION  DESCRIPTION
+	if helm_cmd search repo "$HELM_REPO_NAME/$APPLICATION_NAME" --versions \
+		| awk 'NR>1 {print $2}' \
+		| grep -Fxq "$HELM_CHART_VERSION"; then
+		echo "Chart version '$HELM_CHART_VERSION' found."
+		return
 	fi
 
-	echo "Chart version '$HELM_CHART_VERSION' found."
+	echo "Error: chart '$HELM_REPO_NAME/$APPLICATION_NAME' version '$HELM_CHART_VERSION' not found. Aborting — current deployment is untouched." >&2
+	exit 1
 }
 
 #uninstallPreviousVersion(){
