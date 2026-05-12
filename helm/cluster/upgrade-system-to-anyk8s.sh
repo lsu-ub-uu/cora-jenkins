@@ -15,7 +15,7 @@ setEnvironmentVariables(){
 	APPLICATION_NAME="$2"
 	HELM_CHART_VERSION="$3"
 
-	NAMESPACE="${NAMESPACE}"
+	NAMESPACE="${APPLICATION_NAME}-${ENVIRONMENT}"
 	HELM_REPO_NAME="epc"
 	HELM_REPO_URL="https://helm.epc.ub.uu.se/"
 	KUBECONFIG_PATH="${KUBECONFIG:-kubeconfig}"
