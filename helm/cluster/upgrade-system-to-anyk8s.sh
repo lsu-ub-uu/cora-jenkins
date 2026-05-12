@@ -109,7 +109,7 @@ validateChartVersionExists() {
 installApplication(){
 	echo "Installing helm chart '$APPLICATION_NAME' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
 
-	kubectl_cmd create namespace "$NAMESPACE" || true
+	#kubectl_cmd create namespace "$NAMESPACE" || true
 	applyingManifests
 
 	helm_cmd install "$NAMESPACE" "$HELM_REPO_NAME/$APPLICATION_NAME" \
@@ -119,7 +119,7 @@ installApplication(){
 }
 
 applyingManifests(){
-	local folder="${SCRIPT_DIR}/${NAMESPACE}"
+	local folder="${SCRIPT_DIR}/application/${NAMESPACE}"
 
 	if [ ! -d "$folder" ]; then
 		echo "Error: folder '$folder' does not exist." >&2
