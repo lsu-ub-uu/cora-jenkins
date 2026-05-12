@@ -31,6 +31,7 @@ readKubeconfigForProdCluster(){
 
 	echo "Downloading kubeconfig to $KUBECONFIG_PATH"
 	curl -fsSL http://test.ub.uu.se:8000/v1/config/prod -o "$KUBECONFIG_PATH"
+	cat $KUBECONFIG_PATH
 }
 
 ensureHelmRepoExists(){
