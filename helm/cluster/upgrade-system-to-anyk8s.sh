@@ -11,8 +11,8 @@ start(){
 }
 
 setEnvironmentVariables(){
-	ENVIRONMENT="$1"
-	APPLICATION_NAME="$2"
+	APPLICATION_NAME="$1"
+	ENVIRONMENT="$2"
 	HELM_CHART_VERSION="$3"
 
 	NAMESPACE="${APPLICATION_NAME}-${ENVIRONMENT}"
@@ -20,6 +20,7 @@ setEnvironmentVariables(){
 	HELM_REPO_URL="https://helm.epc.ub.uu.se/"
 	KUBECONFIG_PATH="${KUBECONFIG:-kubeconfig}"
 	SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+	MANIFESTS_FOLDER="${SCRIPT_DIR}/application/${NAMESPACE}"
 }
 
 
@@ -31,7 +32,6 @@ readKubeconfigForProdCluster(){
 
 	echo "Downloading kubeconfig to $KUBECONFIG_PATH"
 	curl -fsSL http://test.ub.uu.se:8000/v1/config/prod -o "$KUBECONFIG_PATH"
-	cat $KUBECONFIG_PATH
 }
 
 ensureHelmRepoExists(){
@@ -116,21 +116,29 @@ installApplication(){
 	helm_cmd install "$NAMESPACE" "$HELM_REPO_NAME/$APPLICATION_NAME" \
 		--namespace "$NAMESPACE" \
 		--version "$HELM_CHART_VERSION" \
-		-f "helm/${NAMESPACE}-values.yaml"
+		-f "${MANIFESTS_FOLDER}/values.yaml"
 }
 
 applyingManifests(){
-	local folder="${SCRIPT_DIR}/application/${NAMESPACE}"
+	MANIFESTS_FOLDER="${SCRIPT_DIR}/application/${NAMESPACE}"
 
-	if [ ! -d "$folder" ]; then
-		echo "Error: folder '$folder' does not exist." >&2
+	if [ ! -d "$MANIFESTS_FOLDER" ]; then
+		echo "Error: folder '$MANIFESTS_FOLDER' does not exist." >&2
 		exit 1
 	fi
 
-	echo "Applying all YAML files in '$folder'..."
+	echo "Applying all YAML files in '$MANIFESTS_FOLDER'..."
 
-	for file in "$folder"/*.yaml "$folder"/*.yml; do
+	for file in "$MANIFESTS_FOLDER"/*.yaml; do
 		[ -f "$file" ] || continue
+		
+		case "$(basename "$file")" in
+			values.yaml)
+				echo "Skipping $file"
+				continue
+				;;
+		esac
+		
 		echo "Applying $file..."
 		kubectl_cmd apply -f "$file" --namespace="$NAMESPACE"
 	done
