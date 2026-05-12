@@ -5,7 +5,7 @@ start(){
 	setEnvironmentVariables "$@"
 	readKubeconfigForProdCluster
 	validateChartVersionExists
-	uninstallPreviousVersion
+#	uninstallPreviousVersion
 	installApplication
 	waitUntilAllPodsAreRunning
 }
@@ -67,7 +67,7 @@ validateChartVersionExists(){
 	echo "Chart version '$HELM_CHART_VERSION' found."
 }
 
-uninstallPreviousVersion(){
+#uninstallPreviousVersion(){
 #	echo "Uninstalling previous release '$NAMESPACE' from namespace '$NAMESPACE'..."
 #
 #	helm_cmd uninstall "$NAMESPACE" --namespace "$NAMESPACE" || true
