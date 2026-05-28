@@ -106,8 +106,7 @@ kind: PersistentVolume
 metadata:
   name: alvin-preview-archive-ro-volume
   labels:
-    type: local
-    app: alvin-archive-ro
+    target: alvin
 spec:
   capacity:
     storage: 20Gi
@@ -134,7 +133,7 @@ metadata:
   name: alvin-preview-archive-rw-volume
   labels:
     type: local
-    app: alvin-archive-rw
+    app: alvin-preview-archive
 spec:
   storageClassName: manual
   capacity:

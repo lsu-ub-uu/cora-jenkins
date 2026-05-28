@@ -106,7 +106,7 @@ kind: PersistentVolume
 metadata:
   name: alvin-build-archive-ro-volume
   labels:
-    target: systemone
+    target: alvin
 spec:
   capacity:
     storage: 20Gi
