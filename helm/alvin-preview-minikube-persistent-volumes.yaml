@@ -86,7 +86,7 @@ metadata:
   name: alvin-preview-postgres-volume
   labels:
     type: local
-    app: alvin-postgres
+    app: alvin-preview-postgres
 spec:
   storageClassName: manual
   capacity:

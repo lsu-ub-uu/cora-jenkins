@@ -130,7 +130,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-build-archive-volume
+  name: diva-build-archive-rw-volume
   labels:
     type: local
     app: diva-build-archive
