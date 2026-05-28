@@ -29,7 +29,7 @@ spec:
     requests:
       storage: 20Gi
   volumeMode: Filesystem
-  volumeName: diva-archive-ro-volume
+  volumeName: diva-build-archive-ro-volume
       
 ---
 
@@ -104,7 +104,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-archive-ro-volume
+  name: diva-build-archive-ro-volume
   labels:
     target: diva
 spec:

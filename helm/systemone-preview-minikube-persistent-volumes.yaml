@@ -29,7 +29,7 @@ spec:
     requests:
       storage: 20Gi
   volumeMode: Filesystem
-  volumeName: systemone-archive-ro-volume
+  volumeName: systemone-preview-archive-ro-volume
       
 ---
 
@@ -104,7 +104,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: systemone-archive-ro-volume
+  name: systemone-preview-archive-ro-volume
   labels:
     target: systemone
 spec:

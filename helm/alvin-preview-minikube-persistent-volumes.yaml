@@ -29,7 +29,7 @@ spec:
     requests:
       storage: 20Gi
   volumeMode: Filesystem
-  volumeName: alvin-archive-ro-volume
+  volumeName: alvin-preview-archive-ro-volume
 
 ---
 
@@ -83,7 +83,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-postgres-volume
+  name: alvin-preview-postgres-volume
   labels:
     type: local
     app: alvin-postgres
@@ -104,7 +104,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-archive-ro-volume
+  name: alvin-preview-archive-ro-volume
   labels:
     type: local
     app: alvin-archive-ro
@@ -131,7 +131,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-archive-rw-volume
+  name: alvin-preview-archive-rw-volume
   labels:
     type: local
     app: alvin-archive-rw
@@ -152,7 +152,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-converted-files-volume
+  name: alvin-preview-converted-files-volume
   labels:
     type: local
     app: alvin-converted-files
