@@ -8,10 +8,28 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alvin-archive-read-only-volume-claim
+  labels:
+    app: alvin-archive
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+  volumeName: alvin-archive-ro-volume
 
 ---
 
@@ -24,7 +42,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
@@ -65,16 +83,16 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-build-postgres-volume
+  name: alvin-postgres-volume
   labels:
     type: local
-    app: alvin-build-postgres
+    app: alvin-postgres
 spec:
   storageClassName: manual
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/alvin/build/postgresql
   claimRef:
@@ -86,16 +104,43 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-build-archive-volume
+  name: alvin-archive-ro-volume
   labels:
     type: local
-    app: alvin-build-archive
+    app: alvin-archive-ro
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes: ["ReadOnlyMany"]
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: alvin-archive-ro-volume
+    volumeAttributes:
+      server: alvin-nfs.alvin-build.svc.cluster.local
+      share: /archive-read-only
+      mountOptions: "nolock,vers=4,actimeo=60,lookupcache=positive,nocto,noatime,nodiratime"
+  claimRef:
+    namespace: alvin
+    name: alvin-archive-read-only-volume-claim
+  storageClassName: manual
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: alvin-archive-rw-volume
+  labels:
+    type: local
+    app: alvin-archive-rw
 spec:
   storageClassName: manual
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/alvin/build/archive
   claimRef:
@@ -107,10 +152,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: alvin-build-converted-files-volume
+  name: alvin-converted-files-volume
   labels:
     type: local
-    app: alvin-build-converted-files
+    app: alvin-converted-files
 spec:
   storageClassName: manual
   capacity:
@@ -122,6 +167,5 @@ spec:
   claimRef:
     namespace: alvin-build
     name: alvin-converted-files-read-write-volume-claim
-    
----
 
+---

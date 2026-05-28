@@ -8,11 +8,29 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
 
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: diva-archive-read-only-volume-claim
+  labels:
+    app: diva-archive
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+  volumeName: diva-archive-ro-volume
+      
 ---
 
 apiVersion: v1
@@ -24,7 +42,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
@@ -74,7 +92,7 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/diva/preview/postgresql
   claimRef:
@@ -86,7 +104,33 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: diva-preview-archive-volume
+  name: diva-archive-ro-volume
+  labels:
+    target: diva
+spec:
+#Behöver vi ange capacity?
+  capacity:
+    storage: 20Gi
+  accessModes: ["ReadOnlyMany"]
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: diva-archive-ro-volume
+    volumeAttributes:
+      server: diva-nfs.diva-preview.svc.cluster.local
+      share: /archive-read-only
+      mountOptions: "nolock,vers=4,actimeo=60,lookupcache=positive,nocto,noatime,nodiratime"
+  claimRef:
+    namespace: diva
+    name: diva-archive-read-only-volume-claim
+  storageClassName: manual
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: diva-build-archive-volume
   labels:
     type: local
     app: diva-preview-archive
@@ -95,7 +139,7 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/diva/preview/archive
   claimRef:
@@ -124,4 +168,3 @@ spec:
     name: diva-converted-files-read-write-volume-claim
     
 ---
-

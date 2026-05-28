@@ -8,11 +8,29 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
 
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: systemone-archive-read-only-volume-claim
+  labels:
+    app: systemone-archive
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+  volumeName: systemone-archive-ro-volume
+      
 ---
 
 apiVersion: v1
@@ -24,7 +42,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
@@ -62,7 +80,6 @@ spec:
 
 ---
 
-
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -75,7 +92,7 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/systemone/build/postgresql
   claimRef:
@@ -87,7 +104,34 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: systemone-build-archive-volume
+  name: systemone-archive-ro-volume
+  labels:
+    target: systemone
+spec:
+#Behöver vi ange capacity?
+  capacity:
+    storage: 20Gi
+  accessModes: ["ReadOnlyMany"]
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: systemone-archive-ro-volume
+    volumeAttributes:
+      server: systemone-nfs.systemone-build.svc.cluster.local
+      share: /archive-read-only
+      mountOptions: "nolock,vers=4,actimeo=60,lookupcache=positive,nocto,noatime,nodiratime"
+  claimRef:
+    namespace: systemone
+    name: systemone-archive-read-only-volume-claim
+  storageClassName: manual
+  
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: systemone-build-archive-rw-volume
   labels:
     type: local
     app: systemone-build-archive
@@ -96,7 +140,7 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: /mnt/minikube/systemone/build/archive
   claimRef:
