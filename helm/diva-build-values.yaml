@@ -23,5 +23,5 @@ externalAccess:
 port:
   apache: 31982
 
-security:
-  divaClientSecureSessionCookie: false
+divaClient:
+  secureSessionCookie: false
