@@ -13,14 +13,14 @@ pipeline {
     }
 
     stages {
-        stage('Guard master only') {
+        stage('Check if build should trigger') {
             steps {
                 script {
                     def ref = env.GITHUB_REF ?: ''
 
-                    if (ref && ref != 'refs/heads/master') {
+                    if (ref && ref != 'refs/heads/master' && !ref.startsWith('refs/tags/')) {
                         currentBuild.result = 'NOT_BUILT'
-                        error("Skipping: webhook ref '${ref}' is not refs/heads/master")
+                        error("Skipping: webhook ref '${ref}' is not refs/heads/master or a tag")
                     }
                 }
             }
@@ -61,9 +61,16 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Maven build and deploy') {
             steps {
-                build job: 'diva-client'
+                withMaven(maven: 'Maven latest') {
+                    sh 'mvn clean deploy'
+                }
+            }
+        }
+        stage('Build docker') {
+            steps {
+                build job: 'diva-docker-divaclient'
             }
         }
     }
