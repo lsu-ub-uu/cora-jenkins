@@ -61,11 +61,9 @@ pipeline {
                 }
             }
         }
-        stage('Maven build and deploy') {
+        stage('Build') {
             steps {
-                withMaven(maven: 'Maven latest') {
-                    sh 'mvn clean deploy'
-                }
+                build job: 'diva-client'
             }
         }
         stage('Build docker') {
