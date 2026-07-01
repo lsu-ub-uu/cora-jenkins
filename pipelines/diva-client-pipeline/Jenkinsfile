@@ -13,6 +13,19 @@ pipeline {
     }
 
     stages {
+        stage('Guard master only') {
+            steps {
+                script {
+                    def ref = env.GITHUB_REF ?: ''
+
+                    if (ref && ref != 'refs/heads/master') {
+                        currentBuild.result = 'NOT_BUILT'
+                        error("Skipping: webhook ref '${ref}' is not refs/heads/master")
+                    }
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git branch: 'master',
