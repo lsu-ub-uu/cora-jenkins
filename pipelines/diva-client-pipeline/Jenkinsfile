@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'node:25.9.0'
+            args '--user root'
         }
     }
 
