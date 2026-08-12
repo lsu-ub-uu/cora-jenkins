@@ -17,9 +17,6 @@ externalAccess:
 
 apache:
   useExtraEnvs: true
-  extraEnvs: 
-    - name: ALVIN_CLIENT_CONTEXT_ROOT_ARG
-      value: alvinclient
 
 django:
   allowedHosts: "*"
