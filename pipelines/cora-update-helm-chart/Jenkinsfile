@@ -268,7 +268,6 @@ pipeline {
                def chartYaml = parseYaml(readFile(chartPath))
                
                chartYaml.version = bumpMinorVersion(chartYaml.version)
-               chartYaml.appVersion = bumpMinorVersion(chartYaml.appVersion)
                
                def newYaml = dumpYaml(chartYaml)
                writeFile file: chartPath, text: newYaml
