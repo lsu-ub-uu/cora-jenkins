@@ -28,3 +28,5 @@ fitnesse:
   contextRoot: fitnesse
   baseUrl: https://preview.alvin.cora.epc.ub.uu.se/
   loginUrl: https://preview.alvin.cora.epc.ub.uu.se/login/
+  urnnbnUrl: https://preview.alvin.cora.epc.ub.uu.se/urnnbn/
+  
