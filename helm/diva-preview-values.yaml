@@ -35,3 +35,4 @@ fitnesse:
   contextRoot: fitnesse
   baseUrl: https://preview.diva.cora.epc.ub.uu.se/
   loginUrl: https://preview.diva.cora.epc.ub.uu.se/login/
+  urnnbnUrl: https://preview.diva.cora.epc.ub.uu.se/urn-nbn/
