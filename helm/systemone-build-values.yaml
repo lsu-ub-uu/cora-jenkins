@@ -1,12 +1,13 @@
 deploy:
   fitnesse: true
   jsclient: false
+  apihelper: false
 
 data:
   dataDividers: "cora jsClient systemOne testSystem"
 
 externalAccess:
-  systemUrl:  http://172.18.0.15:31980
+  systemUrl: http://172.18.0.15:31980
   loginRestUrl: http://172.18.0.15:31980/login/rest/
 
 port:

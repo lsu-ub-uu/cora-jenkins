@@ -2,12 +2,13 @@ deploy:
   fitnesse: true
   jsclient: false
   alvinclient: false
+  apihelper: false
 
 data:
   dataDividers: "cora jsClient alvin alvinPreview alvinTestSystem alvinProduction alvinData"
 
 externalAccess:
-  systemUrl:  http://172.18.0.15:31981
+  systemUrl: http://172.18.0.15:31981
   loginRestUrl: http://172.18.0.15:31981/login/rest/
 
 port:

@@ -3,6 +3,7 @@ deploy:
   jsclient: false
   divaclient: true
   playwright: true
+  apihelper: false
 
 data:
   dataDividers: "cora jsClient diva divaPreview divaPre divaProduction divaClient"

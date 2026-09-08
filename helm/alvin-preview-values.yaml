@@ -1,13 +1,14 @@
 deploy:
   fitnesse: true
+  apihelper: true
 
 data:
   dataDividers: "cora jsClient alvin alvinPreview alvinTestSystem alvinProduction alvinData"
-  exampleUsers: 
+  exampleUsers:
     - "141414"
     - "151515"
     - "coraUser:4412566252284358"
-  
+
 externalAccess:
   systemUrl: https://preview.alvin.cora.epc.ub.uu.se
   systemRestUrl: https://preview.alvin.cora.epc.ub.uu.se/rest/
@@ -29,4 +30,3 @@ fitnesse:
   baseUrl: https://preview.alvin.cora.epc.ub.uu.se/
   loginUrl: https://preview.alvin.cora.epc.ub.uu.se/login/
   urnnbnUrl: https://preview.alvin.cora.epc.ub.uu.se/urn-nbn/
-  
