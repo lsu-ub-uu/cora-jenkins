@@ -1,5 +1,6 @@
 deploy:
   fitnesse: true
+  apihelper: true
 
 data:
   dataDividers: "cora jsClient systemOne testSystem"
