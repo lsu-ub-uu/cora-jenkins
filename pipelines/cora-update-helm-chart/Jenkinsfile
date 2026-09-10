@@ -71,12 +71,13 @@ pipeline {
                def coraDockers = [
                "cora-docker-jsclient", "cora-docker-fedora",
                "cora-docker-rabbitmq", "cora-docker-iipimageserver", "cora-docker-binaryconverter",
-               "cora-docker-idplogin", "cora-docker-login", "cora-docker-console", "cora-docker-nfs"
+               "cora-docker-idplogin", "cora-docker-login", "cora-docker-console", "cora-docker-nfs",
+               "cora-docker-api-helper"
                ]
                def dockerMap = [
                "systemone": coraDockers + ["systemone-docker-postgresql", "cora-docker-solr", "systemone-docker", "systemone-docker-fitnesse", "cora-docker-gatekeeper", "systemone-docker-apache"],
-               "alvin"    : coraDockers + ["alvin-docker-postgresql", "alvin-docker-solr", "alvin-docker-cora", "alvin-docker-gatekeeper", "alvin-cora-docker-fitnesse", "alvin-docker-alvinclient", "alvin-docker-apache", "cora-docker-urnnbn", "cora-docker-api-helper"],
-               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-docker-solr", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper", "diva-docker-divaclient", "diva-docker-playwright", "diva-docker-apache", "cora-docker-urnnbn", "cora-docker-api-helper"]
+               "alvin"    : coraDockers + ["alvin-docker-postgresql", "alvin-docker-solr", "alvin-docker-cora", "alvin-docker-gatekeeper", "alvin-cora-docker-fitnesse", "alvin-docker-alvinclient", "alvin-docker-apache", "cora-docker-urnnbn"],
+               "diva"     : coraDockers + ["diva-docker-postgresql", "diva-docker-solr", "diva-cora-docker-fitnesse", "diva-docker-cora", "diva-docker-gatekeeper", "diva-docker-divaclient", "diva-docker-playwright", "diva-docker-apache", "cora-docker-urnnbn"]
                ]
                
                def getLatestVersion = {
