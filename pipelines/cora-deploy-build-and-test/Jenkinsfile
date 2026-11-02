@@ -65,6 +65,7 @@ pipeline {
                
                // Also log it in the console output
                echo ">>> APPLICATION_NAME: ${params.APPLICATION_NAME}"
+               echo ">>> CORA_DEPLOYMENT_BRANCH: ${params.CORA_DEPLOYMENT_BRANCH}"
             }
          }
       }
