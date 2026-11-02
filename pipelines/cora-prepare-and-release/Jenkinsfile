@@ -55,7 +55,7 @@ pipeline {
             echo "Project: ${UB_PROJECT_NAME}"
             echo "FORCE_RELEASE: ${FORCE_RELEASE}"
             withCredentials([string(credentialsId: '9af4f5c5-4a09-4bbe-9436-2c102765d85b', variable: 'TOKEN'),string(credentialsId: '04bc33f5-abdd-4486-b43b-a5900f6fc080', variable: 'USERNAME')]) {
-               sh 'git clone https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
+               sh 'git clone --single-branch --depth 1 https://$TOKEN@github.com/lsu-ub-uu/$UB_PROJECT_NAME.git $UB_PROJECT_NAME -b $UB_BRANCH_NAME'
             }
          }
       }

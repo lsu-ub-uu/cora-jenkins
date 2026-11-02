@@ -79,7 +79,7 @@ pipeline {
                ]) {
                   sh '''
                   rm -rf "$HELM_REPO_NAME"
-                  git clone --branch "$CORA_DEPLOYMENT_BRANCH" --single-branch https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
+                  git clone --branch "$CORA_DEPLOYMENT_BRANCH" --single-branch --depth 1 https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
                   '''
                }
             }

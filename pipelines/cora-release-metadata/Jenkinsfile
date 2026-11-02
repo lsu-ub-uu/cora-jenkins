@@ -31,7 +31,7 @@ pipeline {
                ]) {
                   sh '''
                   rm -rf "$PROJECT_NAME"
-                  git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$PROJECT_NAME.git "$PROJECT_NAME"
+                  git clone --single-branch --depth 1 https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$PROJECT_NAME.git "$PROJECT_NAME"
                   '''
                }
             }
