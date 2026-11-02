@@ -15,7 +15,8 @@ pipeline {
       name: 'APPLICATION_NAME',
       choices: ['systemone', 'alvin', 'diva'],
       description: 'Name of the application that Helm chart will be uploaded'
-      ),
+      )
+      
       string(
       name: 'CORA_DEPLOYMENT_BRANCH',
       defaultValue: 'master',
