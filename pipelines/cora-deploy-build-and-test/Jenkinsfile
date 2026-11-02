@@ -124,7 +124,7 @@ pipeline {
             parameters: [
             string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
             string(name: 'UPSTREAM_JOB_NAME', value: env.JOB_NAME),
-            string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString())
+            string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString()),
             string(name: 'CORA_DEPLOYMENT_BRANCH', value: "${params.CORA_DEPLOYMENT_BRANCH}")
             ]
          }
