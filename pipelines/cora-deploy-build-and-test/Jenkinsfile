@@ -45,6 +45,12 @@ pipeline {
       name: 'APPLICATION_NAME',
       choices: ['systemone', 'alvin', 'diva'],
       description: 'Name of the application that Helm chart will be updated'
+      ),
+      string(
+      name: 'CORA_DEPLOYMENT_BRANCH',
+      defaultValue: 'master',
+      description: 'Branch of cora-deployment to clone',
+      trim: true
       )
    }
    
@@ -71,7 +77,7 @@ pipeline {
                ]) {
                   sh '''
                   rm -rf "$HELM_REPO_NAME"
-                  git clone https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
+                  git clone --branch "$CORA_DEPLOYMENT_BRANCH" --single-branch https://$USERNAME:$TOKEN@github.com/lsu-ub-uu/$HELM_REPO_NAME.git "$HELM_REPO_NAME"
                   '''
                }
             }
@@ -119,6 +125,7 @@ pipeline {
             string(name: 'APPLICATION_NAME', value: "${params.APPLICATION_NAME}"),
             string(name: 'UPSTREAM_JOB_NAME', value: env.JOB_NAME),
             string(name: 'UPSTREAM_BUILD_NUMBER', value: env.BUILD_NUMBER.toString())
+            string(name: 'CORA_DEPLOYMENT_BRANCH', value: "${params.CORA_DEPLOYMENT_BRANCH}")
             ]
          }
       }
