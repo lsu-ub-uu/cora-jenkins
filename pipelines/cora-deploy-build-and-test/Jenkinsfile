@@ -44,7 +44,7 @@ pipeline {
       choice(
       name: 'APPLICATION_NAME',
       choices: ['systemone', 'alvin', 'diva'],
-      description: 'Name of the application that Helm chart will be updated'
+      description: 'Name of the application to deploy build test push to helm repo'
       )
       
       string(
